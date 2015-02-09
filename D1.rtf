@@ -1,0 +1,47 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1344\cocoasubrtf720
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+\margl1440\margr1440\vieww16240\viewh9240\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+
+\f0\fs24 \cf0 Need for #1:\
+\
+  /* OS Initialization */\
+void OS_Init();\
+void OS_Start();\
+void OS_Abort();\
+  \
+  /* Process Management primitives */  \
+PID  OS_Create(void (*f)(void), int arg, unsigned int level, unsigned int n);\
+void OS_Terminate(void);    \
+void OS_Yield(void);\
+int  OS_GetParam(void);  \
+\
+  /* Semaphore primitives */\
+void OS_InitSem(int s, int n);\
+void OS_Wait(int s);\
+void OS_Signal(int s);\
+\
+  /* FIFO primitives */\
+FIFO  OS_InitFiFo();\
+void  OS_Write( FIFO f, int val );\
+BOOL  OS_Read( FIFO f, int *val );\
+\
+\
+***********************\
+\
+bootstrap\
+main()\{\
+OS_init() \{\
+	PPP[]\
+	PPPMax[]\
+	OS_create()\
+	OS_initsem()\
+	OS_InitFiFo()\
+	os_start()\
+\}\
+\
+OS_Start() \{\
+\
+\
+\}}
