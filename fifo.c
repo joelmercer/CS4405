@@ -1,6 +1,6 @@
 #include<os.h>
 
-FIFO  OS_InitFiFo() {
+FIFO OS_InitFiFo() {
 
 }
 
