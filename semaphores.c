@@ -58,6 +58,7 @@ int i;
             tempS = i;
             sem[i][1]++;
             i=MAXSEM;
+            //Remove the PID from the process to list stating it is finished using it.
         } 
     }
 //enable interupts
