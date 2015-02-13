@@ -1,11 +1,16 @@
 #ifndef _globalvars_H_  
 #define _globalvars_H_
 
-extern int sem[2][16];
-extern int semcheckout[1][16];
+//For Semaphores
+extern struct sem {
+    int s;
+    int n;
+    int sempid[n];
+};
+extern sem semarray[16];
 extern int semcounter;
 
-
+//For FIFOs
 
 
 
