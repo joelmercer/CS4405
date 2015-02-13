@@ -1,4 +1,5 @@
 #include<os.h>
+#include<globalvars.h>
 
 void OS_Start() {
 
