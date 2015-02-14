@@ -13,6 +13,16 @@ typedef struct semaphores {
     int sempid[];
 } sem;
 
+//For FIFOs
+typedef struct fifonode {
+	void* next;
+	void* previous;
+	int flag; // read == 0 // unread == 1 
+	int data;
+} node;
+
+node fifoarray[MAXFIFO];
+extern int fifocounter;
 sem semarray[MAXSEM];
 extern int semcounter;
 
