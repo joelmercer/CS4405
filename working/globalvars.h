@@ -4,7 +4,7 @@
 #include "os.h"
 
 //OS gloabls
-//#define NULL 0
+#define EMPTY -1
 
 //For Semaphores
 typedef struct semaphores {

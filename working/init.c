@@ -11,8 +11,8 @@ int i, j;
 //init semaphores
     int semcounter = 0;
     for(i=0;i<MAXSEM;i++) {
-        semarray[i].s = -1;
-        semarray[i].n = -1;
+        semarray[i].s = EMPTY;
+        semarray[i].n = EMPTY;
     } 
 
 }

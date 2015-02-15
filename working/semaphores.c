@@ -19,7 +19,7 @@ void OS_InitSem(int s, int n) {
     
     //Init sempid array       
     for(i=0;i<n;i++) {
-    semarray[semcounter].sempid[i] = -1; 
+    semarray[semcounter].sempid[i] = EMPTY; 
     }
     
     //counter up
@@ -44,7 +44,7 @@ void OS_Wait(int s){
                 }
             semarray[i].n--;
             while(j<semarray[i].n) {
-                if(semarray[i].sempid[j] == -1){ 
+                if(semarray[i].sempid[j] == EMPTY){ 
                     semarray[i].sempid[j] = currentpid;
                         break;
                 }
@@ -73,7 +73,7 @@ int currentpid = getpid(); //make getpid() work*********************************
             semarray[i].n++;
             while(j<semarray[i].n) {
                 if(semarray[i].sempid[j] == currentpid){ 
-                    semarray[i].sempid[j] = -1;
+                    semarray[i].sempid[j] = EMPTY;
                         break;
                 }
                 j++;
