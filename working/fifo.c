@@ -8,7 +8,7 @@ FIFO OS_InitFiFo() {
 	
 	if(fifocounter>=MAXFIFO){ //should never be greater than, this is a precaution
 		return INVALIDFIFO; // too many FIFOs
-	} else{
+	} else {
 		node n;
 		n.flag = 0; // This allows the value to be overwritten, 0==read
 		fifoarray[fifocounter]* = n; // First node, also the "head" node
