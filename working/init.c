@@ -2,7 +2,10 @@
 
 void OS_Start() {
 
-    OS_Init();
+ While(1) {
+     
+ }
+
 }
 
 void OS_Init() {
@@ -15,8 +18,9 @@ int i, j;
         semarray[i].n = EMPTY;
     } 
 
+return;
 }
 
 void OS_Abort() {
-
+main(0);
 }
