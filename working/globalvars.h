@@ -5,7 +5,7 @@
 
 //OS gloabls
 #define EMPTY -1
-//int abort = 1;
+//int abort = 1; *********
 
 //For Semaphores
 typedef struct semaphores {

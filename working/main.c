@@ -1,9 +1,9 @@
 #include "globalvars.h"
 
-int main(int abort) {
-int f = EMPTY;
+int main() {
+
     
-    if(abort != 0) { 
+  if(abort != 1) { //abort is a global var set to 1 *************
         
     OS_Init(); 
     OS_InitSem(0, 1); //Creats OS's semaphore 0 with value 1
@@ -13,7 +13,7 @@ int f = EMPTY;
         
     OS_Start(); //Never returns
         
-    }
+   }
     
     return 0;
 }

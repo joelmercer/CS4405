@@ -2,10 +2,16 @@
 
 void OS_Start() {
 
- While(1) {
+if(terminate == 0) {
+ While(terminate == 0) {
      
  }
-
+} else {
+    //terminate everything
+}
+    
+    
+return; //return to main to terminate OS
 }
 
 void OS_Init() {
@@ -22,5 +28,6 @@ return;
 }
 
 void OS_Abort() {
-main(0);
+abort = 1; //abort is a global var**************
+main();
 }
