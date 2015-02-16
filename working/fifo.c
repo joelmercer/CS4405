@@ -1,4 +1,4 @@
-#include "glabalvars.h"
+#include "globalvars.h"
 
 FIFO OS_InitFiFo() {
 	int i, fifocounter;
