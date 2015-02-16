@@ -3,9 +3,11 @@
 void OS_Start() {
 
 if(terminate == 0) {
+    
  While(terminate == 0) {
-     
+     //Scheduling an array of procceses ***********
  }
+    
 } else {
     //terminate everything
 }
