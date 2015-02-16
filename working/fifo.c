@@ -12,8 +12,11 @@ FIFO OS_InitFiFo() {
 		node n;
 		n.flag = 0; // This allows the value to be overwritten, 0==read
 		fifoarray[fifocounter]* = n; // First node, also the "head" node
+<<<<<<< HEAD
 		node* first = n;
-		for(i =1; i<=FIFOSIZE; i++){
+=======
+>>>>>>> origin/master
+		for(i =1; i<=FIFOSIZE){
 			node m;
 			m.flag = 0;
 			fifoarray[fifocounter].next* = m;
