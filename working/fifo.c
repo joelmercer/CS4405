@@ -4,8 +4,6 @@ FIFO OS_InitFiFo() {
 	int i, fifocounter;
 	FIFO retval;
 	
-	//check that FIFO is not already used *******
-	
 	if(fifocounter>=MAXFIFO){ //should never be greater than, this is a precaution
 		return INVALIDFIFO; // too many FIFOs
 	} else {
@@ -33,11 +31,15 @@ void OS_Write(FIFO f, int val) {
 	int i=0;
 	node* pointer=fifoarray[f]; // find proper fifo
 	while(i<FIFOSIZE){ //check for free space
+		if((pointer.flag==1)&&(i==FIFOSIZE)){ //FIFO full
+			fifoarray[f].data=val;
+			fifoarray[f].flag=0;
+			*fifoarray[f]=fifoarray[f].next;
+			return;
+		}
 		if(pointer.flag==1){
 			*pointer=pointer.next;
 			i++;
-		}else if((pointer.flag==1)&&(i==FIFOSIZE)){
-			//error, no space *********************
 		}else{ //write
 			pointer.data=val;
 			pointer.flag=0; //mark as unread
