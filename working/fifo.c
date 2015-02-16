@@ -19,7 +19,7 @@ FIFO OS_InitFiFo() {
 			m.previous* = fifoarray[fifocounter];
 			fifoarray[fifocounter]* = m;
 		}
-		fifoarray[fifocounter].next* = first;
+		fifoarray[fifocounter].next = first;
 		first.previous* = fifoarray[fifocounter];
 	}
 	fifocounter++;
@@ -29,16 +29,16 @@ FIFO OS_InitFiFo() {
 
 void OS_Write(FIFO f, int val) {
 	int i=0;
-	node* pointer=fifoarray[f]; // find proper fifo
+	node *pointer=*fifoarray[f]; // find proper fifo
 	while(i<FIFOSIZE){ //check for free space
 		if((pointer.flag==1)&&(i==FIFOSIZE)){ //FIFO full
-			fifoarray[f].data=val;
-			fifoarray[f].flag=0;
-			*fifoarray[f]=fifoarray[f].next;
+			*fifoarray[f].data=&val;
+			*fifoarray[f].flag=0;
+			*fifoarray[f]=&fifoarray[f].next;
 			return;
 		}
 		if(pointer.flag==1){
-			*pointer=pointer.next;
+			pointer=pointer.next;
 			i++;
 		}else{ //write
 			pointer.data=val;
@@ -50,13 +50,13 @@ void OS_Write(FIFO f, int val) {
 
 BOOL OS_Read(FIFO f, int *val) {
 	int i=0;
-	node* pointer=fifoarray[f]; // find proper fifo
+	node *pointer=&fifoarray[f]; // find proper fifo
 	if(pointer.flag==1){ // fifo is empty
 		return FALSE;
 	} else{
-		val=pointer.data;
+		val=*pointer.data;
 		pointer.flag=1;// mark as read
-		*fifoarray[f]=pointer.next;
+		*fifoarray[f]=&pointer.next;
 		return TRUE;
 	}
 	
