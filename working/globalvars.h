@@ -5,6 +5,8 @@
 
 //Function declare
 void OS_Interrupt_Init();
+void Interrupt_Handler(void);
+void Context_Switch();
 
 //OS gloabls
 #define EMPTY -1
