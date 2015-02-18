@@ -33,9 +33,8 @@ return;
 }
 
 void OS_Terminate(void) {
-
     //do last
-	
+	//deallocate fifos
 	//remove pid from semaphore lists
 	/**int j, k;
 		for(j=0;j<MAXSEM;j++){
@@ -46,6 +45,7 @@ void OS_Terminate(void) {
 			}
 		}
 	*/
+	//deallocate memory, most likely with OS_Free()
 }
 
 void OS_Yield(void) {

@@ -3,7 +3,7 @@
 FIFO OS_InitFiFo() {
 	int i, fifocounter;
 	FIFO retval;
-	
+	//make this more dynamic
 	if(fifocounter>=MAXFIFO){ //should never be greater than, this is a precaution
 		return INVALIDFIFO; // too many FIFOs
 	} else {
