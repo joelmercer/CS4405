@@ -5,7 +5,7 @@ PID  OS_Create(void (*f)(void), int arg, unsigned int level, unsigned int n) {
 }
 
 void OS_Terminate(void) {
-terminate = 1;
+
     //do last
 }
 

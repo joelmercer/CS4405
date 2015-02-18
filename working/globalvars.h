@@ -3,6 +3,9 @@
 
 #include "os.h"
 
+//Function declare
+void OS_Interrupt_Init();
+
 //OS gloabls
 #define EMPTY -1
 //int abort = 1; *********
@@ -29,8 +32,12 @@ node fifoarray[MAXFIFO];
 extern int fifocounter;
 
 
+//Memory Locations
+#define INTERVAL_TIMER_BASE 0x10002000
 
-
+//Interrupts
+#define NIOS2_WRITE_STATUS(src) do { __builtin_wrctl(0, src); } while (0)
+#define NIOS2_READ_IPENDING(dest) do { dest = __builtin_rdctl(4); } while (0)
 
 
 

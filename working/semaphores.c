@@ -3,13 +3,12 @@
 void OS_InitSem(int s, int n) {
     int i, semcounter;
     
-//disable interupts**********************************
+NIOS2_WRITE_STATUS(0); //disable interupts**********************************
     
     //check to make sure s doesn't already exist
     for(i=0;i<MAXSEM;i++) {
         if(semarray[i].s == s) {
-            //enable interupts**********************************
-            return; //Error
+            OS_Abort() //Error abort
         }
     }
            
@@ -25,7 +24,7 @@ void OS_InitSem(int s, int n) {
     //counter up
     semcounter++;
            
-//enable interupts**********************************
+NIOS2_WRITE_STATUS(1); //enable interupts**********************************
 return;
 }
 
@@ -34,7 +33,7 @@ void OS_Wait(int s){
     int j=0;
     int currentpid = getpid(); //make getpid() work**********************************
     
-//disable interupts**********************************
+NIOS2_WRITE_STATUS(0); //disable interupts**********************************
     
     //check for s
    while(i<MAXSEM) {
@@ -55,7 +54,7 @@ void OS_Wait(int s){
        i++;
     }
 
-//enable interupts**********************************
+NIOS2_WRITE_STATUS(1); //enable interupts**********************************
 
 return;
 }
@@ -65,7 +64,7 @@ int i=0;
 int j=0;
 int currentpid = getpid(); //make getpid() work**********************************    
     
-//disable interupts**********************************
+NIOS2_WRITE_STATUS(0); //disable interupts**********************************
 
     //Check to see if this PID is holding the Semaphore
    while(i<MAXSEM) {
@@ -84,6 +83,6 @@ int currentpid = getpid(); //make getpid() work*********************************
     
           } 
     
-//enable interupts**********************************
+NIOS2_WRITE_STATUS(1); //enable interupts**********************************
 return;
 }
