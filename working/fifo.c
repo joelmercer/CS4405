@@ -34,7 +34,7 @@ void OS_Write(FIFO f, int val) {
 		if((pointer.flag==1)&&(i==FIFOSIZE)){ //FIFO full
 			fifoarray[f].data=val;
 			fifoarray[f].flag=0;
-			fifoarray[f]=&fifoarray[f].next;
+			fifoarray[f]=fifoarray[f].next;
 			return;
 		}
 		if(pointer.flag==1){
