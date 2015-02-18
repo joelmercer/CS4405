@@ -11,7 +11,11 @@ void void OS_Set_Timer(int timer);
 
 //OS gloabls
 #define EMPTY -1
-//int abort = 1; *********
+extern int abort = 1;
+
+//
+extern int SPORADIC[MAXPROCESS];
+extern int semcounter;
 
 //For Semaphores
 typedef struct semaphores {

@@ -8,12 +8,28 @@ void OS_Start() {
 //extern int PPPMax[];        /* max CPU in msec of each process in PPP */
 
     //SPORADIC Array
+    //SPORADIC Counter
     //set timer to TimeQ
     
 }
 
-void OS_AddTo_Schedule(int pid) {
+void OS_AddTo_Schedule(int pid, int level) {
 
+    //Check level
+    //Levels
+    //SPORADIC 2      /* first-come-first-served, aperiodic */
+    //PERIODIC 1      /* cyclic, fixed-order, periodic */
+    //DEVICE 0      /* time-driven cyclic device drivers */
+    
+    if(level == 0) {
+     //add to device Q   
+    } else if(level == 1) {
+    //add to Periodic Q
+    } else {
+        
+    }
+    
+return;    
 }
     
 return; //return to main to terminate OS
@@ -22,6 +38,12 @@ return; //return to main to terminate OS
 void OS_Init() {
 int i, j;
 
+//Schedule setup
+semcounter = 0;
+for(i=0;i<MAXPROCESS;i++) {
+    SPORADIC[i] = EMPTY;
+}
+    
 //init semaphores
     int semcounter = 0;
     for(i=0;i<MAXSEM;i++) {

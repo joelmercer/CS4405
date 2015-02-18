@@ -26,7 +26,7 @@ NIOS2_WRITE_STATUS(0); //disable interupts
     //counter up
     processcounter++;
     
-OS_AddTo_Schedule(processarray[processcounter].pid); 
+OS_AddTo_Schedule(processarray[processcounter].pid, level); 
            
 NIOS2_WRITE_STATUS(1); //enable interupts
 return;
