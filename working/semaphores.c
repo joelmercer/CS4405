@@ -3,7 +3,7 @@
 void OS_InitSem(int s, int n) {
     int i, semcounter;
     
-NIOS2_WRITE_STATUS(0); //disable interupts**********************************
+NIOS2_WRITE_STATUS(0); //disable interupts
     
     //check to make sure s doesn't already exist
     for(i=0;i<MAXSEM;i++) {
@@ -24,7 +24,7 @@ NIOS2_WRITE_STATUS(0); //disable interupts**********************************
     //counter up
     semcounter++;
            
-NIOS2_WRITE_STATUS(1); //enable interupts**********************************
+NIOS2_WRITE_STATUS(1); //enable interupts
 return;
 }
 
@@ -33,7 +33,7 @@ void OS_Wait(int s){
     int j=0;
     int currentpid = getpid(); //make getpid() work**********************************
     
-NIOS2_WRITE_STATUS(0); //disable interupts**********************************
+NIOS2_WRITE_STATUS(0); //disable interupts
     
     //check for s
    while(i<MAXSEM) {
@@ -62,9 +62,9 @@ return;
 void OS_Signal(int s) {
 int i=0; 
 int j=0;
-int currentpid = getpid(); //make getpid() work**********************************    
+int currentpid = getpid(); //make getpid() work    
     
-NIOS2_WRITE_STATUS(0); //disable interupts**********************************
+NIOS2_WRITE_STATUS(0); //disable interupts
 
     //Check to see if this PID is holding the Semaphore
    while(i<MAXSEM) {

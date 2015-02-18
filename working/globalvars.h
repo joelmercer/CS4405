@@ -7,6 +7,7 @@
 void OS_Interrupt_Init();
 void Interrupt_Handler(void);
 void Context_Switch();
+void void OS_Set_Timer(int timer);
 
 //OS gloabls
 #define EMPTY -1
@@ -21,6 +22,18 @@ typedef struct semaphores {
 
 sem semarray[MAXSEM];
 extern int semcounter;
+
+//OS_Create
+typedef struct createprocess {
+    int pid;
+    void * function;
+    int arg;
+    unsigned int level;
+    unsigned int n;
+} process;
+
+process processarray[MAXPROCESS];
+extern int processcounter;
 
 //For FIFOs
 typedef struct fifonode {

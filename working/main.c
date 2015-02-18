@@ -1,6 +1,7 @@
 #include "globalvars.h"
 int abort = 0;
-volatile int *timeq = (int*)0x10002000; //interval timer base address
+volatile int *timebase = (int*)0x10002000; //interval timer base address
+int timeq = 0x260000; // 1/(50 MHz) × (0x260000) = ~50 msec
 
 int main() {
 

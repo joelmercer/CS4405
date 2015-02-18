@@ -2,8 +2,19 @@
 
 void OS_Start() {
 
-}
+  /* PERIODIC process scheduling plan */
+//extern int PPPLen;          /* length of PPP[] */
+//extern int PPP[];           /* PERIODIC process scheduling plan */
+//extern int PPPMax[];        /* max CPU in msec of each process in PPP */
+
+    //SPORADIC Array
+    //set timer to TimeQ
     
+}
+
+void OS_AddTo_Schedule(int pid) {
+
+}
     
 return; //return to main to terminate OS
 }
@@ -17,13 +28,32 @@ int i, j;
         semarray[i].s = EMPTY;
         semarray[i].n = EMPTY;
     } 
+    
+//init processes
+    int processcounter = 1;
+    for(i=0;i<MAXPROCESS;i++) {
+        processarray[i].pid = EMPTY;
+        processarray[i].arg = EMPTY;
+        processarray[i].level = 0;
+        processarray[i].n = 0;
+    } 
 
-//Time Quantium setup
-int timer = 0x500000; // 1/(50 MHz) × (0x500000) = ~0.1 seconds
-*(timeq + 0x2 = (timer & 0xFFFF);
-*(timeq + 0x3 = (timer >> 16) & 0xFFFF;
+
+OS_Set_Timer(timeq);
 
 return;
+}
+
+void OS_Set_Timer(int timer) {
+
+//Timer setup
+*(timebase + 0x2 = (timer & 0xFFFF);
+*(timebase + 0x3 = (timer >> 16) & 0xFFFF;    
+
+  //Start Timer
+*(timebase + 1) = 0x7;  
+  
+  return;
 }
 
 void OS_Abort() {

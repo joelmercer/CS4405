@@ -1,4 +1,4 @@
-void Context_Switch() {
+void Context_Switch_Save() {
     
 asm ( ".set		noat" );						// Magic, for the C compiler
 asm ( ".set		nobreak" );					// Magic, for the C compiler
@@ -43,8 +43,12 @@ asm (	"stw	r30, 120(sp)" );				// r30 = ba
 asm (	"stw	r31, 124(sp)" );				// r31 = ra
 asm (	"addi	fp,  sp, 128" );
 
-asm (	"call	Interrupt_Handler" );		// Call the C language interrupt handler
+asm (	"call	OS_Interrupt_Handler" );		// Call the C language interrupt handler
 
+}
+
+void Context_Switch_Load() {
+    
 asm (	"ldw	r1,  4(sp)" );					// Restore all registers
 asm (	"ldw	r2,  8(sp)" );
 asm (	"ldw	r3,  12(sp)" );
