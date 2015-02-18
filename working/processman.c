@@ -35,6 +35,17 @@ return;
 void OS_Terminate(void) {
 
     //do last
+	
+	//remove pid from semaphore lists
+	/**int j, k;
+		for(j=0;j<MAXSEM;j++){
+			for(k=0;k<semarray[j].n;k++){
+				if(semarray[j].sempid[k]==//current pid//){ ///**************
+					semarray[j].sempid[k]=EMPTY;
+				}
+			}
+		}
+	*/
 }
 
 void OS_Yield(void) {
