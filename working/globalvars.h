@@ -19,8 +19,8 @@ extern int semcounter;
 
 //For FIFOs
 typedef struct fifonode {
-	void* next;
-	void* previous;
+	struct fifonode* next;
+	struct fifonode* previous;
 	int flag; // read == 0 // unread == 1 
 	int data;
 } node;
