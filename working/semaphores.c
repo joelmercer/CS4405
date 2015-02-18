@@ -1,9 +1,10 @@
 #include "globalvars.h"
 
 void OS_InitSem(int s, int n) {
-    int i, semcounter;
-    
 NIOS2_WRITE_STATUS(0); //disable interupts
+    int i, j;
+    
+
     
     //check to make sure s doesn't already exist
     for(i=0;i<MAXSEM;i++) {
@@ -13,16 +14,23 @@ NIOS2_WRITE_STATUS(0); //disable interupts
     }
            
     //add s and n to semarray struct
-    semarray[semcounter].s = s;
-    semarray[semcounter].n = n;
-    
-    //Init sempid array       
-    for(i=0;i<n;i++) {
-    semarray[semcounter].sempid[i] = EMPTY; 
+    for(i=0;i<MAXSEM;i++) {
+        if(semarray[i].s == EMPTY) {
+        
+            semarray[i].s = s;
+            semarray[i].n = n; 
+           
+            //Init sempid array
+            semarray[i].sempid[n];
+            for(j=0;j<n;j++) {
+                semarray[i].sempid[j] = EMPTY; 
+            }
+        i=MAXSEM+2;    
+        }
     }
     
-    //counter up
-    semcounter++;
+    if(i!=(MAXSEM+2))
+        OS_Abort(); //Error abort
            
 NIOS2_WRITE_STATUS(1); //enable interupts
 return;

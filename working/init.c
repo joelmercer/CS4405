@@ -2,19 +2,44 @@
 
 void OS_Start() {
 
+while(1) {
+    
   /* PERIODIC process scheduling plan */
 //extern int PPPLen;          /* length of PPP[] */
 //extern int PPP[];           /* PERIODIC process scheduling plan */
 //extern int PPPMax[];        /* max CPU in msec of each process in PPP */
 
-    //SPORADIC Array
-    //SPORADIC Counter
-    //set timer to TimeQ
+While(pppcounter<PPPLen) {
+    //Run one PPP then go to S ***
+    //OS_Set_Timer(PPP[P]); ***
+    //Finished running PPP go to S ***
     
+    pppcounter++;
+    
+    if(pppcounter >= PPPLen)
+        pppcounter = 0;
+    
+    OS_Set_Timer(timeq);
+    
+    While(1) {
+    
+    //Call process in sporadic[sporadiccounter] *****
+    //Load it's saved context switch (if present?!?)
+    
+    sporadiccounter++;
+        
+    if(sporadiccounter >= MAXPROCESS)
+        sporadiccounter = 0;
+    
+    }
+    
+
+}
+//Should never return
 }
 
 void OS_AddTo_Schedule(int pid, int level) {
-
+int temp;
     //Check level
     //Levels
     //SPORADIC 2      /* first-come-first-served, aperiodic */
@@ -26,22 +51,21 @@ void OS_AddTo_Schedule(int pid, int level) {
     } else if(level == 1) {
     //add to Periodic Q
     } else {
-        
+        temp = sporadiccounter + 1;
+        sporadic[temp] = pid;
     }
     
 return;    
-}
-    
-return; //return to main to terminate OS
 }
 
 void OS_Init() {
 int i, j;
 
 //Schedule setup
-semcounter = 0;
+pppcounter = 0;
+sporadiccounter = 0;
 for(i=0;i<MAXPROCESS;i++) {
-    SPORADIC[i] = EMPTY;
+    sporadic[i] = EMPTY;
 }
     
 //init semaphores
@@ -83,14 +107,5 @@ void OS_Abort() {
 abort = 1; //abort is a global var**************
 
 main();
-    
-}
-  
-void OS_Interrupt_Init() {
-    
-//Start timer, enable it's interrupt  
-*(interval_timer_ptr + 1) = 0x7; // STOP = 0, START = 1, CONT = 1, ITO = 1
-NIOS2_WRITE_STATUS(1); //Enable interrupts
-return;
     
 }

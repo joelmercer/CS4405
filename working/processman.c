@@ -1,33 +1,30 @@
 #include "os.h"
 
 PID OS_Create(void (*f)(void), int arg, unsigned int level, unsigned int n) {
-
-    //setup struct with PID, function*, arg, level, n
-    //add to schedule
-    //call the function given
-    int i, processcounter;
-    
 NIOS2_WRITE_STATUS(0); //disable interupts
+
+int i;
     
-    //check to make sure you don't create too many processes
-        if(processcounter >= MAXPROCESS) {
-            NIOS2_WRITE_STATUS(1); //enable interupts
-            return INVALIDPID; //Error INVALIDPID
-        }
+for(i=0;i<MAXPROCESS;i++) {
+    if(processarray[i].pid == EMPTY) {      
+        //add args to processarray struct
+        processarray[i].pid = i;
+        processarray[i].function = &f;
+        processarray[i].arg = arg;
+        processarray[i].level = level;
+        processarray[i].n = n;
+            
+        OS_AddTo_Schedule(i, level) 
+            
+        i = MAXPROCESS + 2;
+    }
+}
     
-           
-    //add s and n to semarray struct
-    processarray[processcounter].pid = processcounter; //*******************????????????
-    processarray[processcounter].function = &f;
-    processarray[processcounter].arg = arg;
-    processarray[processcounter].level = level;
-    processarray[processcounter].n = n;
-    
-    //counter up
-    processcounter++;
-    
-OS_AddTo_Schedule(processarray[processcounter].pid, level); 
-           
+if(i!=(MAXPROCESS+2)) {
+    NIOS2_WRITE_STATUS(1); //enable interupts
+    return INVALIDPID; //Error INVALIDPID
+}
+   
 NIOS2_WRITE_STATUS(1); //enable interupts
 return;
 }
