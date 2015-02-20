@@ -1,7 +1,8 @@
 #include "globalvars.h"
 
 FIFO OS_InitFiFo() {
-	int i, fifocounter;
+	int i;
+	int fifocounter=0;
 	FIFO retval;
 	//make this more dynamic******
 	if(fifocounter>=MAXFIFO){ //should never be greater than, this is a precaution
@@ -13,11 +14,15 @@ FIFO OS_InitFiFo() {
 		node first = n;
 		
 		for(i =1; i<=FIFOSIZE; i++){
-			node m;
-			m.flag = 0;
-			fifoarray[fifocounter].next = &m;
-			m.previous = &fifoarray[fifocounter];
-			fifoarray[fifocounter] = m;
+			if(fifoarray[fifocounter].data==EMPTY){//check for empty space, fifo's data should be made "EMPTY" when deallocated
+				node m;
+				m.flag = 0;
+				fifoarray[fifocounter].next = &m;
+				m.previous = &fifoarray[fifocounter];
+				fifoarray[fifocounter] = m;
+			}else{
+				fifocounter++;
+			}
 		}
 		fifoarray[fifocounter].next = &first;
 		first.previous = &fifoarray[fifocounter];
