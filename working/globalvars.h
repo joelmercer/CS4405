@@ -7,13 +7,15 @@
 //Function declare
 void Interrupt_Handler(void);
 void Context_Switch();
-void void OS_Set_Timer(int timer);
+void OS_Set_Timer(int timer);
 
 //OS gloabls
 #define EMPTY -1
-extern int abort = 0;
-extern volatile int *timebase = (int*)0x10002000; //interval timer base address
-extern int timeq = 0x260000; // 1/(50 MHz) × (0x260000) = ~50 msec
+extern int crash;
+
+//For Timer
+extern volatile int *timebase; //interval timer base address
+extern int timeq; // 1/(50 MHz) × (0x260000) = ~50 msec
 
 //For Schedule
 extern int pppcounter;
