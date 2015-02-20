@@ -1,4 +1,4 @@
-#include "os.h"
+#include "globalvars.h"
 
 PID OS_Create(void (*f)(void), int arg, unsigned int level, unsigned int n) {
 NIOS2_WRITE_STATUS(0); //disable interupts

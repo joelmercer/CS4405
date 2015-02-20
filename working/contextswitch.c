@@ -1,3 +1,5 @@
+#include "globalvars.h"
+
 void Context_Switch_Save() {
     
 asm ( ".set		noat" );						// Magic, for the C compiler

@@ -1,3 +1,5 @@
+#include "globalvars.h"
+
 void OS_Interrupt_Handler(void) {
     
 	int ipending;
