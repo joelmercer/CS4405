@@ -51,7 +51,7 @@ typedef struct fifonode {
 } node;
 
 node fifoarray[MAXFIFO];
-extern int fifocounter;//still used to find empty spaces, easier to leave it here and every process use it and initialize it to zero
+
 
 
 

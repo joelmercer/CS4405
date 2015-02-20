@@ -62,8 +62,6 @@ void OS_Init() {
 int i, j;
 
 //Schedule setup
-pppcounter = 0;
-sporadiccounter = 0;
 for(i=0;i<MAXPROCESS;i++) {
     sporadic[i] = EMPTY;
 }

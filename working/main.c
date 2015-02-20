@@ -1,8 +1,20 @@
 #include "globalvars.h"
 
+#include "contextswitch.c"
+#include "init.c"
+#include "processman.c"
+#include "semaphores.c"
+#include "semaphores.c"
+#include "fifo.c"
+#include "ihandler.c"
+
+//Init Global Vars
 int crash = 0;
 volatile int *timebase = (int*)0x10002000; //interval timer base address
 int timeq = 0x260000; // 1/(50 MHz) × (0x260000) = ~50 msec
+int pppcounter = 0;
+int sporadic[MAXPROCESS] = EMPTY;
+int sporadiccounter = 0;
 
 int main() {
 
