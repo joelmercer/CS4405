@@ -1,11 +1,17 @@
 #include "globalvars.h"
 
 FIFO OS_InitFiFo() {
-	int i;
+	int i, j, k;
 	int fifocounter=0;
-	int j;
 	FIFO retval;
-	for(j=0;j<MAXFIFO;j++){
+	int overwrite=0;//0==yes, unused fifo; 1==no, fifo in use
+	for(j=0;j<MAXFIFO;j++){//rows
+		for(k=0;k<MAXFIFO;k++){//columns
+			if(fifopidarray[j][k]!=0){//check that fifo is not in use, if not, overwrite it
+				overwrite=1
+				k=MAXFIFO;
+			}
+		}
 		if(fifoarray[j].data == EMPTY){
 			if(fifocounter>=MAXFIFO){ //should never be greater than, this is a precaution
 				return INVALIDFIFO; // too many FIFOs
@@ -33,6 +39,13 @@ FIFO OS_InitFiFo() {
 			fifocounter=j;
 			j=MAXFIFO;
 		}
+	}//add pid to fifo's list of pids
+	for(j=0;j<MAXFIFO;j++){//columns
+		if(fifopidarray[fifocounter][j]==0){//row belongs to current fifo
+			fifopidarray[fifocounter][j]=currentpid;//currentpid *********
+			j=MAXFIFO;
+		}
+	}
 	}
 	retval = fifocounter; // place in fifo array where fifo begins?
 	return retval;

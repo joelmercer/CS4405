@@ -30,7 +30,7 @@ typedef struct semaphores {
     int sempid[MAXSEM];
 } sem;
 
-sem semarray[MAXSEM];
+extern sem semarray[MAXSEM];
 
 //OS_Create
 typedef struct createprocess {
@@ -41,7 +41,8 @@ typedef struct createprocess {
     unsigned int n;
 } process;
 
-process processarray[MAXPROCESS];
+extern int processcounter; 
+extern process processarray[MAXPROCESS];
 
 //For FIFOs
 typedef struct fifonode {
@@ -51,8 +52,8 @@ typedef struct fifonode {
 	int data;
 } node;
 
-node fifoarray[MAXFIFO];
-
+extern node fifoarray[MAXFIFO];
+extern int fifopidarray[MAXFIFO][MAXFIFO];
 
 
 
