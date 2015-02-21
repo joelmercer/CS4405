@@ -4,7 +4,6 @@ FIFO OS_InitFiFo() {
 	int i;
 	int fifocounter=0;
 	FIFO retval;
-	//make this more dynamic******
 	if(fifocounter>=MAXFIFO){ //should never be greater than, this is a precaution
 		return INVALIDFIFO; // too many FIFOs
 	} else {
@@ -39,11 +38,11 @@ void OS_Write(FIFO f, int val) {
 		if((pointer.flag==1)&&(i==FIFOSIZE)){ //FIFO full
 			fifoarray[f].data=val;
 			fifoarray[f].flag=0;
-			fifoarray[f]=fifoarray[f].next;
+			fifoarray[f]=*fifoarray[f].next;
 			return;
 		}
 		if(pointer.flag==1){
-			pointer=&pointer.next;
+			pointer=*pointer.next;
 			i++;
 		}else{ //write
 			pointer.data=val;
@@ -61,7 +60,7 @@ BOOL OS_Read(FIFO f, int *val) {
 	} else{
 		val=&pointer.data;
 		pointer.flag=1;// mark as read
-		fifoarray[f]=&pointer.next;
+		fifoarray[f]=*pointer.next;
 		return TRUE;
 	}
 	
