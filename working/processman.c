@@ -7,7 +7,6 @@ int i;
     
 for(i=0;i<MAXPROCESS;i++) {
     if(processarray[i].pid == EMPTY) {      
-        //add args to processarray struct
         processarray[i].pid = i;
         processarray[i].function = &f;
         processarray[i].arg = arg;
@@ -73,6 +72,5 @@ Context_Switch_Save();
 }
 
 int  OS_GetParam(void) {
-
-    
+	return processarray[processcounter].arg;  
 }
