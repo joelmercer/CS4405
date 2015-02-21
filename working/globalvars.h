@@ -8,6 +8,9 @@
 void Interrupt_Handler(void);
 void Context_Switch();
 void OS_Set_Timer(int timer);
+int  OS_GetPID(void);
+void OS_Set_Timer(int timer);
+void OS_AddTo_Schedule(int pid, int level);
 
 //OS gloabls
 #define EMPTY -1
