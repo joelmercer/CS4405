@@ -31,25 +31,38 @@ return;
 
 void OS_Terminate(void) {
     //do last
-	int j, k;
+    int pid;
+    //get_PID() ************
+    
+	int i, k;
 		//remove from semaphore lists
-		for(j=0;j<MAXSEM;j++){//remove pid from semaphore lists
-			for(k=0;k<semarray[j].n;k++){
-				if(semarray[j].sempid[k]==//current pid//){ ///**************
-					semarray[j].sempid[k]=EMPTY;//remove pid
+		for(i=0;i<MAXSEM;i++){//remove pid from semaphore lists
+			for(k=0;k<semarray[i].n;k++){
+				if(semarray[i].sempid[k]==//current pid//){ ///**************
+					semarray[i].sempid[k]=EMPTY;//remove pid
 				}
 			}
 		}
 		//remove from fifo lists
-		for(j=0;j<MAXFIFO;j++){//rows
+		for(i=0;i<MAXFIFO;i++){//rows
 			for(k=0;k<MAXFIFO;k++){//columns
-				if(fifopidarray[j][k]==currentpid){//curent pid ************
-					fifopidarray[j][k]=0;//remove pid
+				if(fifopidarray[i][k]==currentpid){//curent pid ************
+					fifopidarray[i][k]=0;//remove pid
 				}
 			}
 		}
 	
-	//deallocate memory, most likely with OS_Free()
+for(i=0;i<MAXPROCESS;i++) {
+    if(sporadic[i] = pid;
+        sporadic[i] = EMPTY;
+       
+     //deallocate memory, most likely with OS_Free()
+
+    
+}
+   
+   
+    
 }
 
 void OS_Yield(void) {

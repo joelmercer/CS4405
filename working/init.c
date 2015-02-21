@@ -12,16 +12,20 @@ while(1) {
 //extern int PPPMax[];        /* max CPU in msec of each process in PPP */
 
     for(s=0;s<MAXPROCESS;s++) {
-    
+        next:
+        processcounter = s;
+        if(sporadic[s]!=EMPTY) {
         OS_Set_Timer(timeq); //set and load timer to timeq
         //Save context switch of os_start PC+1 & Load context switch for sporadic[s]
-    
+        } else {
+            s++;
+            goto next;
+        }
+        
         for(p=p;p<PPPLen;p++) {
         
             OS_Set_Timer(PPPMax[p]);
-            if(PPP[p] == ILDE) {
-                //Go do the next Sporadic
-            } else {
+            if(PPP[p] != ILDE) {
                 //save context switch of os_start
                 //load context switch to PPP
             }
@@ -39,20 +43,24 @@ return;//Should only return on error never return
 
 
 void OS_AddTo_Schedule(int pid, int level) {
-int temp;
+int temp, i, pid;
     //Check level
     //Levels
     //SPORADIC 2      /* first-come-first-served, aperiodic */
     //PERIODIC 1      /* cyclic, fixed-order, periodic */
     //DEVICE 0      /* time-driven cyclic device drivers */
     
+    pid = getpid();
+    
     if(level == 0) {
      //add to device Q   
     } else if(level == 1) {
     //add to Periodic Q
     } else {
-        temp = sporadiccounter + 1;
-        sporadic[temp] = pid;
+        for(i=0;i<MAXPROCESS;i++) {
+            if(sporadic[i]==EMPTY)
+                sporadic[i] = pid;
+        }
     }
     
 return;    
