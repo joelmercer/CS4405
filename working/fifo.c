@@ -3,6 +3,7 @@
 FIFO OS_InitFiFo() {
 	int i, j, k;
 	int fifocounter=0;
+    int pid = OS_GetPID();
 	FIFO retval;
 	int overwrite=0;//0==yes, unused fifo; 1==no, fifo in use
 	for(j=0;j<MAXFIFO;j++){//rows
@@ -42,7 +43,7 @@ FIFO OS_InitFiFo() {
 	}//add pid to fifo's list of pids
 	for(j=0;j<MAXFIFO;j++){//columns
 		if(fifopidarray[fifocounter][j]==0){//row belongs to current fifo
-			fifopidarray[fifocounter][j]=currentpid;//currentpid *********
+			fifopidarray[fifocounter][j]=pid;
 			j=MAXFIFO;
 		}
 	}

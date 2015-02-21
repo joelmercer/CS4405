@@ -16,6 +16,7 @@ int pppcounter = 0;
 int sporadic[MAXPROCESS] = EMPTY;
 int sporadiccounter = 0;
 int MAXDEVICE = 0;
+int pid = 0;
 
 int main() {
 
