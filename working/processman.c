@@ -33,7 +33,7 @@ void OS_Terminate(void) {
     //do last
 	//deallocate fifos
 	//remove pid from semaphore lists
-	/**int j, k;
+	int j, k;
 		for(j=0;j<MAXSEM;j++){
 			for(k=0;k<semarray[j].n;k++){
 				if(semarray[j].sempid[k]==//current pid//){ ///**************
@@ -41,7 +41,7 @@ void OS_Terminate(void) {
 				}
 			}
 		}
-	*/
+	
 	//deallocate memory, most likely with OS_Free()
 }
 

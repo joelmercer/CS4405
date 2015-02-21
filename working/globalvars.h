@@ -26,7 +26,7 @@ extern int sporadiccounter;
 typedef struct semaphores {
     int s;
     int n;
-    int sempid[];
+    int sempid[MAXSEM];
 } sem;
 
 sem semarray[MAXSEM];

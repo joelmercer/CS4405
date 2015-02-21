@@ -63,7 +63,8 @@ BOOL OS_Read(FIFO f, int *val) {
 	if(fifoarray[f].flag==0){ // fifo is empty
 		return FALSE;
 	} else{
-		val=&fifoarray[f].data;
+		int newVal=fifoarray[f].data;
+		val=&newVal;
 		fifoarray[f].flag=0;// mark as read
 		fifoarray[f]=*fifoarray[f].next;
 		return TRUE;
