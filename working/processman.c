@@ -35,7 +35,7 @@ void OS_Terminate(void) {
 		//remove from semaphore lists
 		for(i=0;i<MAXSEM;i++){//remove pid from semaphore lists
 			for(k=0;k<semarray[i].n;k++){
-				if(semarray[i].sempid[k]==//current pid//){ ///**************
+				if(semarray[i].sempid[k]==pid){ 
 					semarray[i].sempid[k]=EMPTY;//remove pid
 				}
 			}
@@ -43,7 +43,7 @@ void OS_Terminate(void) {
 		//remove from fifo lists
 		for(i=0;i<MAXFIFO;i++){//rows
 			for(k=0;k<MAXFIFO;k++){//columns
-				if(fifopidarray[i][k]==pid){//curent pid ************
+				if(fifopidarray[i][k]==pid){
 					fifopidarray[i][k]=0;//remove pid
 				}
 			}
