@@ -10,21 +10,23 @@ FIFO OS_InitFiFo() {
 		node n;
 		n.flag = 0; // This allows the value to be overwritten, 0==read
 		fifoarray[fifocounter] = n; // First node, also the "head" node
-		node first = n;
 		
-		for(i =1; i<=FIFOSIZE; i++){
+		for(i =1; i<FIFOSIZE; i++){
 			if(fifoarray[fifocounter].data==EMPTY){//check for empty space, fifo's data should be made "EMPTY" when deallocated
 				node m;
 				m.flag = 0;
 				fifoarray[fifocounter].next = &m;
 				m.previous = &fifoarray[fifocounter];
 				fifoarray[fifocounter] = m;
+				if(i=7){//last node
+					n.previous=&m;
+					m.next=&n;
+				}
 			}else{
 				fifocounter++;
 			}
 		}
-		fifoarray[fifocounter].next = &first;
-		first.previous = &fifoarray[fifocounter];
+		n.next=&fifoarray[fifocounter];
 	}
 	fifocounter++;
 	retval = fifocounter; // place in fifo array where fifo begins?
@@ -53,13 +55,12 @@ void OS_Write(FIFO f, int val) {
 }
 
 BOOL OS_Read(FIFO f, int *val) {
-	node pointer=fifoarray[f]; // find proper fifo
-	if(pointer.flag==0){ // fifo is empty
+	if(fifoarray[f].flag==0){ // fifo is empty
 		return FALSE;
 	} else{
-		val=&pointer.data;
-		pointer.flag=0;// mark as read
-		fifoarray[f]=*pointer.next;
+		val=&fifoarray[f].data;
+		fifoarray[f].flag=0;// mark as read
+		fifoarray[f]=*fifoarray[f].next;
 		return TRUE;
 	}
 }
