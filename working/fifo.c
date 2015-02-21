@@ -37,11 +37,11 @@ void OS_Write(FIFO f, int val) {
 	while(i<FIFOSIZE){ //check for free space
 		if((pointer.flag==1)&&(i==FIFOSIZE)){ //FIFO full
 			fifoarray[f].data=val;
-			fifoarray[f].flag=0;
+			fifoarray[f].flag=1;
 			fifoarray[f]=*fifoarray[f].next;
 			return;
 		}
-		if(pointer.flag==1){
+		else if(pointer.flag==1){
 			pointer=*pointer.next;
 			i++;
 		}else{ //write
