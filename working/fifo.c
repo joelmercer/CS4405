@@ -53,9 +53,8 @@ void OS_Write(FIFO f, int val) {
 }
 
 BOOL OS_Read(FIFO f, int *val) {
-	int i=0;
 	node pointer=fifoarray[f]; // find proper fifo
-	if(pointer.flag==1){ // fifo is empty
+	if(pointer.flag==0){ // fifo is empty
 		return FALSE;
 	} else{
 		val=&pointer.data;
@@ -63,9 +62,4 @@ BOOL OS_Read(FIFO f, int *val) {
 		fifoarray[f]=*pointer.next;
 		return TRUE;
 	}
-	
-int main(){
-return 0;
-}
-	
 }
