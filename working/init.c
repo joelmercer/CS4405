@@ -37,6 +37,7 @@ While(pppcounter<PPPLen) {
 }
 //Should never return
 }
+}
 
 void OS_AddTo_Schedule(int pid, int level) {
 int temp;
@@ -102,7 +103,7 @@ void OS_Set_Timer(int timer) {
 
 void OS_Abort() {
 //Disable Interrupts and never enable them
-abort = 1; //abort is a global var**************
+crash = 1; //abort is a global var**************
 
 main();
     
