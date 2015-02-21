@@ -33,20 +33,19 @@ FIFO OS_InitFiFo() {
 
 void OS_Write(FIFO f, int val) {
 	int i=0;
-	node pointer=fifoarray[f]; // find proper fifo
 	while(i<FIFOSIZE){ //check for free space
-		if((pointer.flag==1)&&(i==FIFOSIZE)){ //FIFO full
+		if((fifoarray[f].flag==1)&&(i==FIFOSIZE)){ //FIFO full
 			fifoarray[f].data=val;
 			fifoarray[f].flag=1;
 			fifoarray[f]=*fifoarray[f].next;
 			i=FIFOSIZE;
 		}
-		else if(pointer.flag==1){
-			pointer=*pointer.next;
+		else if(fifoarray[f].flag==1){
+			fifoarray[f]=*fifoarray[f].next;
 			i++;
 		}else{ //write
-			pointer.data=val;
-			pointer.flag=1; //mark as unread
+			fifoarray[f].data=val;
+			fifoarray[f].flag=1; //mark as unread
 			i=FIFOSIZE;
 		}
 	}
