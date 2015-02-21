@@ -68,6 +68,7 @@ return;
 
 void OS_Init() {
 int i, j;
+int pid=0;//this is nor initFifo, since os_init should not have its pid added to the list and the list is 0 already
 
 //Schedule setup
 for(i=0;i<MAXPROCESS;i++) {
@@ -116,7 +117,7 @@ void OS_Set_Timer(int timer) {
 
 void OS_Abort() {
 //Disable Interrupts and never enable them
-crash = 1; //abort is a global var**************
+crash = 1;
 
 main();
     

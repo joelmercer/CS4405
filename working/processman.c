@@ -31,7 +31,6 @@ return;
 void OS_Terminate(void) {
     //do last
     int pid = OS_GetPID();
-    
 	int i, k;
 		//remove from semaphore lists
 		for(i=0;i<MAXSEM;i++){//remove pid from semaphore lists
@@ -44,7 +43,7 @@ void OS_Terminate(void) {
 		//remove from fifo lists
 		for(i=0;i<MAXFIFO;i++){//rows
 			for(k=0;k<MAXFIFO;k++){//columns
-				if(fifopidarray[i][k]==currentpid){//curent pid ************
+				if(fifopidarray[i][k]==pid){//curent pid ************
 					fifopidarray[i][k]=0;//remove pid
 				}
 			}
