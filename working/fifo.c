@@ -39,7 +39,7 @@ void OS_Write(FIFO f, int val) {
 			fifoarray[f].data=val;
 			fifoarray[f].flag=1;
 			fifoarray[f]=*fifoarray[f].next;
-			return;
+			i=FIFOSIZE;
 		}
 		else if(pointer.flag==1){
 			pointer=*pointer.next;
@@ -47,9 +47,10 @@ void OS_Write(FIFO f, int val) {
 		}else{ //write
 			pointer.data=val;
 			pointer.flag=1; //mark as unread
-			return;
+			i=FIFOSIZE;
 		}
 	}
+	return;
 }
 
 BOOL OS_Read(FIFO f, int *val) {
