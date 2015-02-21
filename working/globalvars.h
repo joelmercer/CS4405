@@ -21,6 +21,7 @@ extern int timeq; // 1/(50 MHz) × (0x260000) = ~50 msec
 extern int pppcounter;
 extern int sporadic[MAXPROCESS];
 extern int sporadiccounter;
+extern int MAXDEVICE;
 
 //For Semaphores
 typedef struct semaphores {

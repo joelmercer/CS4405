@@ -1,6 +1,8 @@
 #include "globalvars.h"
 
 void OS_Start() {
+    int s;
+    int p = 0;
 
 while(1) {
     
@@ -9,35 +11,32 @@ while(1) {
 //extern int PPP[];           /* PERIODIC process scheduling plan */
 //extern int PPPMax[];        /* max CPU in msec of each process in PPP */
 
-While(pppcounter<PPPLen) {
-    //Run one PPP then go to S ***
-    //OS_Set_Timer(PPP[P]); ***
-    //Finished running PPP go to S ***
+    for(s=0;s<MAXPROCESS;s++) {
     
-    pppcounter++;
+        OS_Set_Timer(timeq); //set and load timer to timeq
+        //Save context switch of os_start PC+1 & Load context switch for sporadic[s]
     
-    if(pppcounter >= PPPLen)
-        pppcounter = 0;
-    
-    OS_Set_Timer(timeq);
-    
-    While(1) {
-    
-    //Call process in sporadic[sporadiccounter] *****
-    //Load it's saved context switch (if present?!?)
-    
-    sporadiccounter++;
+        for(p=p;p<PPPLen;p++) {
         
-    if(sporadiccounter >= MAXPROCESS)
-        sporadiccounter = 0;
-    
-    }
-    
+            OS_Set_Timer(PPPMax[p]);
+            if(PPP[p] == ILDE) {
+                //Go do the next Sporadic
+            } else {
+                //save context switch of os_start
+                //load context switch to PPP
+            }
+        } //end of p loop
 
+        if(p >= PPPLen) {
+        pppcounter = 0; }
+    
+    } //end of s loop
+    
+} //end of while
+    
+return;//Should only return on error never return
 }
-//Should never return
-}
-}
+
 
 void OS_AddTo_Schedule(int pid, int level) {
 int temp;

@@ -15,6 +15,7 @@ int timeq = 0x260000; // 1/(50 MHz) × (0x260000) = ~50 msec
 int pppcounter = 0;
 int sporadic[MAXPROCESS] = EMPTY;
 int sporadiccounter = 0;
+int MAXDEVICE = 0;
 
 int main() {
 
