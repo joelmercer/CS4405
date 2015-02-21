@@ -31,13 +31,20 @@ return;
 
 void OS_Terminate(void) {
     //do last
-	//deallocate fifos
-	//remove pid from semaphore lists
 	int j, k;
-		for(j=0;j<MAXSEM;j++){
+		//remove from semaphore lists
+		for(j=0;j<MAXSEM;j++){//remove pid from semaphore lists
 			for(k=0;k<semarray[j].n;k++){
 				if(semarray[j].sempid[k]==//current pid//){ ///**************
-					semarray[j].sempid[k]=EMPTY;
+					semarray[j].sempid[k]=EMPTY;//remove pid
+				}
+			}
+		}
+		//remove from fifo lists
+		for(j=0;j<MAXFIFO;j++){//rows
+			for(k=0;k<MAXFIFO;k++){//columns
+				if(fifopidarray[j][k]==currentpid){//curent pid ************
+					fifopidarray[j][k]=0;//remove pid
 				}
 			}
 		}

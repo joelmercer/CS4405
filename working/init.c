@@ -75,8 +75,8 @@ for(i=0;i<MAXPROCESS;i++) {
     } 
 	
 //init FIFOs
-	OS_InitFiFo();
 	for(j=0;j<MAXFIFO;j++){
+		OS_InitFiFo();
 		fifoarray[j].data=EMPTY;
 	}
     
