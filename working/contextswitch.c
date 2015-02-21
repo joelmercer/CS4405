@@ -1,6 +1,6 @@
 #include "globalvars.h"
 
-void Context_Switch_Save() {
+void Context_Switch(int pid) {
     
 asm ( ".set		noat" );						// Magic, for the C compiler
 asm ( ".set		nobreak" );					// Magic, for the C compiler
@@ -45,11 +45,8 @@ asm (	"stw	r30, 120(sp)" );				// r30 = ba
 asm (	"stw	r31, 124(sp)" );				// r31 = ra
 asm (	"addi	fp,  sp, 128" );
 
-asm (	"call	OS_Interrupt_Handler" );		// Call the C language interrupt handler
-
-}
-
-void Context_Switch_Load() {
+OS_Interrupt_Handler(pid);
+//asm (	"call	OS_Interrupt_Handler" );		// Call the C language interrupt handler
     
 asm (	"ldw	r1,  4(sp)" );					// Restore all registers
 asm (	"ldw	r2,  8(sp)" );
@@ -86,4 +83,25 @@ asm (	"ldw	r31, 124(sp)" );				// r31 = ra
 asm (	"addi	sp,  sp, 128" );
 
 asm (	"eret" );
+}
+
+void OS_Interrupt_Handler(int pid) {
+    
+    processarray[pid].function();
+    return;
+    
+    /*
+	int ipending;
+	NIOS2_READ_IPENDING(ipending);
+	if ( ipending & 0x1 )				// time q is interrupt level 0
+	{
+        OS_Start //Return back to OS_Start
+		//Call something I think maybe OS_Start() **********
+	}
+	if ( ipending & 0x2 )				// pushbuttons are interrupt level 1
+	{
+		//nothing I'm guessing we won't enable push buttons, I don't think we need buttons.
+	} else { 
+    OS_Start(); //Task yielded CPU
+    }*/
 }

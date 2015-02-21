@@ -11,6 +11,7 @@ void OS_Set_Timer(int timer);
 int  OS_GetPID(void);
 void OS_Set_Timer(int timer);
 void OS_AddTo_Schedule(int pid, int level);
+void Context_Switch(int pid);
 
 //OS gloabls
 #define EMPTY -1

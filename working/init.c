@@ -15,7 +15,9 @@ while(1) {
         next:
         processcounter = s;
         if(sporadic[s]!=EMPTY) {
+        
         OS_Set_Timer(timeq); //set and load timer to timeq
+        Context_Switch(processarray[sporadic[s]].pid)
         //Save context switch of os_start PC+1 & Load context switch for sporadic[s]
         } else {
             s++;
