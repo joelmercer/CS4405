@@ -73,6 +73,12 @@ for(i=0;i<MAXPROCESS;i++) {
         semarray[i].s = EMPTY;
         semarray[i].n = EMPTY;
     } 
+	
+//init FIFOs
+	for(j=0;j<MAXFIFO;j++){
+		OS_InitFiFo();
+		fifoarray[j].data=EMPTY;
+	}
     
 //init processes
     int processcounter = 1;
