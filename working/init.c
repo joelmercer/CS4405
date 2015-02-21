@@ -18,6 +18,16 @@ while(1) {
         
         OS_Set_Timer(timeq); //set and load timer to timeq
         Context_Switch(processarray[sporadic[s]].pid)
+            
+        if(terminate==0){
+        OS_Terminate();
+        terminate = 1;
+        }
+            
+        if(crash==1) {
+        goto crash;   
+        }
+            
         //Save context switch of os_start PC+1 & Load context switch for sporadic[s]
         } else {
             s++;
@@ -40,7 +50,8 @@ while(1) {
     
 } //end of while
     
-return;//Should only return on error never return
+crash: 
+return;//Should only return on error
 }
 
 
@@ -119,7 +130,6 @@ void OS_Set_Timer(int timer) {
 void OS_Abort() {
 //Disable Interrupts and never enable them
 crash = 1;
-
-main();
+return;
     
 }

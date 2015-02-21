@@ -17,11 +17,9 @@ int sporadic[MAXPROCESS] = EMPTY;
 int sporadiccounter = 0;
 int MAXDEVICE = 0;
 int pid = 0;
+int terminate = 1;
 
 int main() {
-
-    
-  if(crash != 1) { //abort is a global var set to 1 *************
         
     OS_Init(); 
     OS_InitSem(0, 1); //Creats OS's semaphore 0 with value 1
@@ -31,8 +29,6 @@ int main() {
     
     NIOS2_WRITE_STATUS(1);    
     OS_Start(); //Never returns
-        
-   }
     
     return 0;
 }

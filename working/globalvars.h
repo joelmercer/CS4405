@@ -26,6 +26,7 @@ extern int pppcounter;
 extern int sporadic[MAXPROCESS];
 extern int sporadiccounter;
 extern int MAXDEVICE;
+extern int terminate;
 
 //For Semaphores
 typedef struct semaphores {

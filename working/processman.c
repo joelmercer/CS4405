@@ -48,7 +48,8 @@ void OS_Terminate(void) {
 				}
 			}
 		}
-	
+
+//remove from schedule
 for(i=0;i<MAXPROCESS;i++) {
     if(sporadic[i] = pid;
         sporadic[i] = EMPTY;
