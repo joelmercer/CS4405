@@ -30,8 +30,7 @@ return;
 
 void OS_Terminate(void) {
     //do last
-    int pid;
-    //get_PID() ************
+    int pid = OS_GetPID();
     
 	int i, k;
 		//remove from semaphore lists
@@ -73,4 +72,8 @@ Context_Switch_Save();
 
 int  OS_GetParam(void) {
 	return processarray[processcounter].arg;  
+}
+
+int  OS_GetPID(void) {
+	return processarray[processcounter].pid;  
 }

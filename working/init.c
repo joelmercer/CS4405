@@ -43,14 +43,14 @@ return;//Should only return on error never return
 
 
 void OS_AddTo_Schedule(int pid, int level) {
-int temp, i, pid;
+int temp, i; 
+int pid = OS_GetPID();
     //Check level
     //Levels
     //SPORADIC 2      /* first-come-first-served, aperiodic */
     //PERIODIC 1      /* cyclic, fixed-order, periodic */
     //DEVICE 0      /* time-driven cyclic device drivers */
-    
-    pid = getpid();
+
     
     if(level == 0) {
      //add to device Q   
