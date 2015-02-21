@@ -3,32 +3,36 @@
 FIFO OS_InitFiFo() {
 	int i;
 	int fifocounter=0;
+	int j;
 	FIFO retval;
-	while(fifocounter<=MAXFIFO){
-		if(fifocounter>=MAXFIFO){ //should never be greater than, this is a precaution
-			return INVALIDFIFO; // too many FIFOs
-		} else {
-			node n;
-			n.flag = 0; // This allows the value to be overwritten, 0==read
-			fifoarray[fifocounter] = n; // First node, also the "head" node
-			for(i =1; i<FIFOSIZE; i++){
-				if(fifoarray[fifocounter].data==EMPTY){//check for empty space, fifo's data should be made "EMPTY" when deallocated
-					node m;
-					m.flag = 0;
-					fifoarray[fifocounter].next = &m;
-					m.previous = &fifoarray[fifocounter];
-					fifoarray[fifocounter] = m;
-					if(i=7){//last node
-						n.previous=&m;
-						m.next=&n;
+	for(j=0;j<MAXFIFO;j++){
+		if(fifoarray[j].data == EMPTY){
+			if(fifocounter>=MAXFIFO){ //should never be greater than, this is a precaution
+				return INVALIDFIFO; // too many FIFOs
+			} else {
+				node n;
+				n.flag = 0; // This allows the value to be overwritten, 0==read
+				fifoarray[fifocounter] = n; // First node, also the "head" node
+				for(i =1; i<FIFOSIZE; i++){
+					if(fifoarray[fifocounter].data==EMPTY){//check for empty space, fifo's data should be made "EMPTY" when deallocated
+						node m;
+						m.flag = 0;
+						fifoarray[fifocounter].next = &m;
+						m.previous = &fifoarray[fifocounter];
+						fifoarray[fifocounter] = m;
+						if(i==7){//last node
+							n.previous=&m;
+							m.next=&n;
+						}
+					}else{
+						fifocounter++;
 					}
-				}else{
-					fifocounter++;
 				}
+				n.next=&fifoarray[fifocounter];
 			}
-			n.next=&fifoarray[fifocounter];
+			fifocounter=j;
+			j=MAXFIFO;
 		}
-		fifocounter++;
 	}
 	retval = fifocounter; // place in fifo array where fifo begins?
 	return retval;
