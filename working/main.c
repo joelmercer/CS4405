@@ -1,6 +1,14 @@
 #include "globalvars.h"
 
+<<<<<<< HEAD
 
+=======
+//#include "contextswitch.c"
+//#include "init.c"
+//#include "processman.c"
+//#include "semaphores.c"
+//#include "fifo.c"
+>>>>>>> origin/master
 
 //Init Global Vars
 //

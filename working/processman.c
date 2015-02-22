@@ -1,8 +1,14 @@
 #include "globalvars.h"
 
+<<<<<<< HEAD
 //process processarray[MAXPROCESS];
 //sem semarray[MAXSEM];
 //fifopidarray[MAXIFIFO][MAXIFIFO];
+=======
+process processarray[MAXPROCESS];
+sem semarray[MAXSEM];
+int fifopidarray[MAXFIFO][MAXFIFO];
+>>>>>>> origin/master
 
 
 PID OS_Create(void (*f)(void), int arg, unsigned int level, unsigned int n) {
@@ -68,7 +74,11 @@ for(i=0;i<MAXPROCESS;i++) {
 
 void OS_Yield(void) {
 
+<<<<<<< HEAD
 //Context_Switch_Save();
+=======
+//****************
+>>>>>>> origin/master
     return; //How to return back to OS_Start
     
 }

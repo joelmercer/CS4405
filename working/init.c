@@ -58,7 +58,7 @@ return;//Should only return on error
 
 
 void OS_AddTo_Schedule(int pid, int level) {
-int temp, i, sporadic[]; 
+int temp, i, sporadic[MAXPROCESS]; 
     
 pid = OS_GetPID();
     //Check level
@@ -88,7 +88,7 @@ int i, j;
 int sporadiccounter = 0;
 int terminate = 1;
 int crash = 0;
-int processcounter = 0; 
+processcounter = 0; 
 
 //Schedule setup
 for(i=0;i<MAXPROCESS;i++) {
@@ -109,7 +109,7 @@ for(i=0;i<MAXPROCESS;i++) {
 	}
     
 //init processes
-    int processcounter = 1;
+    processcounter = 1;
     for(i=0;i<MAXPROCESS;i++) {
         processarray[i].pid = EMPTY;
         processarray[i].arg = EMPTY;
