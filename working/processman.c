@@ -2,7 +2,7 @@
 
 process processarray[MAXPROCESS];
 sem semarray[MAXSEM];
-fifopidarray[MAXIFIFO][MAXIFIFO];
+int fifopidarray[MAXFIFO][MAXFIFO];
 
 
 PID OS_Create(void (*f)(void), int arg, unsigned int level, unsigned int n) {
