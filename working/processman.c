@@ -1,14 +1,6 @@
 #include "globalvars.h"
 
-<<<<<<< HEAD
-//process processarray[MAXPROCESS];
-//sem semarray[MAXSEM];
-//fifopidarray[MAXIFIFO][MAXIFIFO];
-=======
-process processarray[MAXPROCESS];
-sem semarray[MAXSEM];
-int fifopidarray[MAXFIFO][MAXFIFO];
->>>>>>> origin/master
+
 
 
 PID OS_Create(void (*f)(void), int arg, unsigned int level, unsigned int n) {
