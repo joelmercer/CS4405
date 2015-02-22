@@ -4,9 +4,7 @@
 #include "init.c"
 #include "processman.c"
 #include "semaphores.c"
-#include "semaphores.c"
 #include "fifo.c"
-#include "ihandler.c"
 
 //Init Global Vars
 int crash = 0;

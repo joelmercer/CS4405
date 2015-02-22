@@ -5,14 +5,25 @@
 
 
 //Function declare
-void OS_Interrupt_Handler(int pid);
-void Context_Switch();
-void OS_Set_Timer(int timer);
-int  OS_GetPID(void);
-void OS_Set_Timer(int timer);
-void OS_AddTo_Schedule(int pid, int level);
 void Context_Switch(int pid);
+void OS_Interrupt_Handler(int pid);
+void OS_Start();
+void OS_AddTo_Schedule(int pid, int level);
+void OS_Init();
+void OS_Abort();
+PID OS_Create(void (*f)(void), int arg, unsigned int level, unsigned int n);
+void OS_Terminate(void);
+void OS_Yield(void);
+int  OS_GetParam(void);
+int  OS_GetPID(void);
 void OS_InitSem(int s, int n);
+void OS_Wait(int s);
+void OS_Signal(int s);
+FIFO OS_InitFiFo();
+void OS_Write(FIFO f, int val);
+BOOL OS_Read(FIFO f, int *val);
+int main();
+
 
 //OS gloabls
 #define EMPTY -1
