@@ -9,7 +9,7 @@ NIOS2_WRITE_STATUS(0); //disable interupts
     //check to make sure s doesn't already exist
     for(i=0;i<MAXSEM;i++) {
         if(semarray[i].s == s) {
-            OS_Abort() //Error abort
+            OS_Abort(); //Error abort
         }
     }
            

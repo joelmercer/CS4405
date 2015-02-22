@@ -13,7 +13,7 @@ for(i=0;i<MAXPROCESS;i++) {
         processarray[i].level = level;
         processarray[i].n = n;
             
-        OS_AddTo_Schedule(i, level) 
+        OS_AddTo_Schedule(i, level); 
             
         i = MAXPROCESS + 2;
     }
@@ -51,7 +51,7 @@ void OS_Terminate(void) {
 
 //remove from schedule
 for(i=0;i<MAXPROCESS;i++) {
-    if(sporadic[i] = pid;
+    if(sporadic[i] = pid);
         sporadic[i] = EMPTY;
        
      //deallocate memory, most likely with OS_Free()

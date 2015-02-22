@@ -16,8 +16,8 @@ while(1) {
         processcounter = s;
         if(sporadic[s]!=EMPTY) {
         
-        OS_Set_Timer(timeq); //set and load timer to timeq
-        Context_Switch(processarray[sporadic[s]].pid)
+        //future timer function call: OS_Set_Timer(timeq); //set and load timer to timeq
+        Context_Switch(processarray[sporadic[s]].pid);
             
         if(terminate==0){
         OS_Terminate();
@@ -37,7 +37,7 @@ while(1) {
         for(p=p;p<PPPLen;p++) {
         
             OS_Set_Timer(PPPMax[p]);
-            if(PPP[p] != ILDE) {
+            if(PPP[p] != IDLE) {
                 //save context switch of os_start
                 //load context switch to PPP
             }
@@ -57,7 +57,7 @@ return;//Should only return on error
 
 void OS_AddTo_Schedule(int pid, int level) {
 int temp, i; 
-int pid = OS_GetPID();
+pid = OS_GetPID();
     //Check level
     //Levels
     //SPORADIC 2      /* first-come-first-served, aperiodic */
@@ -115,17 +115,19 @@ OS_Set_Timer(timeq);
 return;
 }
 
+/* Future timer
 void OS_Set_Timer(int timer) {
 
 //Timer setup
-*(timebase + 0x2 = (timer & 0xFFFF);
-*(timebase + 0x3 = (timer >> 16) & 0xFFFF;    
+*(timebase + 0x2 = (timer & 0xFFFF));
+*(timebase + 0x3 = (timer >> 16) & 0xFFFF);    
 
   //Start Timer
 *(timebase + 1) = 0x7;  
   
   return;
 }
+*/
 
 void OS_Abort() {
 //Disable Interrupts and never enable them
