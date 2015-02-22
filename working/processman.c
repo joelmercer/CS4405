@@ -1,5 +1,10 @@
 #include "globalvars.h"
 
+process processarray[MAXPROCESS];
+sem semarray[MAXSEM];
+fifopidarray[MAXIFIFO][MAXIFIFO];
+
+
 PID OS_Create(void (*f)(void), int arg, unsigned int level, unsigned int n) {
 NIOS2_WRITE_STATUS(0); //disable interupts
 
@@ -58,8 +63,6 @@ for(i=0;i<MAXPROCESS;i++) {
 
     
 }
-   
-   
     
 }
 

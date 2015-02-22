@@ -14,8 +14,8 @@ void OS_Abort();
 PID OS_Create(void (*f)(void), int arg, unsigned int level, unsigned int n);
 void OS_Terminate(void);
 void OS_Yield(void);
-int  OS_GetParam(void);
-int  OS_GetPID(void);
+int OS_GetParam(void);
+int OS_GetPID(void);
 void OS_InitSem(int s, int n);
 void OS_Wait(int s);
 void OS_Signal(int s);
@@ -28,17 +28,22 @@ int main();
 //OS gloabls
 #define EMPTY -1
 extern int crash;
+extern int processcounter; 
+extern int sporadic[MAXPROCESS];
+extern int terminate;
+extern int crash;
+extern int semcounter;
+extern int fifopidarray[MAXFIFO][MAXFIFO];
 
-//For Timer
-extern volatile int *timebase; //interval timer base address
-extern int timeq; // 1/(50 MHz) × (0x260000) = ~50 msec
+
+//For future Timer
+//extern volatile int *timebase; //interval timer base address
+//extern int timeq; // 1/(50 MHz) × (0x260000) = ~50 msec
 
 //For Schedule
-extern int pppcounter;
-extern int sporadic[MAXPROCESS];
-extern int sporadiccounter;
-extern int MAXDEVICE;
-extern int terminate;
+//extern int pppcounter;
+//extern int MAXDEVICE;
+
 
 //For Semaphores
 typedef struct semaphores {
@@ -58,7 +63,6 @@ typedef struct createprocess {
     unsigned int n;
 } process;
 
-extern int processcounter; 
 extern process processarray[MAXPROCESS];
 
 //For FIFOs
@@ -70,7 +74,7 @@ typedef struct fifonode {
 } node;
 
 extern node fifoarray[MAXFIFO];
-extern int fifopidarray[MAXFIFO][MAXFIFO];
+
 
 
 

@@ -7,15 +7,22 @@
 #include "fifo.c"
 
 //Init Global Vars
-int crash = 0;
-volatile int *timebase = (int*)0x10002000; //interval timer base address
-int timeq = 0x260000; // 1/(50 MHz) × (0x260000) = ~50 msec
-int pppcounter = 0;
-int sporadic[MAXPROCESS] = EMPTY;
-int sporadiccounter = 0;
-int MAXDEVICE = 0;
-int pid = 0;
-int terminate = 1;
+//
+//Future stuff
+//volatile int *timebase = (int*)0x10002000; //interval timer base address
+//int timeq = 0x260000; // 1/(50 MHz) × (0x260000) = ~50 msec
+//int pppcounter = 0;
+//
+
+int sporadic[MAXPROCESS];
+int sporadiccounter;
+int terminate;
+int crash;
+int processcounter; 
+int terminate;
+int crash;
+int semcounter;
+int fifopidarray[MAXFIFO][MAXFIFO];
 
 int main() {
         

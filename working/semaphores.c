@@ -1,5 +1,7 @@
 #include "globalvars.h"
 
+sem semarray[MAXSEM];
+
 void OS_InitSem(int s, int n) {
 NIOS2_WRITE_STATUS(0); //disable interupts
     int i, j;

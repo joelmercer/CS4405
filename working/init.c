@@ -1,15 +1,15 @@
 #include "globalvars.h"
 
+int sporadiccounter, terminate, crash, processcounter, sporadic[], terminate, crash;
+
+
 void OS_Start() {
     int s;
     int p = 0;
+   
 
 while(1) {
     
-  /* PERIODIC process scheduling plan */
-//extern int PPPLen;          /* length of PPP[] */
-//extern int PPP[];           /* PERIODIC process scheduling plan */
-//extern int PPPMax[];        /* max CPU in msec of each process in PPP */
 
     for(s=0;s<MAXPROCESS;s++) {
         next:
@@ -33,7 +33,8 @@ while(1) {
             s++;
             goto next;
         }
-        
+      
+/*  Future PPP      
         for(p=p;p<PPPLen;p++) {
         
             OS_Set_Timer(PPPMax[p]);
@@ -45,7 +46,8 @@ while(1) {
 
         if(p >= PPPLen) {
         pppcounter = 0; }
-    
+*/
+        
     } //end of s loop
     
 } //end of while
@@ -56,7 +58,8 @@ return;//Should only return on error
 
 
 void OS_AddTo_Schedule(int pid, int level) {
-int temp, i; 
+int temp, i, sporadic[]; 
+    
 pid = OS_GetPID();
     //Check level
     //Levels
@@ -81,6 +84,11 @@ return;
 
 void OS_Init() {
 int i, j;
+
+int sporadiccounter = 0;
+int terminate = 1;
+int crash = 0;
+int processcounter = 0; 
 
 //Schedule setup
 for(i=0;i<MAXPROCESS;i++) {
@@ -109,8 +117,23 @@ for(i=0;i<MAXPROCESS;i++) {
         processarray[i].n = 0;
     } 
 
+for(i=0;i<MAXPROCESS;i++) {
+sporadic[i] = EMPTY; 
+}
+    
+j=0;    
+for(i=0;i<MAXFIFO;i++) {
+    
+    fifopidarray[i][j] = EMPTY;
 
-OS_Set_Timer(timeq);
+    for(j=0;j<MAXFIFO;j++) {
+        
+        fifopidarray[i][j] = EMPTY;
+    }
+}
+
+//Future Timer setup
+//OS_Set_Timer(timeq);
 
 return;
 }
@@ -130,6 +153,7 @@ void OS_Set_Timer(int timer) {
 */
 
 void OS_Abort() {
+
 //Disable Interrupts and never enable them
 crash = 1;
 return;
