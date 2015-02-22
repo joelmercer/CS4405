@@ -1,5 +1,8 @@
 #include "globalvars.h"
 
+node fifoarray[MAXFIFO];
+int fifopidarray[MAXFIFO][MAXFIFO];
+
 FIFO OS_InitFiFo() {
 	int i, j, k;
 	int fifocounter=0;
@@ -9,7 +12,7 @@ FIFO OS_InitFiFo() {
 	for(j=0;j<MAXFIFO;j++){//rows
 		for(k=0;k<MAXFIFO;k++){//columns
 			if(fifopidarray[j][k]!=0){//check that fifo is not in use, if not, overwrite it
-				overwrite=1
+				overwrite=1;
 				k=MAXFIFO;
 			}
 		}
@@ -46,7 +49,6 @@ FIFO OS_InitFiFo() {
 			fifopidarray[fifocounter][j]=pid;
 			j=MAXFIFO;
 		}
-	}
 	}
 	retval = fifocounter; // place in fifo array where fifo begins?
 	return retval;
