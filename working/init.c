@@ -1,6 +1,6 @@
 #include "globalvars.h"
 
-int sporadiccounter, terminate, crash, processcounter, sporadic[], terminate, crash;
+//int sporadiccounter, terminate, crash, processcounter, sporadic[], terminate, crash;
 
 
 void OS_Start() {

@@ -1,7 +1,7 @@
 #include "globalvars.h"
 
-node fifoarray[MAXFIFO];
-int fifopidarray[MAXFIFO][MAXFIFO];
+//node fifoarray[MAXFIFO];
+//int fifopidarray[MAXFIFO][MAXFIFO];
 
 FIFO OS_InitFiFo() {
 	int i, j, k;
