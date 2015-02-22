@@ -87,7 +87,7 @@ asm (	"eret" );
 
 void OS_Interrupt_Handler(int pid) {
     
-    terminate = processarray[pid].function();
+    processarray[pid].function;
     return;
     
     /*

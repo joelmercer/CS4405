@@ -5,7 +5,7 @@
 
 
 //Function declare
-void Interrupt_Handler(void);
+void OS_Interrupt_Handler(int pid);
 void Context_Switch();
 void OS_Set_Timer(int timer);
 int  OS_GetPID(void);
