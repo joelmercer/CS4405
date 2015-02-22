@@ -1,10 +1,10 @@
 #include "globalvars.h"
 
-#include "contextswitch.c"
-#include "init.c"
-#include "processman.c"
-#include "semaphores.c"
-#include "fifo.c"
+//#include "contextswitch.c"
+//#include "init.c"
+//#include "processman.c"
+//#include "semaphores.c"
+//#include "fifo.c"
 
 //Init Global Vars
 //
