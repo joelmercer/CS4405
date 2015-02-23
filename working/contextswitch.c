@@ -86,8 +86,9 @@ return;
 }
 
 void OS_Interrupt_Handler(int pid) {
-  
-    (*(processarray[pid].function))();
+ 
+ 
+ (*(processarray[pid].function))();
 
 	printf("Return from function\n");
 	terminate = 0;

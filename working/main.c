@@ -1,14 +1,5 @@
 #include "globalvars.h"
 
-
-//Init Global Vars
-//
-//Future stuff
-//volatile int *timebase = (int*)0x10002000; //interval timer base address
-//int timeq = 0x260000; // 1/(50 MHz) × (0x260000) = ~50 msec
-//int pppcounter = 0;
-//
-
 FIFO f;
 process processarray[MAXPROCESS];
 sem semarray[MAXSEM];
@@ -25,6 +16,8 @@ int workingpid;
 
 int dontblink();
 int blink();
+int dontblink2();
+int blink2();
 
 int main() {
 	
@@ -41,9 +34,9 @@ printf("MAIN 1: %d\n", ptr);
 crash=0;
 
 printf("MAIN 1: %d\n", crash);
-OS_Create(&blink, 5, 2, 0);
+OS_Create(&blink, 15, 2, 0);
 printf("MAIN 2: %d\n", crash);
-//OS_Create(&blink2, 5, 2, 0);
+OS_Create(&blink2, 15, 2, 0);
     
     NIOS2_WRITE_STATUS(1);    // enable interrupts
     OS_Start(); //Never returns

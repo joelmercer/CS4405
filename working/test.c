@@ -4,27 +4,25 @@
 volatile int * green_led_ptr = (int *) GREEN_LED_BASE;
 int green_led_pattern = 0x55555555;
 int green_led_pattern2 = 0x44444444;
+
 int i = 0;
-int k = 0;
-int db = 0;
 int b = 0;
 
-void blink(){
+int blink(){
+int end = OS_GetParam();	
+	
 for(i=0; i<100000; i++){
 
 
 *(green_led_ptr) = green_led_pattern;
 
 }
-//db = OS_GetParam(); 
-//asm ("ldw (pc), (db)");
 printf("param: %d \n",b);
 b++;
-if(b<15){
+if(b<end){
 dontblink();
-} else {
-	//OS_Abort();
 }
+b = 0;
 *(green_led_ptr) = 0;
 return;
 }
@@ -36,10 +34,43 @@ for(i=0; i<100000; i++){
 
 *(green_led_ptr) = 0;
 
-}	
-//asm ("ldw (pc), (b)");
+}	\
 blink();
 return;
 
 }
+
+int blink2(){
+int end = OS_GetParam();	
+
+for(i=0; i<100000; i++){
+
+
+*(green_led_ptr) = green_led_pattern2;
+
+}
+printf("param: %d \n",b);
+b++;
+if(b<end){
+dontblink2();
+}
+b=0;
+*(green_led_ptr) = 0;
+return;
+}
+
+int dontblink2(){
+	
+for(i=0; i<100000; i++){
+
+
+*(green_led_ptr) = 0;
+
+}	\
+blink2();
+return;
+
+}
+
+
 
