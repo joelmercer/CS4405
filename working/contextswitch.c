@@ -2,18 +2,16 @@
 
 void Context_Switch(int pid) {
     
-asm ( ".set		noat" );						// Magic, for the C compiler
-asm ( ".set		nobreak" );					// Magic, for the C compiler
+asm ( ".set		noat" );						
+asm ( ".set		nobreak" );					
 asm ( "subi		sp, sp, 128" );
 asm ( "stw		et, 96(sp)" );
 asm ( "rdctl	et, ctl4" );
-asm ( "beq		et, r0, SKIP_EA_DEC" );	// Interrupt is not external         
-asm ( "subi		ea, ea, 4" );				/* Must decrement ea by one instruction  
-												 	// * for external interupts, so that the 
-												 	 //* interrupted instruction will be run */
+asm ( "beq		et, r0, SKIP_EA_DEC" );	        
+asm ( "subi		ea, ea, 4" );				
 
 asm ( "SKIP_EA_DEC:" );
-asm (	"stw	r1,  4(sp)" );					// Save all registers 
+asm (	"stw	r1,  4(sp)" );					
 asm (	"stw	r2,  8(sp)" );
 asm (	"stw	r3,  12(sp)" );
 asm (	"stw	r4,  16(sp)" );
@@ -36,21 +34,20 @@ asm (	"stw	r20, 80(sp)" );
 asm (	"stw	r21, 84(sp)" );
 asm (	"stw	r22, 88(sp)" );
 asm (	"stw	r23, 92(sp)" );
-asm (	"stw	r25, 100(sp)" );				// r25 = bt (skip r24 = et, because it is saved above)
-asm (	"stw	r26, 104(sp)" );				// r26 = gp
-asm (	"stw	r28, 112(sp)" );				// r28 = fp
-asm (	"stw	r29, 116(sp)" );				// r29 = ea
-asm (	"stw	r30, 120(sp)" );				// r30 = ba
-asm (	"stw	r31, 124(sp)" );				// r31 = ra
+asm (	"stw	r25, 100(sp)" );				
+asm (	"stw	r26, 104(sp)" );			
+asm (	"stw	r28, 112(sp)" );				
+asm (	"stw	r29, 116(sp)" );				
+asm (	"stw	r30, 120(sp)" );				
+asm (	"stw	r31, 124(sp)" );				
 asm (	"addi	fp,  sp, 128" );
 
 
 OS_Interrupt_Handler(pid);
-//asm (	"call	OS_Interrupt_Handler" );		// Call the C language interrupt handler
 
 
     
-asm (	"ldw	r1,  4(sp)" );					// Restore all registers
+asm (	"ldw	r1,  4(sp)" );					
 asm (	"ldw	r2,  8(sp)" );
 asm (	"ldw	r3,  12(sp)" );
 asm (	"ldw	r4,  16(sp)" );
@@ -74,16 +71,15 @@ asm (	"ldw	r21, 84(sp)" );
 asm (	"ldw	r22, 88(sp)" );
 asm (	"ldw	r23, 92(sp)" );
 asm (	"ldw	r24, 96(sp)" );
-asm (	"ldw	r25, 100(sp)" );				// r25 = bt
-asm (	"ldw	r26, 104(sp)" );				// r26 = gp
-asm (	"ldw	r28, 112(sp)" );				// r28 = fp
-asm (	"ldw	r29, 116(sp)" );				// r29 = ea
-asm (	"ldw	r30, 120(sp)" );				// r30 = ba
-asm (	"ldw	r31, 124(sp)" );				// r31 = ra
+asm (	"ldw	r25, 100(sp)" );				
+asm (	"ldw	r26, 104(sp)" );				
+asm (	"ldw	r28, 112(sp)" );				
+asm (	"ldw	r29, 116(sp)" );				
+asm (	"ldw	r30, 120(sp)" );			
+asm (	"ldw	r31, 124(sp)" );				
 
 asm (	"addi	sp,  sp, 128" );
 
-//asm (	"eret" );
 
 
 return;
@@ -92,10 +88,10 @@ return;
 void OS_Interrupt_Handler(int pid) {
   
     (*(processarray[pid].function))();
-//	blink();
-	printf("hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh\n");
+
+	printf("Return from function\n");
 	terminate = 0;
-	 
+	
     return;
 
 }

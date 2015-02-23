@@ -25,11 +25,11 @@ dontblink();
 } else {
 	//OS_Abort();
 }
-
+*(green_led_ptr) = 0;
 return;
 }
 
-void dontblink(){
+int dontblink(){
 	
 for(i=0; i<100000; i++){
 
@@ -42,57 +42,4 @@ blink();
 return;
 
 }
-
-void blink2(){
-for(i=0; i<100000; i++){
-
-
-*(green_led_ptr) = green_led_pattern2;
-
-}
-
-//asm ("ldw (pc), (db)");
-printf("b2: %d\n",b);
-b++;
-if(b<30){
-dontblink2();
-} else {
-	//OS_Abort();
-}
-
-return 0;
-}
-
-void dontblink2(){
-	
-for(i=0; i<100000; i++){
-
-
-*(green_led_ptr) = 0;
-
-}	
-//asm ("ldw (pc), (b)");
-blink2();
-return;
-
-}
-
-/*int main(){
-NIOS2_WRITE_STATUS( 0 ); 	
-int db = 0;
-int b = 0;
-
-//asm ("ldw (pc), (b)"); 
-
-
-
-
-//while(1){
-//blink();
-//dontblink();
-
-
-//}
-return 0;
-} */
 

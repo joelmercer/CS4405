@@ -77,8 +77,8 @@ BOOL OS_Read(FIFO f, int *val) {
 	if(fifoarray[f].flag==0){ // fifo is empty
 		return FALSE;
 	} else{
-		int newVal=fifoarray[f].data;
-		val=&newVal;
+		*val = fifoarray[f].data;
+		printf("data: %d\n", *val);
 		fifoarray[f].flag=0;// mark as read
 		fifoarray[f]=*fifoarray[f].next;
 		return TRUE;
