@@ -9,7 +9,7 @@ for(i=0;i<MAXPROCESS;i++) {
     if(processarray[i].pid == EMPTY) {      
         processarray[i].pid = i;
 		printf("Asigned PID:%d\n", i); 
-        processarray[i].function = &f;
+        processarray[i].function = f;
         processarray[i].arg = arg;
         processarray[i].level = level;
         processarray[i].n = n;
@@ -54,18 +54,21 @@ void OS_Terminate(void) {
 
 //remove from schedule
 for(i=0;i<MAXPROCESS;i++) {
-    if(sporadic[i] == pid);
+    if(sporadic[i] == pid) {
         sporadic[i] = EMPTY;
-       
+		i = MAXPROCESS+1;
+	}
+}
      //deallocate memory, most likely with OS_Free()
 
     
 }
     
-}
+
 
 void OS_Yield(void) {
 
+OS_Start();
 
     return; //How to return back to OS_Start
     

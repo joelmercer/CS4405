@@ -91,8 +91,8 @@ return;
 
 void OS_Interrupt_Handler(int pid) {
   
-    //(*(processarray[pid].function))();
-	blink();
+    (*(processarray[pid].function))();
+//	blink();
 	printf("hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh\n");
 	terminate = 0;
 	 

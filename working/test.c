@@ -6,7 +6,7 @@ int green_led_pattern = 0x55555555;
 int green_led_pattern2 = 0x44444444;
 int i = 0;
 int k = 0;
-int db = 0x00000378;
+int db = 0;
 int b = 0;
 
 void blink(){
@@ -16,9 +16,9 @@ for(i=0; i<100000; i++){
 *(green_led_ptr) = green_led_pattern;
 
 }
-
+//db = OS_GetParam(); 
 //asm ("ldw (pc), (db)");
-printf("%d\n",b);
+printf("param: %d \n",b);
 b++;
 if(b<15){
 dontblink();
@@ -52,9 +52,9 @@ for(i=0; i<100000; i++){
 }
 
 //asm ("ldw (pc), (db)");
-printf("%d\n",b);
+printf("b2: %d\n",b);
 b++;
-if(b<900){
+if(b<30){
 dontblink2();
 } else {
 	//OS_Abort();
