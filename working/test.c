@@ -7,7 +7,7 @@ int green_led_pattern2 = 0x44444444;
 int i = 0;
 int k = 0;
 int db = 0x00000378;
-int b = 0x00000378;
+int b = 0;
 
 void blink(){
 for(i=0; i<100000; i++){
@@ -20,13 +20,13 @@ for(i=0; i<100000; i++){
 //asm ("ldw (pc), (db)");
 printf("%d\n",b);
 b++;
-if(b<900){
+if(b<15){
 dontblink();
 } else {
 	//OS_Abort();
 }
 
-return 0;
+return;
 }
 
 void dontblink(){

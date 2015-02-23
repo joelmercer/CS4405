@@ -8,6 +8,7 @@ int i;
 for(i=0;i<MAXPROCESS;i++) {
     if(processarray[i].pid == EMPTY) {      
         processarray[i].pid = i;
+		printf("Asigned PID:%d\n", i); 
         processarray[i].function = &f;
         processarray[i].arg = arg;
         processarray[i].level = level;
@@ -30,7 +31,9 @@ return;
 
 void OS_Terminate(void) {
     //do last
-    int pid = OS_GetPID();
+    int pid = workingpid;
+	
+	printf("PID:%d\n", pid); 
 	int i, k;
 		//remove from semaphore lists
 		for(i=0;i<MAXSEM;i++){//remove pid from semaphore lists
@@ -51,7 +54,7 @@ void OS_Terminate(void) {
 
 //remove from schedule
 for(i=0;i<MAXPROCESS;i++) {
-    if(sporadic[i] = pid);
+    if(sporadic[i] == pid);
         sporadic[i] = EMPTY;
        
      //deallocate memory, most likely with OS_Free()

@@ -8,6 +8,7 @@ terminate = 1;
 crash = 0;
 processcounter = 0; 
 FIFO f = 0;
+workingpid = EMPTY;
 
 //Schedule setup
 for(i=0;i<MAXPROCESS;i++) {
@@ -63,35 +64,44 @@ return;
 void OS_Start() {
     int s;
     int p = 0;
-   
+  
 
 while(1) {
-    
+    int i = 0;
+	int test = 0;
+	for(i=0;i<MAXPROCESS;i++){
+		test = sporadic[i];
+		printf("Test %d: %d\n", i, test);
+	}
 
     for(s=0;s<MAXPROCESS;s++) {
-        next:
+        
         processcounter = s;
-		printf("Going to context switch");
+		printf("Spordadic: %d and s: %d\n", sporadic[s], s); 
+		
         if(sporadic[s]!=EMPTY) {
-       // 
+        printf("Going to context switch\n"); 
         //future timer function call: OS_Set_Timer(timeq); //set and load timer to timeq
-        Context_Switch(processarray[sporadic[s]].pid);
-            printf("returned");
+		printf("Handed PID:%d\n", processarray[sporadic[s]].pid); 
+		workingpid = processarray[sporadic[s]].pid;
+        Context_Switch(workingpid);
+            printf("returned\n");
+			
         if(terminate==0){
+			printf("TERMINATED!\n");
         OS_Terminate();
         terminate = 1;
         }
-            printf("Crash: %d", crash);
+            printf("Crash: %d\n", crash);
         if(crash==1) {
         goto crash;   
         }
-            printf("Didn't crash");
+            printf("Didn't crash\n");
         //Save context switch of os_start PC+1 & Load context switch for sporadic[s]
-        } else {
-            s++;
-            goto next;
-        }
-      
+		workingpid = EMPTY;
+        } 
+		
+      printf("This is a good sign\n"); 
 /*  Future PPP      
         for(p=p;p<PPPLen;p++) {
         
@@ -105,20 +115,23 @@ while(1) {
         if(p >= PPPLen) {
         pppcounter = 0; }
 */
-        
+       
+	   
     } //end of s loop
     
 } //end of while
     
-crash: 
+crash:
+
 return;//Should only return on error
 }
 
 
 void OS_AddTo_Schedule(int pid, int level) {
-int temp, i, sporadic[MAXPROCESS]; 
+int i = 0;
     
-pid = OS_GetPID();
+	printf("add to PID: %d, Level: %d\n", pid, level);
+
     //Check level
     //Levels
     //SPORADIC 2      /* first-come-first-served, aperiodic */
@@ -128,12 +141,19 @@ pid = OS_GetPID();
     
     if(level == 0) {
      //add to device Q   
-    } else if(level == 1) {
+    }
+	if(level == 1) {
     //add to Periodic Q
-    } else {
+    } 
+	if(level == 2) {
+		
         for(i=0;i<MAXPROCESS;i++) {
-            if(sporadic[i]==EMPTY)
+            if(sporadic[i]==EMPTY) {
+				printf("get here: %d\n", sporadic[i]);
                 sporadic[i] = pid;
+				printf("get here: %d\n", sporadic[i]);
+				i=MAXPROCESS+1;
+			}
         }
     }
     

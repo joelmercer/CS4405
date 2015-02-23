@@ -22,6 +22,7 @@ extern int crash;
 extern int semcounter;
 extern int fifopidarray[MAXFIFO][MAXFIFO];
 extern int sporadiccounter;
+extern int workingpid;
 
 
 //For future Timer
@@ -45,7 +46,8 @@ extern sem semarray[MAXSEM];
 //OS_Create
 typedef struct createprocess {
     int pid;
-    void * function;
+	void (*function)(void);
+    //void * function;
     int arg;
     unsigned int level;
     unsigned int n;

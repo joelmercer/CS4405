@@ -20,6 +20,11 @@ int terminate;
 int crash;
 int processcounter; 
 int semcounter;
+int workingpid;
+
+
+void dontblink();
+void blink();
 
 int main() {
         int *ptr;
@@ -30,11 +35,12 @@ OS_Wait(0);
 OS_Write(f, 9);
 OS_Read(f, ptr);
 
+crash=0;
 
-printf("Value: %d", crash);
-
-OS_Create(blink(), 5, 2, 0);
-OS_Create(blink2(), 5, 2, 0);
+printf("MAIN 1: %d\n", crash);
+OS_Create(&blink, 5, 2, 0);
+printf("MAIN 2: %d\n", crash);
+//OS_Create(blink2(), 5, 2, 0);
     
     NIOS2_WRITE_STATUS(1);    // enable interrupts
     OS_Start(); //Never returns
