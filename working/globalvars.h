@@ -7,21 +7,8 @@
 //Function declare
 void Context_Switch(int pid);
 void OS_Interrupt_Handler(int pid);
-void OS_Start();
 void OS_AddTo_Schedule(int pid, int level);
-void OS_Init();
-void OS_Abort();
-PID OS_Create(void (*f)(void), int arg, unsigned int level, unsigned int n);
-void OS_Terminate(void);
-void OS_Yield(void);
-int OS_GetParam(void);
 int OS_GetPID(void);
-void OS_InitSem(int s, int n);
-void OS_Wait(int s);
-void OS_Signal(int s);
-FIFO OS_InitFiFo();
-void OS_Write(FIFO f, int val);
-BOOL OS_Read(FIFO f, int *val);
 int main();
 
 
@@ -34,6 +21,7 @@ extern int terminate;
 extern int crash;
 extern int semcounter;
 extern int fifopidarray[MAXFIFO][MAXFIFO];
+extern int sporadiccounter;
 
 
 //For future Timer

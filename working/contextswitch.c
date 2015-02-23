@@ -83,6 +83,8 @@ asm (	"ldw	r31, 124(sp)" );				// r31 = ra
 asm (	"addi	sp,  sp, 128" );
 
 asm (	"eret" );
+
+return;
 }
 
 void OS_Interrupt_Handler(int pid) {

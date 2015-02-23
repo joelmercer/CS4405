@@ -1,7 +1,64 @@
 #include "globalvars.h"
 
-//int sporadiccounter, terminate, crash, processcounter, sporadic[], terminate, crash;
+void OS_Init() {
+int i, j;
 
+sporadiccounter = 0;
+terminate = 1;
+crash = 0;
+processcounter = 0; 
+FIFO f = 0;
+
+//Schedule setup
+for(i=0;i<MAXPROCESS;i++) {
+    sporadic[i] = EMPTY;
+}
+    
+//init semaphores
+    int semcounter = 0;
+    for(i=0;i<MAXSEM;i++) {
+        semarray[i].s = EMPTY;
+        semarray[i].n = EMPTY;
+    } 
+	
+//init FIFOs
+	for(j=0;j<MAXFIFO;j++){
+		OS_InitFiFo();
+		fifoarray[j].data=EMPTY;
+	}
+    
+//init processes
+    processcounter = 1;
+    for(i=0;i<MAXPROCESS;i++) {
+        processarray[i].pid = EMPTY;
+        processarray[i].arg = EMPTY;
+        processarray[i].level = 0;
+        processarray[i].n = 0;
+    } 
+
+for(i=0;i<MAXPROCESS;i++) {
+sporadic[i] = EMPTY; 
+}
+
+
+
+    
+j=0;    
+for(i=0;i<MAXFIFO;i++) {
+    
+    fifopidarray[i][j] = EMPTY;
+
+    for(j=0;j<MAXFIFO;j++) {
+        
+        fifopidarray[i][j] = EMPTY;
+    }
+}
+
+//Future Timer setup
+//OS_Set_Timer(timeq);
+
+return;
+}
 
 void OS_Start() {
     int s;
@@ -14,20 +71,21 @@ while(1) {
     for(s=0;s<MAXPROCESS;s++) {
         next:
         processcounter = s;
+		printf("Going to context switch");
         if(sporadic[s]!=EMPTY) {
-        
+       // 
         //future timer function call: OS_Set_Timer(timeq); //set and load timer to timeq
         Context_Switch(processarray[sporadic[s]].pid);
-            
+            printf("returned");
         if(terminate==0){
         OS_Terminate();
         terminate = 1;
         }
-            
+            printf("Crash: %d", crash);
         if(crash==1) {
         goto crash;   
         }
-            
+            printf("Didn't crash");
         //Save context switch of os_start PC+1 & Load context switch for sporadic[s]
         } else {
             s++;
@@ -82,61 +140,7 @@ pid = OS_GetPID();
 return;    
 }
 
-void OS_Init() {
-int i, j;
 
-int sporadiccounter = 0;
-int terminate = 1;
-int crash = 0;
-processcounter = 0; 
-
-//Schedule setup
-for(i=0;i<MAXPROCESS;i++) {
-    sporadic[i] = EMPTY;
-}
-    
-//init semaphores
-    int semcounter = 0;
-    for(i=0;i<MAXSEM;i++) {
-        semarray[i].s = EMPTY;
-        semarray[i].n = EMPTY;
-    } 
-	
-//init FIFOs
-	for(j=0;j<MAXFIFO;j++){
-		OS_InitFiFo();
-		fifoarray[j].data=EMPTY;
-	}
-    
-//init processes
-    processcounter = 1;
-    for(i=0;i<MAXPROCESS;i++) {
-        processarray[i].pid = EMPTY;
-        processarray[i].arg = EMPTY;
-        processarray[i].level = 0;
-        processarray[i].n = 0;
-    } 
-
-for(i=0;i<MAXPROCESS;i++) {
-sporadic[i] = EMPTY; 
-}
-    
-j=0;    
-for(i=0;i<MAXFIFO;i++) {
-    
-    fifopidarray[i][j] = EMPTY;
-
-    for(j=0;j<MAXFIFO;j++) {
-        
-        fifopidarray[i][j] = EMPTY;
-    }
-}
-
-//Future Timer setup
-//OS_Set_Timer(timeq);
-
-return;
-}
 
 /* Future timer
 void OS_Set_Timer(int timer) {

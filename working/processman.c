@@ -1,8 +1,5 @@
 #include "globalvars.h"
 
-
-
-
 PID OS_Create(void (*f)(void), int arg, unsigned int level, unsigned int n) {
 NIOS2_WRITE_STATUS(0); //disable interupts
 
@@ -66,11 +63,7 @@ for(i=0;i<MAXPROCESS;i++) {
 
 void OS_Yield(void) {
 
-<<<<<<< HEAD
-//Context_Switch_Save();
-=======
-//****************
->>>>>>> origin/master
+
     return; //How to return back to OS_Start
     
 }
