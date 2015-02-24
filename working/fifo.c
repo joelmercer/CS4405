@@ -11,14 +11,14 @@ FIFO OS_InitFiFo() {
 		for(k=0;k<MAXFIFO;k++){//columns
 			if(fifopidarray[j][k]!=0){//check that fifo is not in use, if not, overwrite it
 				overwrite=1;
-				k=MAXFIFO;
+				k=MAXFIFO;//force break in for loop
 			}
 		}
 		if(fifoarray[j].data == EMPTY){
 			if(fifocounter>=MAXFIFO){ //should never be greater than, this is a precaution
 				return INVALIDFIFO; // too many FIFOs
 			} else {
-				node n;
+				node n;//first node in FIFO
 				n.flag = 0; // This allows the value to be overwritten, 0==read
 				fifoarray[fifocounter] = n; // First node, also the "head" node
 				for(i =1; i<FIFOSIZE; i++){
@@ -28,7 +28,7 @@ FIFO OS_InitFiFo() {
 						fifoarray[fifocounter].next = &m;
 						m.previous = &fifoarray[fifocounter];
 						fifoarray[fifocounter] = m;
-						if(i==7){//last node
+						if(i==7){//last node, tying head and tail nodes to make a circle
 							n.previous=&m;
 							m.next=&n;
 						}
@@ -36,19 +36,19 @@ FIFO OS_InitFiFo() {
 						fifocounter++;
 					}
 				}
-				n.next=&fifoarray[fifocounter];
+				n.next=&fifoarray[fifocounter];//ties first node to other nodes
 			}
 			fifocounter=j;
-			j=MAXFIFO;
+			j=MAXFIFO;//force break in for loop
 		}
 	}//add pid to fifo's list of pids
-	for(j=0;j<MAXFIFO;j++){//columns
+	for(j=0;j<MAXFIFO;j++){//columns // looking for empty space to write pid
 		if(fifopidarray[fifocounter][j]==0){//row belongs to current fifo
-			fifopidarray[fifocounter][j]=pid;
-			j=MAXFIFO;
+			fifopidarray[fifocounter][j]=pid;//add pid to array list
+			j=MAXFIFO;//force break in for loop
 		}
 	}
-	retval = fifocounter; // place in fifo array where fifo begins?
+	retval = fifocounter; // return value is reference to FIFO (place in array where FIFO exists)
 	return retval;
 }
 
@@ -61,7 +61,7 @@ void OS_Write(FIFO f, int val) {
 			fifoarray[f]=*fifoarray[f].next;
 			i=FIFOSIZE;
 		}
-		else if(fifoarray[f].flag==1){
+		else if(fifoarray[f].flag==1){//look for next empty spot
 			fifoarray[f]=*fifoarray[f].next;
 			i++;
 		}else{ //write
@@ -76,10 +76,10 @@ void OS_Write(FIFO f, int val) {
 BOOL OS_Read(FIFO f, int *val) {
 	if(fifoarray[f].flag==0){ // fifo is empty
 		return FALSE;
-	} else{
+	} else{//read
 		*val = fifoarray[f].data;
 		fifoarray[f].flag=0;// mark as read
-		fifoarray[f]=*fifoarray[f].next;
+		fifoarray[f]=*fifoarray[f].next;//change first node in FIFO by changing pointer
 		return TRUE;
 	}
 }
