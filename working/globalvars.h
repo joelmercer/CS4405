@@ -3,13 +3,11 @@
 
 #include "os.h"
 
-
 //Function declare
 void Context_Switch(int pid);
 void OS_Interrupt_Handler(int pid);
 void OS_AddTo_Schedule(int pid, int level);
 int OS_GetPID(void);
-int main();
 
 
 //OS gloabls
@@ -18,7 +16,6 @@ extern int crash;
 extern int processcounter; 
 extern int sporadic[MAXPROCESS];
 extern int terminate;
-extern int crash;
 extern int semcounter;
 extern int fifopidarray[MAXFIFO][MAXFIFO];
 extern int sporadiccounter;

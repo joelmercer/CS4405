@@ -1,5 +1,6 @@
 #include "globalvars.h"
 
+//Helps declare globals for all c files
 FIFO f;
 process processarray[MAXPROCESS];
 sem semarray[MAXSEM];
@@ -13,33 +14,33 @@ int processcounter;
 int semcounter;
 int workingpid;
 
+//For test program
+void test(); 
+void test2(); 
 
-int dontblink();
-int blink();
-int dontblink2();
-int blink2();
 
 int main() {
 	
-        int ptr;
     OS_Init(); 
-    OS_InitSem(0, 1); //Creats OS's semaphore 0 with value 1
-    OS_InitFiFo(); 
-OS_Wait(0);
-OS_Write(f, 9);
-OS_Read(f, &ptr);
+    OS_InitSem(0, 1); //Creates a semaphore 0 with value 1
+	
+    int FIFO1 = OS_InitFiFo();
+	int FIFO2 = OS_InitFiFo();
+	
+	int FIFOData1 = 0;
+	int FIFOData2 = 0;	
 
-printf("MAIN 1: %d\n", ptr);
+	OS_Write(FIFO1, 1);
+	OS_Write(FIFO2, 2);
+	
+	OS_Read(FIFO1, &FIFOData1);
+	OS_Read(FIFO2, &FIFOData2);
 
-crash=0;
-
-printf("MAIN 1: %d\n", crash);
-OS_Create(&blink, 15, 2, 0);
-printf("MAIN 2: %d\n", crash);
-OS_Create(&blink2, 15, 2, 0);
+	OS_Create(&test, 15, 2, 0);
+	OS_Create(&test2, 20, 2, 0);
     
-    NIOS2_WRITE_STATUS(1);    // enable interrupts
-    OS_Start(); //Never returns
+    OS_Start(); //Never returns unless error
     
     return 0;
 }
+

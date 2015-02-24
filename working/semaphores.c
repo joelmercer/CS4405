@@ -15,6 +15,7 @@ NIOS2_WRITE_STATUS(0); //disable interupts
         }
     }
            
+	int crashtest = 0;	   
     //add s and n to semarray struct
     for(i=0;i<MAXSEM;i++) {
         if(semarray[i].s == EMPTY) {
@@ -27,14 +28,16 @@ NIOS2_WRITE_STATUS(0); //disable interupts
             for(j=0;j<n;j++) {
                 semarray[i].sempid[j] = EMPTY; 
             }
-        i=MAXSEM+2;    
+        crashtest = 1;    
         }
     }
-    
-    if(i!=(MAXSEM+2))
+
+
+    if(crashtest!=1) {
         OS_Abort(); //Error abort
-           
-NIOS2_WRITE_STATUS(1); //enable interupts
+	}
+	
+
 return;
 }
 

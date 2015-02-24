@@ -78,7 +78,6 @@ BOOL OS_Read(FIFO f, int *val) {
 		return FALSE;
 	} else{
 		*val = fifoarray[f].data;
-		printf("data: %d\n", *val);
 		fifoarray[f].flag=0;// mark as read
 		fifoarray[f]=*fifoarray[f].next;
 		return TRUE;
