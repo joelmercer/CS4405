@@ -67,11 +67,10 @@ return;
 }
 
 void OS_Signal(int s) {
-int i=0; 
-int j=0;
-int currentpid = getpid(); 
+	int i=0; 
+	int j=0;
+	int currentpid = getpid(); 
     
-
     //Check to see if this PID is holding the Semaphore
    while(i<MAXSEM) {
         if(semarray[i].s == s) {
@@ -86,8 +85,7 @@ int currentpid = getpid();
            break; 
         }
        i++;
-    
           } 
     
-return;
+	return;
 }

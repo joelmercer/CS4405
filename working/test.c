@@ -10,33 +10,32 @@ int b = 0;
 
 int blink(int end, int pattern){
 	
-for(i=0; i<100000; i++){
-	*(green_led_ptr) = pattern; //Blink pattern
-}
+	for(i=0; i<100000; i++){
+		*(green_led_ptr) = pattern; //Blink pattern
+	}
 
-b++;
+	b++;
 
-if(b<end){ //Check if it should stop
+	if(b<end){ //Check if it should stop
 
-	dontblink(end, pattern); //keep blinking
-}
+		dontblink(end, pattern); //keep blinking
+	}
 
-b = 0; //reset b
-*(green_led_ptr) = 0; //Stop blinking
+	b = 0; //reset b
+	*(green_led_ptr) = 0; //Stop blinking
 
-return;
+	return;
 }
 
 int dontblink(int end, int pattern){
 	
-for(i=0; i<100000; i++){
+	for(i=0; i<100000; i++){
 
-	*(green_led_ptr) = 0;
-}
+		*(green_led_ptr) = 0;
+	}
 
-blink(end, pattern);
-return;
-
+	blink(end, pattern);
+	return;
 }
 
 void test(){
@@ -62,4 +61,3 @@ void test2(){
 	OS_Signal(0); //Release Semaphore
 	return;
 }
-

@@ -1,29 +1,29 @@
 #include "globalvars.h"
 
 PID OS_Create(void (*f)(void), int arg, unsigned int level, unsigned int n) {
-int i;
-    
-//Adds function args into our process structs    
-for(i=0;i<MAXPROCESS;i++) {
-    if(processarray[i].pid == EMPTY) {      
-        processarray[i].pid = i;
-        processarray[i].function = f;
-        processarray[i].arg = arg;
-        processarray[i].level = level;
-        processarray[i].n = n;
-            
-        OS_AddTo_Schedule(i, level); 
-            
-        i = MAXPROCESS + 2;
-    }
-}
-    
-//Invalid PID check    
-if(i!=(MAXPROCESS+2)) {
-    return INVALIDPID; //Error INVALIDPID
-}
-   
-return;
+	int i;
+		
+	//Adds function args into our process structs    
+	for(i=0;i<MAXPROCESS;i++) {
+		if(processarray[i].pid == EMPTY) {      
+			processarray[i].pid = i;
+			processarray[i].function = f;
+			processarray[i].arg = arg;
+			processarray[i].level = level;
+			processarray[i].n = n;
+				
+			OS_AddTo_Schedule(i, level); 
+				
+			i = MAXPROCESS + 2;
+		}
+	}
+		
+	//Invalid PID check    
+	if(i!=(MAXPROCESS+2)) {
+		return INVALIDPID; //Error INVALIDPID
+	}
+	   
+	return;
 }
 
 void OS_Terminate(void) {
@@ -48,13 +48,13 @@ void OS_Terminate(void) {
 			}
 		}
 
-//remove from schedule
-for(i=0;i<MAXPROCESS;i++) {
-    if(sporadic[i] == pid) {
-        sporadic[i] = EMPTY;
-		i = MAXPROCESS+1;
+	//remove from schedule
+	for(i=0;i<MAXPROCESS;i++) {
+		if(sporadic[i] == pid) {
+			sporadic[i] = EMPTY;
+			i = MAXPROCESS+1;
+		}
 	}
-}
     
 }
     
