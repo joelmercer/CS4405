@@ -33,7 +33,8 @@ In order to run the operating system, all of the above .c and header files must 
 ----------------------------------
 Part III: Testing
 ----------------------------------
-In order to test the operating system, a test.c file has been included with the operating system files.  The main.c file utilizes this file when running the operating system automatically, so place it in the project along with the other files when using the monitor program.
+In order to test the operating system, a test.c file has been included with the operating system files.  The main.c file utilizes this file when running the operating system automatically, so place it in the project along with the other files when using the monitor program.   The provided main.c creates two FIFOs, writes to both of them, then reads from them.  It then creates two processes, test and test2 which are functions contained within test.c.  These are called with OS_Create and the first parameter that they are given is the length of time that the function should loop.  These test processes make the green LEDs on the board blink in two different patterns and for two different lengths of time. 
+Any test programs that are made for the board must include os.h.  All of our files include just globalvars.h because globalvars.h includes os.h.
 
 ----------------------------------
 Part IV: Special instructions
