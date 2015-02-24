@@ -25,7 +25,8 @@ void OS_InitSem(int s, int n) {
                 semarray[i].sempid[j] = EMPTY; 
             }
         //If this doesn't happen then there aren't enough semaphores, this is an abort error.
-        crashtest = 1;    
+        crashtest = 1;
+        i = MAXSEM; //Breaks loop
         }
     }
 
