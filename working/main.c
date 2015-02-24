@@ -25,17 +25,13 @@ int main() {
   
 	
     //Fifo test to show functionality
-    int FIFO1 = OS_InitFiFo();
-	int FIFO2 = OS_InitFiFo();
+    int FIFO = OS_InitFiFo();
 	
-	int FIFOData1 = 0;
-	int FIFOData2 = 0;	
-
-	OS_Write(FIFO1, 1);
-	OS_Write(FIFO2, 2);
+	int FIFOData = 0;
 	
-	OS_Read(FIFO1, &FIFOData1);
-	OS_Read(FIFO2, &FIFOData2);
+	OS_Write(FIFO, 10);
+	
+	OS_Read(FIFO, &FIFOData);
 
     //init a semaphore for our test program
     OS_InitSem(0, 1); //Creates a semaphore 0 with value 1
