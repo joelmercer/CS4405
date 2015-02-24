@@ -22,8 +22,9 @@ void test2();
 int main() {
 	
     OS_Init(); 
-    OS_InitSem(0, 1); //Creates a semaphore 0 with value 1
+  
 	
+    //Fifo test to show functionality
     int FIFO1 = OS_InitFiFo();
 	int FIFO2 = OS_InitFiFo();
 	
@@ -36,6 +37,10 @@ int main() {
 	OS_Read(FIFO1, &FIFOData1);
 	OS_Read(FIFO2, &FIFOData2);
 
+    //init a semaphore for our test program
+    OS_InitSem(0, 1); //Creates a semaphore 0 with value 1
+    
+    //Adding a process format OS_Create(&Function, ARG, Level, n)
 	OS_Create(&test, 15, 2, 0);
 	OS_Create(&test2, 20, 2, 0);
     

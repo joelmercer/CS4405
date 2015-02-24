@@ -28,11 +28,12 @@ NIOS2_WRITE_STATUS(0); //disable interupts
             for(j=0;j<n;j++) {
                 semarray[i].sempid[j] = EMPTY; 
             }
+        //If this doesn't happen then there aren't enough semaphores, this is an abort error.
         crashtest = 1;    
         }
     }
 
-
+//OS_Abort if this doesn't happen.
     if(crashtest!=1) {
         OS_Abort(); //Error abort
 	}

@@ -1,4 +1,4 @@
-#include "globalvars.h"
+#include "os.h"
 
 #define GREEN_LED_BASE 0x10000010
 #define NIOS2_WRITE_STATUS(src) do { __builtin_wrctl(0, src); } while (0)
