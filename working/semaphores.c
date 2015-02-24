@@ -41,7 +41,7 @@ return;
 void OS_Wait(int s){
     int i=0;
     int j=0;
-    int currentpid = getpid(); /
+    int currentpid = getpid(); 
     
     //check for s
    while(i<MAXSEM) {
