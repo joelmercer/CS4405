@@ -17,7 +17,7 @@ int workingpid;
 //For test program
 void test(); 
 void test2(); 
-
+int extern FIFO1;
 
 int main() {
 	
@@ -25,13 +25,11 @@ int main() {
   
 	
     //Fifo test to show functionality
-    int FIFO = OS_InitFiFo();
+    int FIFO1 = OS_InitFiFo();
 	
-	int FIFOData = 0;
+	int FIFOData = 0x55555555;
 	
-	OS_Write(FIFO, 10);
-	
-	OS_Read(FIFO, &FIFOData);
+	OS_Write(FIFO1, FIFOData);
 
     //init a semaphore for our test program
     OS_InitSem(0, 1); //Creates a semaphore 0 with value 1

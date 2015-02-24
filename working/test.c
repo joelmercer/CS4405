@@ -7,6 +7,7 @@ volatile int * green_led_ptr = (int *) GREEN_LED_BASE;
 
 int i = 0;
 int b = 0;
+int FIFO1;
 
 int blink(int end, int pattern){
 	
@@ -42,8 +43,11 @@ void test(){
 	OS_Wait(0); //Semaphore Wait
 	int end = OS_GetParam(); //Gets length of for loop
 
-	int green_led_pattern = 0x55555555;
+	int green_led_pattern = 0; 
 	
+	//Reads in pattern from FIFO
+	OS_Read(FIFO1, &green_led_pattern);	
+
 	blink(end, green_led_pattern); //Blink some lights!
 	
 	OS_Signal(0); //Release Semaphore
