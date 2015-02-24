@@ -1,12 +1,8 @@
 #include "globalvars.h"
 
-//sem semarray[MAXSEM];
 
 void OS_InitSem(int s, int n) {
-NIOS2_WRITE_STATUS(0); //disable interupts
     int i, j;
-    
-
     
     //check to make sure s doesn't already exist
     for(i=0;i<MAXSEM;i++) {
@@ -45,9 +41,7 @@ return;
 void OS_Wait(int s){
     int i=0;
     int j=0;
-    int currentpid = getpid(); //make getpid() work**********************************
-    
-NIOS2_WRITE_STATUS(0); //disable interupts
+    int currentpid = getpid(); /
     
     //check for s
    while(i<MAXSEM) {
@@ -68,7 +62,6 @@ NIOS2_WRITE_STATUS(0); //disable interupts
        i++;
     }
 
-NIOS2_WRITE_STATUS(1); //enable interupts**********************************
 
 return;
 }
@@ -76,9 +69,8 @@ return;
 void OS_Signal(int s) {
 int i=0; 
 int j=0;
-int currentpid = getpid(); //make getpid() work    
+int currentpid = getpid(); 
     
-NIOS2_WRITE_STATUS(0); //disable interupts
 
     //Check to see if this PID is holding the Semaphore
    while(i<MAXSEM) {
@@ -97,6 +89,5 @@ NIOS2_WRITE_STATUS(0); //disable interupts
     
           } 
     
-NIOS2_WRITE_STATUS(1); //enable interupts**********************************
 return;
 }

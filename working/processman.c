@@ -1,10 +1,9 @@
 #include "globalvars.h"
 
 PID OS_Create(void (*f)(void), int arg, unsigned int level, unsigned int n) {
-NIOS2_WRITE_STATUS(0); //disable interupts
-
 int i;
     
+//Adds function args into our process structs    
 for(i=0;i<MAXPROCESS;i++) {
     if(processarray[i].pid == EMPTY) {      
         processarray[i].pid = i;
@@ -19,12 +18,11 @@ for(i=0;i<MAXPROCESS;i++) {
     }
 }
     
+//Invalid PID check    
 if(i!=(MAXPROCESS+2)) {
-    NIOS2_WRITE_STATUS(1); //enable interupts
     return INVALIDPID; //Error INVALIDPID
 }
    
-NIOS2_WRITE_STATUS(1); //enable interupts
 return;
 }
 
@@ -57,8 +55,6 @@ for(i=0;i<MAXPROCESS;i++) {
 		i = MAXPROCESS+1;
 	}
 }
-     //deallocate memory, most likely with OS_Free()
-
     
 }
     
@@ -66,9 +62,10 @@ for(i=0;i<MAXPROCESS;i++) {
 
 void OS_Yield(void) {
 
-OS_Start();
+    //How to return back to OS_Start
+    OS_Start();
 
-    return; //How to return back to OS_Start
+    return; 
     
 }
 

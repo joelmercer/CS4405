@@ -1,6 +1,7 @@
 #ifndef _globalvars_H_  
 #define _globalvars_H_
 
+//We include os.h so it doesn't have to be done everytime.
 #include "os.h"
 
 //Function declare
@@ -61,8 +62,6 @@ typedef struct fifonode {
 } node;
 
 extern node fifoarray[MAXFIFO];
-
-
 
 
 //Memory Locations

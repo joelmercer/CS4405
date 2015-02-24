@@ -2,6 +2,8 @@
 
 void Context_Switch(int pid) {
     
+//Saves Schedule    
+    
 asm ( ".set		noat" );						
 asm ( ".set		nobreak" );					
 asm ( "subi		sp, sp, 128" );
@@ -42,10 +44,10 @@ asm (	"stw	r30, 120(sp)" );
 asm (	"stw	r31, 124(sp)" );				
 asm (	"addi	fp,  sp, 128" );
 
-
+//Calls to check for next function to run
 OS_Interrupt_Handler(pid);
 
-
+//Loads Schedule    
     
 asm (	"ldw	r1,  4(sp)" );					
 asm (	"ldw	r2,  8(sp)" );
@@ -87,7 +89,7 @@ return;
 
 void OS_Interrupt_Handler(int pid) {
  
- 
+ //Calls the next process to run
  (*(processarray[pid].function))();
 
 	terminate = 0;

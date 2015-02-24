@@ -3,6 +3,7 @@
 void OS_Init() {
 int i, j;
 
+//Init global vars
 sporadiccounter = 0;
 terminate = 1;
 crash = 0;
@@ -42,9 +43,6 @@ for(i=0;i<MAXPROCESS;i++) {
 for(i=0;i<MAXPROCESS;i++) {
 sporadic[i] = EMPTY; 
 }
-
-
-
     
 j=0;    
 for(i=0;i<MAXFIFO;i++) {
@@ -57,9 +55,6 @@ for(i=0;i<MAXFIFO;i++) {
     }
 }
 
-//Future Timer setup
-//OS_Set_Timer(timeq);
-
 return;
 }
 
@@ -67,16 +62,22 @@ void OS_Start() {
     int s;
     int p = 0;
   
-
 while(1) {
     int i = 0;
 
     for(s=0;s<MAXPROCESS;s++) {
         
+        //Checks crash value if there is a crash    
+        if(crash==1) {
+        goto crash;   
+        }
+        
+        //keeping track of the next process
         processcounter = s;
 		
+        //Looks for next process to run
         if(sporadic[s]!=EMPTY) {
-        //future timer function call: OS_Set_Timer(timeq); //set and load timer to timeq
+        
 		workingpid = processarray[sporadic[s]].pid;
         Context_Switch(workingpid);
 			
@@ -84,9 +85,7 @@ while(1) {
         OS_Terminate();
         terminate = 1;
         }
-        if(crash==1) {
-        goto crash;   
-        }
+        
         //Save context switch of os_start PC+1 & Load context switch for sporadic[s]
 		workingpid = EMPTY;
         } 
@@ -118,7 +117,7 @@ int i = 0;
     //add to Periodic Q
     } 
 	if(level == 2) {
-		
+		//Adds to sporadic level schedule list
         for(i=0;i<MAXPROCESS;i++) {
             if(sporadic[i]==EMPTY) {
                 sporadic[i] = pid;
@@ -131,8 +130,7 @@ return;
 }
 
 void OS_Abort() {
-
-//Disable Interrupts and never enable them
+//sets value to return back to main and end
 crash = 1;
 return;
     
