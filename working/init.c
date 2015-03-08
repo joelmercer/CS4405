@@ -31,6 +31,7 @@ void OS_Init() {
 	//init FIFOs
 		for(j=0;j<MAXFIFO;j++){
 			int clearfifo;
+			fifocounter=j;
 			clearfifo = OS_InitFiFo();
 			fifoarray[clearfifo].data=EMPTY;
 			fifoarray[clearfifo].flag=0;

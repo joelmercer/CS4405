@@ -3,7 +3,6 @@
 
 FIFO OS_InitFiFo() {
 	int i, j, k;
-	int fifocounter=0;
     int pid = OS_GetPID();
 	FIFO retval;
 	int overwrite=0;//0==yes, unused fifo; 1==no, fifo in use
@@ -49,6 +48,9 @@ FIFO OS_InitFiFo() {
 		}
 	}
 	retval = fifocounter; // return value is reference to FIFO (place in array where FIFO exists)
+	if(fifocounter==15){
+		fifocounter=0;
+	}
 	return retval;
 }
 

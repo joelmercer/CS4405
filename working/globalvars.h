@@ -18,6 +18,7 @@ extern int processcounter;
 extern int sporadic[MAXPROCESS];
 extern int terminate;
 extern int semcounter;
+extern int fifocounter;
 extern int fifopidarray[MAXFIFO][MAXFIFO];
 extern int sporadiccounter;
 extern int workingpid;
