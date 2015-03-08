@@ -13,6 +13,9 @@ int crash;
 int processcounter; 
 int semcounter;
 int workingpid;
+int stackheap[2][16];
+int ossp;
+int oshp;
 
 //For test program
 void test(); 

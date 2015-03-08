@@ -3,6 +3,11 @@
 void OS_Init() {
 	int i, j;
 
+    //Init Memory
+    ossp = 0x00800000;
+    oshp = 0x007FFE00;
+    OS_InitMemory();
+    
 	//Init global vars
 	sporadiccounter = 0;
 	terminate = 1;

@@ -21,7 +21,9 @@ extern int semcounter;
 extern int fifopidarray[MAXFIFO][MAXFIFO];
 extern int sporadiccounter;
 extern int workingpid;
-
+extern int stackheap[2][16];
+extern int ossp;
+extern int oshp;
 
 //For future Timer
 //extern volatile int *timebase; //interval timer base address
