@@ -23,9 +23,8 @@ void test2();
 int extern FIFO1;
 
 int main() {
-	fifocounter=0;//required for fifos
+
     OS_Init(); 
-  
 	
     //Fifo test to show functionality
     int FIFO1 = OS_InitFiFo();

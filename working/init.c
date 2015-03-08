@@ -15,6 +15,7 @@ void OS_Init() {
 	crash = 0;
 	processcounter = 0; 
 	FIFO f = 0;
+	fifocounter=0;
 	workingpid = EMPTY;
 
 	//Schedule setup
