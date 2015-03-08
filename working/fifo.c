@@ -54,7 +54,8 @@ FIFO OS_InitFiFo() {
 
 void OS_Write(FIFO f, int val) {
 	int i=0;
-	while(i<FIFOSIZE){ //check for free space
+	node *temp=&fifoarray[f];
+	while(i<=FIFOSIZE){ //check for free space
 		if((fifoarray[f].flag==1)&&(i==FIFOSIZE)){ //FIFO full
 			fifoarray[f].data=val;
 			fifoarray[f].flag=1;
@@ -62,11 +63,11 @@ void OS_Write(FIFO f, int val) {
 			i=FIFOSIZE;
 		}
 		else if(fifoarray[f].flag==1){//look for next empty spot
-			fifoarray[f]=*fifoarray[f].next;
+			temp=fifoarray[f].next;
 			i++;
 		}else{ //write
-			fifoarray[f].data=val;
-			fifoarray[f].flag=1; //mark as unread
+			temp->data=val;
+			temp->flag=1; //mark as unread
 			i=FIFOSIZE;
 		}
 	}
