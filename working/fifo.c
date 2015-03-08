@@ -56,14 +56,14 @@ void OS_Write(FIFO f, int val) {
 	int i=0;
 	node *temp=&fifoarray[f];
 	while(i<=FIFOSIZE){ //check for free space
-		if((fifoarray[f].flag==1)&&(i==FIFOSIZE)){ //FIFO full
-			fifoarray[f].data=val;
-			fifoarray[f].flag=1;
-			fifoarray[f]=*fifoarray[f].next;
+		if((temp->flag==1)&&(i==FIFOSIZE)){ //FIFO full
+			temp->data=val;
+			temp->flag=1;
+			temp=temp->next;
 			i=FIFOSIZE;
 		}
 		else if(fifoarray[f].flag==1){//look for next empty spot
-			temp=fifoarray[f].next;
+			temp=temp->next;
 			i++;
 		}else{ //write
 			temp->data=val;
