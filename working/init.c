@@ -6,6 +6,7 @@ void OS_Init() {
     //Init Memory
     ossp = 0x00800000;
     oshp = 0x007FFE00;
+    
     OS_InitMemory();
     
 	//Init global vars
