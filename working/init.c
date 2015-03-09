@@ -2,12 +2,18 @@
 
 void OS_Init() {
 	int i, j;
+    int once = 1;
 
     //Init Memory
     ossp = 0x00800000;
     oshp = 0x007FFE00;
-    
+   
     OS_InitMemory();
+
+	
+    //Clear Workspace memory
+
+    
     
 	//Init global vars
 	sporadiccounter = 0;
@@ -46,6 +52,8 @@ void OS_Init() {
 			processarray[i].arg = EMPTY;
 			processarray[i].level = 0;
 			processarray[i].n = 0;
+            processarray[i].sp = EMPTY;
+            processarray[i].hp = EMPTY;
 		} 
 
 	for(i=0;i<MAXPROCESS;i++) {

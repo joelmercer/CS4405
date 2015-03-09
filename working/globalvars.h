@@ -13,6 +13,8 @@ int OS_GetPID(void);
 
 //OS gloabls
 #define EMPTY -1
+#define startmem 0x005FDC00
+
 extern int crash;
 extern int processcounter; 
 extern int sporadic[MAXPROCESS];
@@ -25,6 +27,7 @@ extern int workingpid;
 extern int stackheap[2][16];
 extern int ossp;
 extern int oshp;
+extern int once;
 
 //For future Timer
 //extern volatile int *timebase; //interval timer base address
@@ -52,6 +55,8 @@ typedef struct createprocess {
     int arg;
     unsigned int level;
     unsigned int n;
+    int sp;
+    int hp;
 } process;
 
 extern process processarray[MAXPROCESS];

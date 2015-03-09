@@ -11,7 +11,11 @@ PID OS_Create(void (*f)(void), int arg, unsigned int level, unsigned int n) {
 			processarray[i].arg = arg;
 			processarray[i].level = level;
 			processarray[i].n = n;
+            processarray[i].sp = stackheap[0][i];
+            processarray[i].hp = stackheap[1][i];
 				
+			printf("sp: 0x00%x \n", stackheap[0][i]);	
+			printf("hp: 0x00%x \n", processarray[0].hp);	
 			OS_AddTo_Schedule(i, level); 
 				
 			i = MAXPROCESS + 2;
@@ -55,6 +59,15 @@ void OS_Terminate(void) {
 			i = MAXPROCESS+1;
 		}
 	}
+    
+    //Clear processarray  
+    processarray[pid].pid = EMPTY;
+    processarray[pid].arg = EMPTY;
+    processarray[pid].level = 0;
+    processarray[pid].n = 0;
+    processarray[pid].sp = EMPTY;
+    processarray[pid].hp = EMPTY;
+        
     
 }
     
