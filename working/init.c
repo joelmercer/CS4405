@@ -5,15 +5,9 @@ void OS_Init() {
     int once = 1;
 
     //Init Memory
-    ossp = 0x00800000;
-    oshp = 0x007FFE00;
+    oshp = 0x005FFC00;
    
     OS_InitMemory();
-
-	
-    //Clear Workspace memory
-
-    
     
 	//Init global vars
 	sporadiccounter = 0;
@@ -28,6 +22,23 @@ void OS_Init() {
 	for(i=0;i<MAXPROCESS;i++) {
 		sporadic[i] = EMPTY;
 	}
+    
+    //PPP set up
+    for(i=0;i<PPPLen;i++) {
+        
+        PPP[i] = EMPTY;           
+        PPPMax[i] = EMPTY; 
+    }
+    
+    //Device set up
+
+    for(i=0;i<devicelen;i++) { 
+    
+        device[i] = EMPTY;
+        devicemax[i] = EMPTY;
+    }
+    
+    
 		
 	//init semaphores
 		int semcounter = 0;
@@ -71,15 +82,27 @@ void OS_Init() {
 		}
 	}
 
+	
+	
 	return;
 }
 
 void OS_Start() {
-    int s;
-    int p = 0;
-  
+//	NIOS2_WRITE_STATUS( 1 );			// enable Nios II interrupts
+	NIOS2_WRITE_STATUS( 0 );			// disable Nios II interrupts
+    int s, p, d;
+    
+   
+        
 	while(1) {
 		int i = 0;
+    devicetimer = 0;
+    
+    for(d=0;d<devicelen;d++) {
+        if(devicemax[d]!=EMPTY) {
+            devicetimer = devicemax[d];
+        }
+    }
 
 		for(s=0;s<MAXPROCESS;s++) {
 			
@@ -91,7 +114,55 @@ void OS_Start() {
 			//keeping track of the next process
 			processcounter = s;
 			
-			//Looks for next process to run
+            //Checks to see if a device should be run
+            rundevice:
+            if(devicetimer<=0) {
+                for(d=0;d<devicelen;d++){
+                    if(device[d]!=EMPTY) {
+                     
+                        for(i=0;i<MAXPROCESS;i++){
+                            if(device[d]==processarray[i].pid)
+                                workingpid = device[d];
+                        }
+                        
+                        Context_Switch(workingpid);
+                        workingpid = EMPTY;
+                        
+                        for(d=0;d<devicelen;d++) {
+                            if(devicemax[d]!=EMPTY) {
+                                devicetimer = devicemax[d];
+                            }
+                        }
+                
+                }
+            }
+            }
+                
+            //Looks for the next PPP process to run    
+               for(p=0;p<PPPLen;p++){
+                    if(PPP[p]!=EMPTY) {
+                        if(PPP[p]!=-1){
+                     
+                        for(i=0;i<MAXPROCESS;i++){
+                            if(PPP[p]==processarray[i].pid)
+                                workingpid = PPP[p];
+                        }
+                        
+                        Context_Switch(workingpid);
+                        workingpid = EMPTY;
+                        
+                        for(p=0;p<PPPLen;p++) {
+                            if(PPPMax[p]!=EMPTY) {
+                                //decerment device timer
+                                devicetimer -= PPPMax[p];
+                                 if(devicetimer<=0) {
+                                 goto rundevice;
+                                 }
+                            }
+                        }
+                //Looks for next spordic process to run
+                } else {
+					
 			if(sporadic[s]!=EMPTY) {
 			
 			workingpid = processarray[sporadic[s]].pid;
@@ -100,12 +171,38 @@ void OS_Start() {
 			if(terminate==0){
 			OS_Terminate();
 			terminate = 1;
+                
+            //decerment device timer
+			 devicetimer -= PPPMax[p];
+                if(devicetimer<=0) {
+                goto rundevice;
+                }
 			}
 			
 			//Save context switch of os_start PC+1 & Load context switch for sporadic[s]
 			workingpid = EMPTY;
 			} 
-	 
+               }
+					}
+			   }
+            
+			//Looks for next spordic process to run if there is no PPP processes
+		if(PPPLen <= 0) {
+						if(sporadic[s]!=EMPTY) {
+			
+			workingpid = processarray[sporadic[s]].pid;
+			Context_Switch(workingpid);
+				
+			if(terminate==0){
+			OS_Terminate();
+			terminate = 1;
+			
+			}
+			
+			//Save context switch of os_start PC+1 & Load context switch for sporadic[s]
+			workingpid = EMPTY;
+			} 
+               }
 		} //end of s loop
 		
 	} //end of while
@@ -116,28 +213,41 @@ void OS_Start() {
 }
 
 
-void OS_AddTo_Schedule(int pid, int level) {
+void OS_AddTo_Schedule(int pid, int level, int n) {
 	int i = 0;
-
-    //Check level
-    //Levels
-    //SPORADIC 2      /* first-come-first-served, aperiodic */
-    //PERIODIC 1      /* cyclic, fixed-order, periodic */
-    //DEVICE 0      /* time-driven cyclic device drivers */
-
-    
+        
     if(level == 0) {
-     //add to device Q   
+        
+    for(i=0;i<devicelen;i++) { 
+        if(device[i]==EMPTY){
+    
+            device[i] = pid;
+            devicemax[i] = n;
+            i=devicelen + 1;
+     }
     }
+    }
+    
 	if(level == 1) {
-    //add to Periodic Q
+        
+    for(i=0;i<PPPLen;i++) {
+           if(PPP[i]==EMPTY){
+        
+            PPP[i] = n;           
+            //PPPMax[i] = n; 
+            i=PPPLen + 1;
+           }
+         
+    }
+        
     } 
+    
 	if(level == 2) {
 		//Adds to sporadic level schedule list
         for(i=0;i<MAXPROCESS;i++) {
             if(sporadic[i]==EMPTY) {
                 sporadic[i] = pid;
-				i=MAXPROCESS+1;
+				i=MAXPROCESS + 1;
 			}
         }
     }
@@ -149,4 +259,15 @@ void OS_Abort() {
 	//sets value to return back to main and end
 	crash = 1;
 	return;  
+}
+
+void OS_StartTimer(int timecounter) {
+	
+*(interval_timer_ptr + 0x2) = (timecounter & 0xFFFF);
+*(interval_timer_ptr + 0x3) = (timecounter >> 16) & 0xFFFF;
+*(interval_timer_ptr + 1) = 0x7;	// STOP = 0, START = 1, CONT = 1, ITO = 1 
+NIOS2_WRITE_IENABLE( 0x3 );
+
+return;
+
 }

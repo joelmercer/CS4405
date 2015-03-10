@@ -63,23 +63,24 @@ hp16 =      0x007FDC00 or 8379392
 */
     
 
-    
+    //Setup to zero out memory
     volatile unsigned char * clearaddress = (unsigned char *) startmem;
 
-	printf("add: 0x00%x \n", clearaddress);
 	
     while(1){
 	
-	
+        //zero out memory
         *clearaddress = 0;
+        //move to next byte address
 		clearaddress += 1;
 		
+        //stops zeroing memory here, this is more than enough
         if(clearaddress == 0x007FFE10) {
             break;
         }
 	}
 
-printf("Done Clear \n");
+
  
 return;
 }
@@ -92,25 +93,25 @@ MEMORY OS_Malloc( int val ) {
     int testloc2 = 0;
 	int nextloc = 0;
     int malval = val/2;
-  //  int size = processarray[pid].hsize;
+ 
+    //hp1 is the heap pointer to the first flag byte
     volatile unsigned char * hp1 = (unsigned char *) processarray[pid].hp;
+    //hp2 is the heap pointer to the second flag byte
     volatile unsigned char * hp2 = (unsigned char *) processarray[pid].hp;
-    
     hp2 += 1;
 	
-	//printf("Hp1: 0x00%x \n", hp1);
-	//printf("Hp2: 0x00%x \n", hp2);
-
+    //looks for free memory
     while(1) {
-		//printf("in while loop\n");
+    
+    //tests the locations of hp1 and hp2 to look to see if it's free
     testloc1 = *hp1;
     testloc2 = *hp2;
     testloc = testloc1 + testloc2;
         
-		//printf("testloc: %d\n", testloc);
+		
 	int count = 0;
 	
-	//Check to see if there is enough space
+	//It's free, but check to see if there is enough space
     if(testloc == 0) {
     volatile unsigned char * testnext = hp2;
         testnext += 1;
@@ -118,42 +119,38 @@ MEMORY OS_Malloc( int val ) {
 		count = 0;
 		nextloc = 0;
        
-		
+		//checking for enough free bytes
         for(i=0;i<val;i++) {
-            
+            //Looks at byte to see if it's free
             nextloc = *testnext;
 			
-			//printf("testnext: 0x00%x \n", testnext);
-           // printf("nextloc: %d\n", *testnext);
-			
+            //if it is free add to count to see if there are enough free bytes
             if(nextloc == 0) {
                 count++;
+                //go to next byte address
                 testnext += 1;
             } else {
-				//printf("Break1\n");
                 break;
         }   
             
         }
         
+        //If there was enough
         if(count>=val) {
 
 			*hp1 = malval;
 			*hp2 = malval;
 			hp1 += 2;
-		//	printf("Break2\n");
 			break;
         }
         
     } 
 	
-        //Goes to next block
+        //Goes to next block if the first block wasn't free or the weren't enough free bytes
         if(testloc > 0 || count < val) {
     
         hp1 += 4;
         hp2 += 4;
-		//printf("hp1: 0x00%x\n", hp1);
-        //printf("hp2: 0x00%x\n", hp2);    
     }
         
     }
@@ -163,7 +160,8 @@ MEMORY OS_Malloc( int val ) {
 	volatile unsigned char * assignaddress = hp1;
 	
 	    while(1){
-	
+	//sets bytes to 1, so show they are used, this will help when looking for free zero blocks later
+    //this will be over written anyway when a value is write to the memory space
         *assignaddress = 0xFF;
 		assignaddress += 1;
 		
@@ -171,9 +169,8 @@ MEMORY OS_Malloc( int val ) {
             break;
         }
 	}
-	
-	
 
+    //sets next heap pointer to start from
     processarray[pid].hp = (hp1 + val);
     
     return (MEMORY)hp1;
@@ -189,30 +186,44 @@ BOOL OS_Free( MEMORY m ) {
 
 	volatile unsigned char * hp = (unsigned char *)m;
 	
-	printf("hp1: 0x00%x \n", hp);
+    //Looks at the two bytes before the address to check for flag bytes
 	hp--;
-	printf("hp2: 0x00%x \n", hp);
 	testloc1 = *hp;
 	hp--;
 	testloc2 = *hp;
-	printf("hp3: 0x00%x \n", hp);
 	testloc = testloc1 + testloc2;
 	
-	
+    //We will know that they are flag bytes because they will be same number
+	if(testloc1==testloc2) {
 	
 	volatile unsigned char * clearaddress = hp;
 	
 	    for(i=0;i<testloc;i++) {
-	
+	//Clear the memory by setting it to zero to help with fragmenation
         *clearaddress = 0;
 		clearaddress += 1;
 
         }
 		
+        //sets the heap pointer to start looking from here
 		processarray[pid].hp = hp;
 		
 		return TRUE;
-		
+	} else {
+		return FALSE;
 	}
-    
+	
+	}
+
+//KMalloc will only be used by the OS, it never has to be freed and it will just give the next memory space
+MEMORY OS_KMalloc( int val ) {
+    volatile unsigned char * hp1 = (unsigned char *) oshp;
+    volatile unsigned char * hp2 = (unsigned char *) hp1;
+	
+	hp2+=val;
+	
+	oshp = hp2;
+	
+return (MEMORY)hp1;
+}
 

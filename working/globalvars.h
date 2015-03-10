@@ -7,14 +7,16 @@
 //Function declare
 void Context_Switch(int pid);
 void OS_Interrupt_Handler(int pid);
-void OS_AddTo_Schedule(int pid, int level);
+void OS_AddTo_Schedule(int pid, int level, int n);
 int OS_GetPID(void);
+MEMORY OS_KMalloc(int val);
 
 
 //OS gloabls
 #define EMPTY -1
 #define startmem 0x005FDC00
 
+extern volatile int * interval_timer_ptr;
 extern int crash;
 extern int processcounter; 
 extern int sporadic[MAXPROCESS];
@@ -25,9 +27,13 @@ extern int fifopidarray[MAXFIFO][MAXFIFO];
 extern int sporadiccounter;
 extern int workingpid;
 extern int stackheap[2][16];
-extern int ossp;
 extern int oshp;
 extern int once;
+extern int device[];
+extern int devicelen;
+extern int devicemax[];
+extern int devicetimer;
+extern int currentdevicetimer;
 
 //For future Timer
 //extern volatile int *timebase; //interval timer base address
@@ -75,9 +81,29 @@ extern node fifoarray[MAXFIFO];
 //Memory Locations
 
 //System Macro
-#define NIOS2_WRITE_STATUS(src) do { __builtin_wrctl(0, src); } while (0)
-#define NIOS2_READ_IPENDING(dest) do { dest = __builtin_rdctl(4); } while (0)
+#define NIOS2_READ_STATUS(dest) \
+	do { dest = __builtin_rdctl(0); } while (0)
 
+#define NIOS2_WRITE_STATUS(src) \
+	do { __builtin_wrctl(0, src); } while (0)
+
+#define NIOS2_READ_ESTATUS(dest) \
+	do { dest = __builtin_rdctl(1); } while (0)
+
+#define NIOS2_READ_BSTATUS(dest) \
+	do { dest = __builtin_rdctl(2); } while (0)
+
+#define NIOS2_READ_IENABLE(dest) \
+	do { dest = __builtin_rdctl(3); } while (0)
+
+#define NIOS2_WRITE_IENABLE(src) \
+	do { __builtin_wrctl(3, src); } while (0)
+
+#define NIOS2_READ_IPENDING(dest) \
+	do { dest = __builtin_rdctl(4); } while (0)
+
+#define NIOS2_READ_CPUID(dest) \
+	do { dest = __builtin_rdctl(5); } while (0)
 
 
 #endif /* _globalvars_H_ */  

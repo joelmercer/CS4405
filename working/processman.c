@@ -1,9 +1,12 @@
 #include "globalvars.h"
 
 PID OS_Create(void (*f)(void), int arg, unsigned int level, unsigned int n) {
+	NIOS2_WRITE_STATUS( 0 );			// disable Nios II interrupts
 	int i;
-		
+	
+    
 	//Adds function args into our process structs    
+ 
 	for(i=0;i<MAXPROCESS;i++) {
 		if(processarray[i].pid == EMPTY) {      
 			processarray[i].pid = i;
@@ -14,9 +17,9 @@ PID OS_Create(void (*f)(void), int arg, unsigned int level, unsigned int n) {
             processarray[i].sp = stackheap[0][i];
             processarray[i].hp = stackheap[1][i];
 				
-			printf("sp: 0x00%x \n", stackheap[0][i]);	
-			printf("hp: 0x00%x \n", processarray[0].hp);	
-			OS_AddTo_Schedule(i, level); 
+		//	printf("sp: 0x00%x \n", stackheap[0][i]);	
+		//	printf("hp: 0x00%x \n", processarray[0].hp);	
+			OS_AddTo_Schedule(i, level, n); 
 				
 			i = MAXPROCESS + 2;
 		}
@@ -26,8 +29,10 @@ PID OS_Create(void (*f)(void), int arg, unsigned int level, unsigned int n) {
 	if(i!=(MAXPROCESS+2)) {
 		return INVALIDPID; //Error INVALIDPID
 	}
-	   
+		
 	return;
+    
+
 }
 
 void OS_Terminate(void) {

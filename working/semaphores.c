@@ -40,6 +40,7 @@ return;
 }
 
 void OS_Wait(int s){
+	NIOS2_WRITE_STATUS( 0 );			// disable Nios II interrupts
     int i=0;
     int j=0;
     int currentpid = getpid(); 
@@ -63,11 +64,12 @@ void OS_Wait(int s){
        i++;
     }
 
-
+	NIOS2_WRITE_STATUS( 1 );			// enable Nios II interrupts
 return;
 }
 
 void OS_Signal(int s) {
+	NIOS2_WRITE_STATUS( 0 );			// disable Nios II interrupts
 	int i=0; 
 	int j=0;
 	int currentpid = getpid(); 
@@ -87,6 +89,7 @@ void OS_Signal(int s) {
         }
        i++;
           } 
-    
+    	NIOS2_WRITE_STATUS( 1 );			// enable Nios II interrupts
+
 	return;
 }

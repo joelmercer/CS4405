@@ -86,9 +86,12 @@ void Context_Switch(int pid) {
 
 void OS_Interrupt_Handler(int pid) {
  
+    //loads SP for this process
+	//asm (	"ldw	r27, "processarray[pid].sp );	
 	//Calls the next process to run
+    NIOS2_WRITE_STATUS( 1 );			// enable Nios II interrupts
 	(*(processarray[pid].function))();
-
+    NIOS2_WRITE_STATUS( 0 );            // disable Nios II interrupts
 	terminate = 0;
 	
     return;
