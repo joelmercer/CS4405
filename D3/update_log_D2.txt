@@ -1,0 +1,44 @@
+========================
+	 UPDATE
+========================
+For this deliverable, we completed the memory module and have a working simulation providing feedback via printfs. We have yet to test it on the board but it works fine on PCs so far. The only outside lib we have is stdlib, simply for the printf. 
+
+This demonstrates memory funtions with the test program called programFunciton that simulates a simple program that would make calls to malloc.
+Run it for the demo program to load up and run the test. 
+
+
+
+
+
+==================================
+	Structural Changes
+==================================
+
+
+1. Processes now have their own source file. It is home to their queue funtions as well as all the OS funcitons they are supposed to do. Also now has a header file so I cna use everything in os.c, which now is essentially just a spot for the programs to sit and the OS specific functions. 
+
+2. Memory is a new source file also, I will break down how the memory system works in a second but memory.c pretty much just holds everything needed for the memory calls. The header file for it contains everyhting that is needed to interact with the dynamic memory system. 
+
+
+======================
+	MEMORY
+======================
+ALRIGHT, the memory system I designed has two major components. The first is how the process control blocks are handled. The max number of processes is given to us, it happens to be 16. I saw this aas an opportunity to simply allocate a static array of 16 process structs in order ot make the compiler lay out their memory for us! That being said, the process.h file is where you find the reference to that array. 
+
+Now changes how OS_Create works. Instead of calling malloc, it now simply looks through the array for an available PCB and then assigns it to the calling process. The second thing this does is
+
+Next is memory. The only instance a program will call our OS_Malloc is to extend its heap space. SO, keeping that in mind, I layed out a 4096 slot, static array of MEMORY types. Each hole acts as one space the user can use. 
+
+EXAMPLE: "OS_Malloc(4)" - This will first grab one of 30 memory containers. This is another static array of structs similar to that of the array of PCBs. What these do is keep tabs on the memory for a given process. Each PCB will have a linked list of these memory block structs that hold the address of where their contiguous memory begins, the flags associated with it and various other fields. Once a free struct is found, the function then looks through the mainMemory array, trying to find a contiguous segment of size 4 to staisfy the request. If this is found, the process is updated and the address returned, else we return -1 notifying the program that we could not service the request. 
+
+In mainMemory, every element is set to 0 indicating that slot is available, else it is being occupied. The example program will create a funtion, malloc 1 byte and set a pointer to it, change its value the free it, printing its status along the way. 
+
+
+
+
+============================
+	PROCESS TYPES
+============================
+I began work on completing the context switch between processes, however I did not want to rush such an OS critical piece for the sake of deliverable two.
+
+It is a bit of a stringy mess so we decided not to include those update in this source. Instead, we opted to devote our time to making memory function complete. 
