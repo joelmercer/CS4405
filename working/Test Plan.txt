@@ -1,0 +1,89 @@
+  /* OS Initialization */
+
+void OS_Init();
+    If OS_Init does every it's suppose to. See os.h
+
+void OS_Start();
+    Does scheduler work? Does d, p, s processes get called like their supposed to?
+
+void OS_Abort();
+    Does it abort? Is it used?
+  
+  /* Process Management primitives */  
+PID  OS_Create(void (*f)(void), int arg, unsigned int level, unsigned int n);
+    Create different types correctly? Assigns values correctly? Does it do the setup correctly?
+    Test Case 1 - Make 1 process
+    Test Case 2 - Make MAX process
+    Test Case 3 - Make MAX+1 process
+    Test Case 4 - Make process with invalid PID
+    
+
+void OS_Terminate(void);    
+    When does terminate happen? Does it happen? Does it terminate a process correctly? Does it release FIFOs, Semaphores, memory?
+
+void OS_Yield(void);
+    Does it yield? What happens when it yields?
+    
+int  OS_GetParam(void);  
+    Does this work?
+
+  /* Semaphore primitives */
+void OS_InitSem(int s, int n);
+    Does everything it's suppose to do.
+    Test Case 1 - Make 1 semaphore
+    Test Case 2 - Make MAX semaphore
+    Test Case 3 - Make MAX+1 semaphore
+
+void OS_Wait(int s);
+    Does it pick up a semaphore? Does that work currently.
+    Test Case 1 - if there is 1 semaphore
+    Test Case 2 - if there are MAX
+    Test Case 3 - more than MAX
+    Test Case 4 - if there is 0
+    Test Case 5 - if there is a negitive amount
+    
+void OS_Signal(int s);
+    Does it drop the semaphore? 
+    Test Case 1 - there are currently 0
+    Test Case 2 - there are currently -1
+    Test Case 3 - there are currently 1
+    Test Case 4 - there are currently MAX
+    Test Case 5 - there are currently more than MAX
+
+  /* FIFO primitives */
+FIFO  OS_InitFiFo();
+    Does what it is supposed to do
+    Test Case 1 - Make 1 FIFO
+    Test Case 2 - Make MAX FIFO
+    Test Case 3 - Make MAX+1 FIFO
+
+void  OS_Write( FIFO f, int val );
+    Can you write to it.
+    Test Case 1 - Write 1
+    Test Case 2 - Write until full
+    Test Case 3 - write until full + 1
+    Test Case 4 - write until full + more
+    Test Case 5 - write to invalid FIFO
+
+BOOL  OS_Read( FIFO f, int *val );
+    Can you read from it
+    Test Case 1 - Read 1
+    Test Case 2 - Read all 
+    Test Case 3 - Read more than all
+    Test Case 4 - Read invald fifo
+   
+  /* Memory primitives */
+void   OS_InitMemory();
+    Does what it is supposed to do
+
+MEMORY OS_Malloc( int val );
+    Test Case 1 - Malloc small size
+    Test Case 2 - Malloc large size
+    Test Case 3 - Malloc 512 in size
+    Test Case 4 - Malloc smaller than 2 bytes
+    Test Case 5 - Malloc larger than 512 bytes
+
+BOOL   OS_Free( MEMORY m );
+    Test Case 1 - free valid
+    Test Case 2 - free invalid
+
