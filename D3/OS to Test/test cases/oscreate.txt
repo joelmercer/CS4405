@@ -1,0 +1,117 @@
+int main() {
+  
+
+OS_Init();
+
+
+PID oscreate;
+  
+
+oscreate = OS_Create(&led_toggle_program, 1, SPORADIC, 1);
+  
+printf("PID: %u\n", oscreate);
+  
+
+oscreate = OS_Create(&led_toggle_program, 2, SPORADIC, 2);
+  
+printf("PID: %u\n", oscreate);
+  
+
+oscreate = OS_Create(&led_toggle_program, 3, SPORADIC, 3);
+
+printf("PID: %u\n", oscreate);  
+ 
+ 
+oscreate = OS_Create(&led_toggle_program, 4, SPORADIC, 4);
+ 
+printf("PID: %u\n", oscreate);
+  
+
+oscreate = OS_Create(&led_toggle_program, 5, SPORADIC, 5);
+  
+printf("PID: %u\n", oscreate);
+  
+
+oscreate = OS_Create(&led_toggle_program, 6, SPORADIC, 6);
+  
+printf("PID: %u\n", oscreate);
+  
+
+oscreate = OS_Create(&led_toggle_program, 7, SPORADIC, 7);
+  
+printf("PID: %u\n", oscreate);
+  
+
+oscreate = OS_Create(&led_toggle_program, 8, SPORADIC, 8);
+  
+printf("PID: %u\n", oscreate);
+  
+
+oscreate = OS_Create(&led_toggle_program, 9, SPORADIC, 9);
+  
+printf("PID: %u\n", oscreate);
+  
+
+oscreate = OS_Create(&led_toggle_program, 10, SPORADIC, 10);
+  
+printf("PID: %u\n", oscreate);
+  
+
+oscreate = OS_Create(&led_toggle_program, 11, SPORADIC, 11);
+  
+printf("PID: %u\n", oscreate);
+  
+
+oscreate = OS_Create(&led_toggle_program, 12, SPORADIC, 12);
+  
+printf("PID: %u\n", oscreate);
+  
+
+oscreate = OS_Create(&led_toggle_program, 13, SPORADIC, 13);
+  
+printf("PID: %u\n", oscreate);
+  
+
+oscreate = OS_Create(&led_toggle_program, 14, SPORADIC, 14);
+  
+printf("PID: %u\n", oscreate);
+  
+
+oscreate = OS_Create(&led_toggle_program, 15, SPORADIC, 15);
+
+printf("PID: %u\n", oscreate);  
+  
+
+oscreate = OS_Create(&led_toggle_program, 16, SPORADIC, 16);
+
+printf("PID: %u\n", oscreate);  
+ 
+ 
+oscreate = OS_Create(&led_toggle_program, 17, SPORADIC, 17);  
+  
+printf("PID: %u\n", oscreate);
+  
+  
+
+int num = 0;
+  
+  
+  
+for(num = 0; num < 18; num++) {
+  
+
+printf("arg   %d = %d\n", num, processes[num].arg);
+  
+printf("level %d = %d\n", num, processes[num].level);
+  
+printf("n     %d = %d\n", num, processes[num].n);
+  
+printf("state %d = %d\n\n", num, processes[num].state);
+  
+}
+  
+
+
+OS_Start();
+
+}

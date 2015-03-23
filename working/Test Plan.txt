@@ -2,48 +2,71 @@
 
 void OS_Init();
     If OS_Init does every it's suppose to. See os.h
+    *Ran printf statments to see if values that were trying to be assigned seem to be assigned. From what I can tell everything that was trying to be done was done.
 
 void OS_Start();
     Does scheduler work? Does d, p, s processes get called like their supposed to?
+    *OS_start isn't the scheduler, it runs a while loop that doesn't end unless OS_Abort is called. When OS_Abort is called the while loop breaks and it does return to the main method but the os doesn't abort, it keeps running and does not abort. To test this we called OS_Abort in OS_Start to change the var is_halting to 1, and checked with printf statments that the code does go back to main.
+    *When is_halting is set to 0, the timer does seem to interrupt OS_Start and it seems to call the scheduler .
+    
+
+
 
 void OS_Abort();
     Does it abort? Is it used?
+    *See OS_Start, is_halting does change but os doesn't abort.
   
   /* Process Management primitives */  
 PID  OS_Create(void (*f)(void), int arg, unsigned int level, unsigned int n);
     Create different types correctly? Assigns values correctly? Does it do the setup correctly?
     Test Case 1 - Make 1 process
-    Test Case 2 - Make MAX process
-    Test Case 3 - Make MAX+1 process
-    Test Case 4 - Make process with invalid PID
+    *The Process is seems to added to the process table arg, level, n values. Returns PID.
+    Test Case 2 - Make MAX process3w
+    *Two Process is seems to added to the process table arg, level, n values
+    Test Case 3 - Make 16 process3w
+    *Only 14 Process are created, the 14th-16th process returns 0
+    Test Case 4 - Make 17 process
+    *Only 14 Process are created, the 14th-17th process returns 0
+    Test Case 5 Create a process and try to run it
+    *Created void test() { printf("Test Process"); }
+    *This process never runs.
     
 
 void OS_Terminate(void);    
     When does terminate happen? Does it happen? Does it terminate a process correctly? Does it release FIFOs, Semaphores, memory?
+    *Processes don't run so there isn't much to test. There is a function "process_start" which is suppose to call the process and then call OS_Terminate() but process_start is never called. OS_Terminate is never called. _OS_Terminate seems to hold all the code to terminate a program, but it is not called by OS_Terminate.
 
 void OS_Yield(void);
     Does it yield? What happens when it yields?
+    *The OS does not run a process, so it's hard to test
+    *wrote in main "OS_Yeild();" to follow the function calls, and it through your yeild, into syscall into the exception function but it never goes anywhere after trying to store registers in a context switch. It is supposed to call an interrupt handler but it never does.
     
 int  OS_GetParam(void);  
     Does this work?
+    *since I can't run a process it can't really be tested. It seems to return processes[0].arg if called, which does work, but processes[0] is never used as a real process since the index for processes starts at 1.
 
   /* Semaphore primitives */
 void OS_InitSem(int s, int n);
     Does everything it's suppose to do.
+    *OS_InitSem will only let you pick a name between 0-15
     Test Case 1 - Make 1 semaphore
+    *Seems to make a 
     Test Case 2 - Make MAX semaphore
     Test Case 3 - Make MAX+1 semaphore
 
 void OS_Wait(int s);
     Does it pick up a semaphore? Does that work currently.
     Test Case 1 - if there is 1 semaphore
+    *Works
     Test Case 2 - if there are MAX
+    *Only works for the first one
     Test Case 3 - more than MAX
     Test Case 4 - if there is 0
     Test Case 5 - if there is a negitive amount
     
 void OS_Signal(int s);
     Does it drop the semaphore? 
+    *NO CODE
     Test Case 1 - there are currently 0
     Test Case 2 - there are currently -1
     Test Case 3 - there are currently 1
@@ -52,12 +75,14 @@ void OS_Signal(int s);
 
   /* FIFO primitives */
 FIFO  OS_InitFiFo();
+*Won't compile
     Does what it is supposed to do
     Test Case 1 - Make 1 FIFO
     Test Case 2 - Make MAX FIFO
     Test Case 3 - Make MAX+1 FIFO
 
 void  OS_Write( FIFO f, int val );
+*No code
     Can you write to it.
     Test Case 1 - Write 1
     Test Case 2 - Write until full
@@ -66,6 +91,7 @@ void  OS_Write( FIFO f, int val );
     Test Case 5 - write to invalid FIFO
 
 BOOL  OS_Read( FIFO f, int *val );
+*Doesn't even exist
     Can you read from it
     Test Case 1 - Read 1
     Test Case 2 - Read all 
@@ -74,9 +100,11 @@ BOOL  OS_Read( FIFO f, int *val );
    
   /* Memory primitives */
 void   OS_InitMemory();
+//NO CODE
     Does what it is supposed to do
 
 MEMORY OS_Malloc( int val );
+*ERROS
     Test Case 1 - Malloc small size
     Test Case 2 - Malloc large size
     Test Case 3 - Malloc 512 in size
@@ -84,5 +112,6 @@ MEMORY OS_Malloc( int val );
     Test Case 5 - Malloc larger than 512 bytes
 
 BOOL   OS_Free( MEMORY m );
+*No Code
     Test Case 1 - free valid
     Test Case 2 - free invalid
