@@ -1,0 +1,37 @@
+int main() {
+
+  printf("%d\n", is_halting);
+
+  OS_InitSem(1, 1);
+  OS_InitSem(2, 1);
+  OS_InitSem(2, 1);
+  OS_InitSem(3, 1);
+  OS_InitSem(4, 1);
+  OS_InitSem(5, 1);
+  OS_InitSem(6, 1);
+  OS_InitSem(7, 1);
+  OS_InitSem(8, 1);
+  OS_InitSem(9, 1);
+  OS_InitSem(10, 1);
+  OS_InitSem(11, 1);
+  OS_InitSem(12, 1);
+  OS_InitSem(13, 1);  
+  OS_InitSem(14, 1);  
+  OS_InitSem(15, 1);  
+  OS_InitSem(16, 1);  
+  OS_InitSem(17, 1);  
+  
+  OS_Wait(1);
+  OS_Wait(1);
+   OS_Wait(2);
+    OS_Wait(3);
+	 OS_Wait(4);
+
+	printf("%d\n", is_halting);
+	
+	printf("%d\n", semaphores[1][1]);
+	printf("%d\n", semaphores[2][1]);
+	printf("%d\n", semaphores[3][1]);
+	printf("%d\n", semaphores[4][1]);
+	printf("%d\n", semaphores[5][1]);
+}

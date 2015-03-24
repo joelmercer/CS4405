@@ -1,8 +1,6 @@
 int main() {
   
 
-OS_Init();
-
 
 PID oscreate;
   
@@ -110,8 +108,5 @@ printf("state %d = %d\n\n", num, processes[num].state);
   
 }
   
-
-
-OS_Start();
 
 }
