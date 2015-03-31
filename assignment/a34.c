@@ -1,108 +1,98 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <math.h>
+#include <string.h>
 
 typedef struct readonlyfiles
 {
-	char filename[100];
+	char * filename;
 	int address;
 } readfile;
 
 typedef struct copyonwritefiles
 {
-	char filename[100];
-	char address[11];
+	char * filename;
+	int address;
 } writefile;
 
 int frames = 0;
-char memtrace[100];
+char * memtrace;
 
+int pdir[2048];
+int ptable[10];
+int **base;
 
+//Mem_trace
+FILE * memfile;
+char memrw[1];
+unsigned int memaddress;
+unsigned int memdata;
 
+//MAIN STARTS HERE
 int main ( int argc, char *argv[] ) {
-int i=0, k=0, sum = 0, opt;
-
-int number; 
-
-printf("How many -l ?\n");
-  scanf("%d", &number);
-
-readfile readarray[number];
-
-for(i = 0; i < number; i++) {
-
-printf("Name of file?\n");
-  scanf("%s", &readarray[i].filename);
-
-printf("Address of file?\n");
-  scanf("%d", &readarray[i].address);
-
-}
-
-printf("How many -s ?\n");
-  scanf("%d", &number);
-
-writefile writearray[number];
-
-for(i = 0; i < number; i++) {
-
-printf("Name of file?\n");
-  scanf("%s", &writearray[i].filename);
-
-printf("Address of file?\n");
-  scanf("%s", &writearray[i].address);
-
-}
-
+int i=0, j=0, k=0, lcount=0, scount=0;
 int frames;
 
-printf("Number of frames?\n");
-  scanf("%d", &frames);
+char * test;
 
-printf("What is the -r trace file name?\n");
-  scanf("%s", &memtrace);
-
-long long temp = 1234567899;
-long long j;
-int binAdd[32] = {0};
-i=32;
-
-for(j=4294967296; j > 1 ; j = j/2) {
-printf("j: %llu \n", j);
-
-if(temp>=j){
-temp=temp-j;
-binAdd[i]=1;
-printf("Binadd[%d]: %d\n", i, binAdd[i]);
-}else{
-binAdd[i]=0;
-printf("Binadd[%d] : %d\n", i, binAdd[i]);
+for(i = 0; i < argc; i++) {
+if (strcmp(argv[i],"-l") == 0)
+lcount++;
+if (strcmp(argv[i],"-s") == 0)
+scount++;
 }
 
-printf("j: %llu temp: %llu \n", j, temp);
+readfile readarray[lcount];
+writefile writearray[scount];
 
-i--;
+for(i = 0; i < argc; i++) {
+
+if (strcmp(argv[i],"-l") == 0) {
+readarray[j].filename = argv[i+1];
+readarray[j].address = atoi(argv[i+2]);
+j++;
+}
+if (strcmp(argv[i],"-s") == 0) {
+writearray[k].filename = argv[i+1];
+writearray[k].address = atoi(argv[i+2]);
+k++;
+}
+if (strcmp(argv[i],"-f") == 0) {
+frames = atoi(argv[i+1]);
+}
+if (strcmp(argv[i],"-r") == 0) {
+memtrace = argv[i+1];
+}
 }
 
-if((j==1)&&(temp==1)) {
-binAdd[i]=1;
-printf("Binadd[%d]: %d\n", i, binAdd[i]);
-}
+char mainmemory [(frames*2048)];
 
-if((j==1)&&(temp==0)) {
-binAdd[i]=0;
-printf("Binadd[%d]: %d\n", i, binAdd[i]);
-}
+//11111111111000000000000000000000 - 4292870144
+//00000000000111111111100000000000 - 2095104
+//00000000000000000000011111111111 - 2047
+
+//01000000000000000000000000000000 - 1073741824
+//01011001011010000010111100000000 - 1500000000
+
+//unsigned int pd = ((readarray[0].address & 4292870144) >> 21);
+//unsigned int pm = ((readarray[0].address & 2095104) >> 11);
+//unsigned int off = readarray[0].address & 2047;
+
+//printf("\npd: %d\n", pd);
+//printf("pm: %d\n", pm);
+//printf("off: %d\n", off);
 
 
-printf("\nAddress: ");
+//Open Mem_trace
 
-for(i = 31; i >= 0; i--)
-printf("%d", binAdd[i]);
+printf("got here\n");
 
-printf("\n\n");
-//printf("\nArgs: %s %s %s %s %s %s %d %s  \n", readarray[0].filename, readarray[0].address, readarray[1].filename, readarray[1].address, writearray[0].filename, writearray[0].address, frames, memtrace);
+memfile = fopen (memtrace, "r");
 
+fscanf(memfile, "%s %u %d", memrw, &memaddress, &memdata);
+
+printf("\nmemrw: %s\n", memrw);
+printf("memaddress: %u\n", memaddress);
+printf("memdata: %d\n", memdata);
 
 
  
