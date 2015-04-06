@@ -16,6 +16,7 @@ PID OS_Create(void (*f)(void), int arg, unsigned int level, unsigned int n) {
 			processarray[i].n = n;
             processarray[i].sp = stackheap[0][i];
             processarray[i].hp = stackheap[1][i];
+			processarray[i].state = 1;
 				
 		//	printf("sp: 0x00%x \n", stackheap[0][i]);	
 		//	printf("hp: 0x00%x \n", processarray[0].hp);	
@@ -70,6 +71,7 @@ void OS_Terminate(void) {
     processarray[pid].n = 0;
     processarray[pid].sp = EMPTY;
     processarray[pid].hp = EMPTY;
+	processarray[pid].hp = 0;
         
     
 }
@@ -77,18 +79,22 @@ void OS_Terminate(void) {
 
 
 void OS_Yield(void) {
-
-    //How to return back to OS_Start
-    OS_Start();
-
+NIOS2_WRITE_STATUS( 0 );
+	//update timer var
+    //Set timer to 0;
+NIOS2_WRITE_STATUS( 1 );
     return; 
     
 }
 
 int  OS_GetParam(void) {
-	return processarray[processcounter].arg;  
+	NIOS2_WRITE_STATUS( 0 );
+	NIOS2_WRITE_STATUS( 1 );
+	return processarray[workingpid].arg;  
 }
 
 int  OS_GetPID(void) {
-	return processarray[processcounter].pid;  
+	NIOS2_WRITE_STATUS( 0 );
+	NIOS2_WRITE_STATUS( 1 );
+	return processarray[workingpid].pid;  
 }

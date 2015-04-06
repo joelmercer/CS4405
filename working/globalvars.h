@@ -5,17 +5,22 @@
 #include "os.h"
 
 //Function declare
-void Context_Switch(int pid);
-void OS_Interrupt_Handler(int pid);
+void OS_Save_Scheduler(void);
+void OS_Load_Scheduler(void);
+void OS_Load_Program(void);
+void OS_Interrupt_Handler(void);
+void the_exception (void);
 void OS_AddTo_Schedule(int pid, int level, int n);
 int OS_GetPID(void);
 MEMORY OS_KMalloc(int val);
+void OS_Timer();
 
 
 //OS gloabls
 #define EMPTY -1
 #define startmem 0x005FDC00
 
+extern int start;
 extern volatile int * interval_timer_ptr;
 extern int crash;
 extern int processcounter; 
@@ -34,6 +39,7 @@ extern int devicelen;
 extern int devicemax[];
 extern int devicetimer;
 extern int currentdevicetimer;
+extern int startregs[32];
 
 //For future Timer
 //extern volatile int *timebase; //interval timer base address
@@ -61,11 +67,13 @@ typedef struct createprocess {
     int arg;
     unsigned int level;
     unsigned int n;
-    int sp;
-    int hp;
+    unsigned int sp;
+    unsigned int rsp;
+    unsigned int hp;
+	unsigned int state; //0 - terminated, 1 - new, 2 - ready/running, 3 - waiting
 } process;
 
-extern process processarray[MAXPROCESS];
+extern process processarray[MAXPROCESS+1];
 
 //For FIFOs
 typedef struct fifonode {

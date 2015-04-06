@@ -2,6 +2,7 @@
 
 
 void OS_InitSem(int s, int n) {
+	NIOS2_WRITE_STATUS( 0 );
     int i, j;
     
     //check to make sure s doesn't already exist
@@ -35,7 +36,7 @@ void OS_InitSem(int s, int n) {
         OS_Abort(); //Error abort
 	}
 	
-
+NIOS2_WRITE_STATUS( 1 );
 return;
 }
 
