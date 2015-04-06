@@ -49,30 +49,12 @@ void OS_Init() {
 		} 
 		
 	//init FIFOs
-		for(i=0;i<MAXFIFO;i++){
-			for(j=0; j<FIFOSIZE; j++){//beginning
-				if(j==0){
-					fifoarray[i][j].head=1;
-					fifoarray[i][j].tail=1;
-					fifoarray[i][j].next=1;
-					fifoarray[i][j].previous=(FIFOSIZE-1);
-				}
-				else if((j>0) && (j<FIFOSIZE)){//middle
-					fifoarray[i][j].head=0;
-					fifoarray[i][j].tail=0;
-					fifoarray[i][j].previous=(j-1);
-						if(j==(FIFOSIZE-1)){//end
-							fifoarray[i][j].next=0;
-						} else{
-							fifoarray[i][j].next=(j+1);
-						}
-				}
-				fifoarray[i][j].data=EMPTY;
-				fifoarray[i][j].flag=0;
-			}
-		}
-		for(i=0; i<MAXFIFO; i++){
-			fifopidarray[i]=EMPTY;
+		for(j=0;j<MAXFIFO;j++){
+			int clearfifo;
+			fifocounter=j;
+			clearfifo = OS_InitFiFo();
+			fifoarray[clearfifo].data=EMPTY;
+			fifoarray[clearfifo].flag=0;
 		}
 		
 	//init processes
@@ -88,6 +70,15 @@ void OS_Init() {
             processarray[i].state = EMPTY;
 		} 
 
+		//Scheduler setup
+		processarray[16].pid = 16;
+			processarray[16].arg = EMPTY;
+			processarray[16].level = 0;
+			processarray[16].n = 0;
+			processarray[16].sp = EMPTY;
+            processarray[16].hp = EMPTY;
+            processarray[16].state = 1;
+		
 	for(i=0;i<MAXPROCESS;i++) {
 	sporadic[i] = EMPTY; 
 	}
@@ -95,11 +86,11 @@ void OS_Init() {
 	j=0;    
 	for(i=0;i<MAXFIFO;i++) {
 		
-		fifopidarray[i]= EMPTY;
+		fifopidarray[i][j] = EMPTY;
 
 		for(j=0;j<MAXFIFO;j++) {
 			
-			fifopidarray[i]= EMPTY;
+			fifopidarray[i][j] = EMPTY;
 		}
 	}
 
@@ -113,10 +104,11 @@ void OS_Start() {
 	NIOS2_WRITE_STATUS( 0 );			// disable Nios II interrupts
     int s, p, d;
     
-   
+   printf("Restart loop\n");
         
 	while(1) {
-		printf("Restart loop\n");
+		
+		
 		int i = 0;
     devicetimer = 0;
     
@@ -147,7 +139,11 @@ void OS_Start() {
                                 workingpid = device[d];
                         }
                         
-                        OS_Save_Scheduler();
+                        OS_StartTimer(0x2);
+			int jasdfasdfas;
+			int asdfasdfads;
+			int asdfadsf;
+			int asdfasdff;
                         workingpid = EMPTY;
                         
                         for(d=0;d<devicelen;d++) {
@@ -170,7 +166,11 @@ void OS_Start() {
                                 workingpid = PPP[p];
                         }
                         
-                        OS_Save_Scheduler();
+                        OS_StartTimer(0x2);
+			int jasdfasdfas;
+			int asdfasdfads;
+			int asdfadsf;
+			int asdfasdff;
                         workingpid = EMPTY;
                         
                         for(p=0;p<PPPLen;p++) {
@@ -188,7 +188,12 @@ void OS_Start() {
 			if(sporadic[s]!=EMPTY) {
 			
 			workingpid = processarray[sporadic[s]].pid;
-			OS_Save_Scheduler();
+			printf("OS_Start Call the timer\n");
+			OS_StartTimer(0x2);
+			int jasdfasdfas;
+			int asdfasdfads;
+			int asdfadsf;
+			int asdfasdff;
 				
 			if(processarray[workingpid].state==0){
 			OS_Terminate();
@@ -212,9 +217,16 @@ void OS_Start() {
 						if(sporadic[s]!=EMPTY) {
 			
 			workingpid = processarray[sporadic[s]].pid;
-			printf("before saving scheduler\n");
-			OS_Save_Scheduler();
-				printf("after saving scheduler\n");
+			
+			printf("OS_Start Call the timer\n");
+			savepid = 16;
+			OS_StartTimer(0x1);
+			printf("stupid\n");
+			int jasdfasdfas = 0;
+			int asdfasdfads = 0;
+			int asdfadsf = 0;
+			int asdfasdff = 0;
+			
 			if(processarray[workingpid].state==0){
 			OS_Terminate();
 			}
@@ -225,6 +237,7 @@ void OS_Start() {
                }
 		} //end of s loop
 		
+	
 	} //end of while
     
 	crash:
@@ -278,19 +291,22 @@ return;
 }
 
 void OS_Abort() {
-	//sets value to return back to main and end
-	crash = 1;
-	return;  
+	
+	//goes to address 0x0
+	int gotozero = 0x0;
+	asm (	"mov	r31, %0" ::"r"(gotozero));
+	asm (	"ret"			);
+	  
 }
 
 void OS_StartTimer(int timecounter) {
-	volatile int * KEY_ptr = (int *) 0x10000050;					// pushbutton KEY address
+	*(interval_timer_ptr) = 0; 
+	*(interval_timer_ptr + 1) = 0; 
 *(interval_timer_ptr + 0x2) = (timecounter & 0xFFFF);
 *(interval_timer_ptr + 0x3) = (timecounter >> 16) & 0xFFFF;
 *(interval_timer_ptr + 1) = 0x5;	// STOP = 0, START = 1, CONT = 1, ITO = 1 
-*(KEY_ptr + 2) = 0xE; 
 NIOS2_WRITE_IENABLE( 0x3 );
-
+NIOS2_WRITE_STATUS( 1 );
 return;
 
 }

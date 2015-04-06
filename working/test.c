@@ -8,53 +8,20 @@ volatile int * green_led_ptr = (int *) GREEN_LED_BASE;
 
 int i = 0;
 int b = 0;
+int b2 = 0;
 int end = 0;
+int end2 = 0;
 int FIFO1;
 int green_led_pattern = 0x55555555;
 int pattern = 0;
-
-int blink(){
-	NIOS2_WRITE_STATUS( 1 );
-	//printf("Blink\n");
-	
-	//printf("************************Patter: 0x%x\n", pattern);
-	for(i=0; i<100000; i++){
-		*(green_led_ptr) = pattern; //Blink pattern
-	//	printf("blink");
-	}
-
-	b++;
-
-	if(b<end){ //Check if it should stop
-	NIOS2_WRITE_STATUS( 0 );
-		dontblink(); //keep blinking
-	}
-
-	b = 0; //reset b
-	*(green_led_ptr) = 0; //Stop blinking
-	
-	NIOS2_WRITE_STATUS( 0 );
-	return;
-}
-
-int dontblink(){
-	NIOS2_WRITE_STATUS( 1 );
-	for(i=0; i<100000; i++){
-
-		*(green_led_ptr) = 0;
-		//printf("Dont");
-	}
-	
-	//blink(end, pattern);
-		NIOS2_WRITE_STATUS( 0 );
-	return;
-}
+int pattern2 = 0;
 
 void test(){
+	while(1) {
 	//OS_Wait(0); //Semaphore Wait
 	end = OS_GetParam(); //Gets length of for loop
-//end = 50000;
-	green_led_pattern = 0; 
+//end = 200;
+	//green_led_pattern = 0; 
 	
 	//Reads in pattern from FIFO
 	OS_Read(FIFO1, &green_led_pattern);	
@@ -68,10 +35,10 @@ while(b<end) {
 	//	printf("blink");
 	}
 
-	b++;
-	NIOS2_WRITE_STATUS( 0 );
-	printf("B: %d\n", b);
-	NIOS2_WRITE_STATUS( 1 );
+	//b++;
+	//NIOS2_WRITE_STATUS( 0 );
+	//printf("B: %d\n", b);
+	//NIOS2_WRITE_STATUS( 1 );
 	
 
 	if(b<end){ //Check if it should stop
@@ -82,25 +49,63 @@ while(b<end) {
 	
 		}
 	}
+	
 }
 	
 	*(green_led_ptr) = 0; //Stop blinking
 
+	 
+	}
 	//OS_Signal(0); //Release Semaphore
-		NIOS2_WRITE_STATUS( 0 );
+	processarray[workingpid].state = 0;
 	return;
 }
 
-void test2(){
-	OS_Wait(0); //Semaphore Wait
-	end = OS_GetParam(); //Gets length of for loop
 
+
+void test2(){
+	//OS_Wait(0); //Semaphore Wait
+	while(1) {
+	
+	end2 = OS_GetParam(); //Gets length of for loop
+//end = 200;
+	//green_led_pattern = 0; 
 	green_led_pattern = 0x44444444;
-	pattern = green_led_pattern;
-		NIOS2_WRITE_STATUS( 0 );
-	blink(); //Blink some lights!
+	//Reads in pattern from FIFO
+	//OS_Read(FIFO1, &green_led_pattern);	
+	
+	pattern2 = green_led_pattern;
+	
+while(b2<end2) {
 		
-	OS_Signal(0); //Release Semaphore
-		NIOS2_WRITE_STATUS( 0 );
+	for(i=0; i<100000; i++){
+		*(green_led_ptr) = pattern2; //Blink pattern
+	//	printf("blink");
+	}
+
+	//b2++;
+	//NIOS2_WRITE_STATUS( 0 );
+	//printf("B: %d\n", b);
+	//NIOS2_WRITE_STATUS( 1 );
+	
+
+	if(b2<end2){ //Check if it should stop
+	
+		for(i=0; i<100000; i++){
+
+			*(green_led_ptr) = 0;
+	
+		}
+	}
+	
+}
+	
+	*(green_led_ptr) = 0; //Stop blinking
+
+	
+	}
+	//OS_Signal(0); //Release Semaphore
+	
+	processarray[workingpid].state = 0;
 	return;
 }

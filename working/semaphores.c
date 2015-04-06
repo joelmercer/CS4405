@@ -50,6 +50,7 @@ void OS_Wait(int s){
    while(i<MAXSEM) {
         if(semarray[i].s == s) {
                 while(semarray[i].n <= 0){
+					processarray[workingpid].state = 3;
                     OS_Yield(); //Context switch while waiting
                 }
             semarray[i].n--;
@@ -82,6 +83,7 @@ void OS_Signal(int s) {
             while(j<semarray[i].n) {
                 if(semarray[i].sempid[j] == currentpid){ 
                     semarray[i].sempid[j] = EMPTY;
+					
                         break;
                 }
                 j++;

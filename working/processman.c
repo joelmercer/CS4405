@@ -50,9 +50,11 @@ void OS_Terminate(void) {
 			}
 		}
 		//remove from fifo lists
-		for(i=0;i<MAXFIFO;i++){
-			if(fifopidarray[i]==pid){
-				fifopidarray[i]=EMPTY;//remove pid
+		for(i=0;i<MAXFIFO;i++){//rows
+			for(k=0;k<MAXFIFO;k++){//columns
+				if(fifopidarray[i][k]==pid){
+					fifopidarray[i][k]=0;//remove pid
+				}
 			}
 		}
 
@@ -80,8 +82,9 @@ void OS_Terminate(void) {
 
 void OS_Yield(void) {
 NIOS2_WRITE_STATUS( 0 );
-	//update timer var
-    //Set timer to 0;
+
+printf("THIS YIELDS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
+	OS_StartTimer(0x9);
 NIOS2_WRITE_STATUS( 1 );
     return; 
     

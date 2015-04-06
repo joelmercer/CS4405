@@ -2,6 +2,7 @@
 
 
 FIFO OS_InitFiFo() {
+	NIOS2_WRITE_STATUS( 0 );
 	int i, j;
 	FIFO temp;
 	//find unused fifo
@@ -12,6 +13,7 @@ FIFO OS_InitFiFo() {
 			break;
 		}
 		if(i==(MAXFIFO-1) && (fifopidarray[i]!=EMPTY)){ // no empty fifos
+		NIOS2_WRITE_STATUS( 1 );
 			return INVALIDFIFO;
 		}
 	}
@@ -25,10 +27,12 @@ FIFO OS_InitFiFo() {
 	fifoarray[temp][0].head=1;
 	fifoarray[temp][0].tail=1;
 	
+	NIOS2_WRITE_STATUS( 1 );
 	return temp;
 }
 
 void OS_Write(FIFO f, int val) {
+	NIOS2_WRITE_STATUS( 0 );
 	int i, k;
 	for(i=0; i<FIFOSIZE; i++){
 		if(fifoarray[f][i].tail==1){
@@ -55,10 +59,12 @@ void OS_Write(FIFO f, int val) {
 		}
 	}
 	fifoarray[f][k].data=val;
+	NIOS2_WRITE_STATUS( 1 );
 	return;
 }
 
 BOOL OS_Read(FIFO f, int *val) {
+	NIOS2_WRITE_STATUS( 0 );
 	int i;
 	for(i=0; i<FIFOSIZE; i++){
 		if(fifoarray[f][i].head==1){
@@ -74,8 +80,10 @@ BOOL OS_Read(FIFO f, int *val) {
 							fifoarray[f][fifoarray[f][fifoarray[f][i].next].next].tail=1;
 						}
 					}
+				NIOS2_WRITE_STATUS( 1 );
 				return TRUE;
 			}else{
+				NIOS2_WRITE_STATUS( 1 );
 				return FALSE;
 			}
 		}
