@@ -23,7 +23,7 @@ extern int sporadic[MAXPROCESS];
 extern int terminate;
 extern int semcounter;
 extern int fifocounter;
-extern int fifopidarray[MAXFIFO][MAXFIFO];
+extern int fifopidarray[MAXFIFO];
 extern int sporadiccounter;
 extern int workingpid;
 extern int stackheap[2][16];
@@ -69,13 +69,15 @@ extern process processarray[MAXPROCESS];
 
 //For FIFOs
 typedef struct fifonode {
-	struct fifonode* next;
-	struct fifonode* previous;
-	int flag; // read == 0 // unread == 1 
+	int head; // head == 1; not head == 0
+	int tail; //tail == 1; not tail == 0
+	int flag; // read == 0; unread == 1 
 	int data;
+	int next;
+	int previous;
 } node;
 
-extern node fifoarray[MAXFIFO];
+extern node fifoarray[MAXFIFO][FIFOSIZE];
 
 
 //Memory Locations

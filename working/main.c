@@ -4,8 +4,8 @@
 FIFO f;
 process processarray[MAXPROCESS];
 sem semarray[MAXSEM];
-int fifopidarray[MAXFIFO][MAXFIFO];
-node fifoarray[MAXFIFO];
+int fifopidarray[MAXFIFO];
+node fifoarray[MAXFIFO][FIFOSIZE];
 int sporadic[MAXPROCESS];
 int sporadiccounter;
 int terminate;

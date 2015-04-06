@@ -48,12 +48,30 @@ void OS_Init() {
 		} 
 		
 	//init FIFOs
-		for(j=0;j<MAXFIFO;j++){
-			int clearfifo;
-			fifocounter=j;
-			clearfifo = OS_InitFiFo();
-			fifoarray[clearfifo].data=EMPTY;
-			fifoarray[clearfifo].flag=0;
+		for(i=0;i<MAXFIFO;i++){
+			for(j=0; j<FIFOSIZE; j++){//beginning
+				if(j==0){
+					fifoarray[i][j].head=1;
+					fifoarray[i][j].tail=1;
+					fifoarray[i][j].next=1;
+					fifoarray[i][j].previous=(FIFOSIZE-1);
+				}
+				else if((j>0) && (j<FIFOSIZE)){//middle
+					fifoarray[i][j].head=0;
+					fifoarray[i][j].tail=0;
+					fifoarray[i][j].previous=(j-1);
+						if(j==(FIFOSIZE-1)){//end
+							fifoarray[i][j].next=0;
+						} else{
+							fifoarray[i][j].next=(j+1);
+						}
+				}
+				fifoarray[i][j].data=EMPTY;
+				fifoarray[i][j].flag=0;
+			}
+		}
+		for(i=0; i<MAXFIFO; i++){
+			fifopidarray[i]=EMPTY;
 		}
 		
 	//init processes
@@ -74,11 +92,11 @@ void OS_Init() {
 	j=0;    
 	for(i=0;i<MAXFIFO;i++) {
 		
-		fifopidarray[i][j] = EMPTY;
+		fifopidarray[i]= EMPTY;
 
 		for(j=0;j<MAXFIFO;j++) {
 			
-			fifopidarray[i][j] = EMPTY;
+			fifopidarray[i]= EMPTY;
 		}
 	}
 
