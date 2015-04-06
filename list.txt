@@ -1,0 +1,27 @@
+Process Management
+		
+	void OS_Yield(void):
+		context switching
+			changing sp
+		stop processing but do not terminate, wait for next CPU cycle
+	
+Periodic and Device Processes
+
+interrupts
+
+context switch interrupt handler should be scheduler (set to 1 not 0)
+
+only need pc when restoring process
+
+NEW, READY, RUNNING, WAITING/BLOCKED states for processes
+
+test FIFO
+
+remove GetPID
+
+timer
+
+semaphore waiting queue
+	same as init fifo?
+
+monolithic heap
