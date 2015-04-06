@@ -1,6 +1,8 @@
 #include "globalvars.h"
 
 void OS_Init() {
+	
+	
 	int i, j;
     int once = 1;
 
@@ -11,7 +13,6 @@ void OS_Init() {
     
 	//Init global vars
 	sporadiccounter = 0;
-	terminate = 1;
 	crash = 0;
 	processcounter = 0; 
 	FIFO f = 0;
@@ -58,6 +59,7 @@ void OS_Init() {
 		
 	//init processes
 		processcounter = 1;
+		printf("Does this get called more than once?****************************************************\n");
 		for(i=0;i<MAXPROCESS;i++) {
 			processarray[i].pid = EMPTY;
 			processarray[i].arg = EMPTY;
@@ -65,6 +67,7 @@ void OS_Init() {
 			processarray[i].n = 0;
             processarray[i].sp = EMPTY;
             processarray[i].hp = EMPTY;
+            processarray[i].state = EMPTY;
 		} 
 
 	for(i=0;i<MAXPROCESS;i++) {
@@ -82,7 +85,7 @@ void OS_Init() {
 		}
 	}
 
-	
+	NIOS2_WRITE_IENABLE( 0x3 );		/* set interrupt mask bits for levels 0 (interval * timer) and level 1 (pushbuttons) */
 	
 	return;
 }
@@ -95,6 +98,7 @@ void OS_Start() {
    
         
 	while(1) {
+		printf("Restart loop\n");
 		int i = 0;
     devicetimer = 0;
     
@@ -125,7 +129,7 @@ void OS_Start() {
                                 workingpid = device[d];
                         }
                         
-                        Context_Switch(workingpid);
+                        OS_Save_Scheduler();
                         workingpid = EMPTY;
                         
                         for(d=0;d<devicelen;d++) {
@@ -148,7 +152,7 @@ void OS_Start() {
                                 workingpid = PPP[p];
                         }
                         
-                        Context_Switch(workingpid);
+                        OS_Save_Scheduler();
                         workingpid = EMPTY;
                         
                         for(p=0;p<PPPLen;p++) {
@@ -166,11 +170,10 @@ void OS_Start() {
 			if(sporadic[s]!=EMPTY) {
 			
 			workingpid = processarray[sporadic[s]].pid;
-			Context_Switch(workingpid);
+			OS_Save_Scheduler();
 				
-			if(terminate==0){
+			if(processarray[workingpid].state==0){
 			OS_Terminate();
-			terminate = 1;
                 
             //decerment device timer
 			 devicetimer -= PPPMax[p];
@@ -191,12 +194,11 @@ void OS_Start() {
 						if(sporadic[s]!=EMPTY) {
 			
 			workingpid = processarray[sporadic[s]].pid;
-			Context_Switch(workingpid);
-				
-			if(terminate==0){
+			printf("before saving scheduler\n");
+			OS_Save_Scheduler();
+				printf("after saving scheduler\n");
+			if(processarray[workingpid].state==0){
 			OS_Terminate();
-			terminate = 1;
-			
 			}
 			
 			//Save context switch of os_start PC+1 & Load context switch for sporadic[s]
@@ -252,6 +254,8 @@ void OS_AddTo_Schedule(int pid, int level, int n) {
         }
     }
     
+	
+	
 return;    
 }
 
@@ -262,10 +266,11 @@ void OS_Abort() {
 }
 
 void OS_StartTimer(int timecounter) {
-	
+	volatile int * KEY_ptr = (int *) 0x10000050;					// pushbutton KEY address
 *(interval_timer_ptr + 0x2) = (timecounter & 0xFFFF);
 *(interval_timer_ptr + 0x3) = (timecounter >> 16) & 0xFFFF;
-*(interval_timer_ptr + 1) = 0x7;	// STOP = 0, START = 1, CONT = 1, ITO = 1 
+*(interval_timer_ptr + 1) = 0x5;	// STOP = 0, START = 1, CONT = 1, ITO = 1 
+*(KEY_ptr + 2) = 0xE; 
 NIOS2_WRITE_IENABLE( 0x3 );
 
 return;

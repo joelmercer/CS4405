@@ -1,7 +1,7 @@
 #include "globalvars.h"
 
 void OS_InitMemory() {
-
+NIOS2_WRITE_STATUS( 0 );
    
 		
 /*
@@ -81,11 +81,12 @@ hp16 =      0x007FDC00 or 8379392
 	}
 
 
- 
+ NIOS2_WRITE_STATUS( 1 );
 return;
 }
 
 MEMORY OS_Malloc( int val ) {
+	NIOS2_WRITE_STATUS( 0 );
 	int i;
     int pid = 0;
     int testloc = 0;
@@ -172,12 +173,13 @@ MEMORY OS_Malloc( int val ) {
 
     //sets next heap pointer to start from
     processarray[pid].hp = (hp1 + val);
-    
+    NIOS2_WRITE_STATUS( 1 );
     return (MEMORY)hp1;
 
 }
 
 BOOL OS_Free( MEMORY m ) {
+	NIOS2_WRITE_STATUS( 0 );
     int i;
     int pid = 0;
 	int testloc = 0;
@@ -207,9 +209,10 @@ BOOL OS_Free( MEMORY m ) {
 		
         //sets the heap pointer to start looking from here
 		processarray[pid].hp = hp;
-		
+		NIOS2_WRITE_STATUS( 1 );
 		return TRUE;
 	} else {
+		NIOS2_WRITE_STATUS( 1 );
 		return FALSE;
 	}
 	
@@ -217,13 +220,14 @@ BOOL OS_Free( MEMORY m ) {
 
 //KMalloc will only be used by the OS, it never has to be freed and it will just give the next memory space
 MEMORY OS_KMalloc( int val ) {
+	NIOS2_WRITE_STATUS( 0 );
     volatile unsigned char * hp1 = (unsigned char *) oshp;
     volatile unsigned char * hp2 = (unsigned char *) hp1;
 	
 	hp2+=val;
 	
 	oshp = hp2;
-	
+	NIOS2_WRITE_STATUS( 1 );
 return (MEMORY)hp1;
 }
 

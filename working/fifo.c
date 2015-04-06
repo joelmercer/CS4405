@@ -2,6 +2,7 @@
 
 
 FIFO OS_InitFiFo() {
+	NIOS2_WRITE_STATUS( 0 );
 	int i, j, k;
     int pid = OS_GetPID();
 	FIFO retval;
@@ -15,6 +16,7 @@ FIFO OS_InitFiFo() {
 		}
 		if(fifoarray[j].data == EMPTY){
 			if(fifocounter>=MAXFIFO){ //should never be greater than, this is a precaution
+			NIOS2_WRITE_STATUS( 1 );
 				return INVALIDFIFO; // too many FIFOs
 			} else {
 				node n;//first node in FIFO
@@ -51,10 +53,12 @@ FIFO OS_InitFiFo() {
 	if(fifocounter==15){
 		fifocounter=0;
 	}
+	NIOS2_WRITE_STATUS( 1 );
 	return retval;
 }
 
 void OS_Write(FIFO f, int val) {
+	NIOS2_WRITE_STATUS( 0 );
 	int i=0;
 	node *temp=&fifoarray[f];
 	while(i<=FIFOSIZE){ //check for free space
@@ -73,16 +77,20 @@ void OS_Write(FIFO f, int val) {
 			i=FIFOSIZE;
 		}
 	}
+	NIOS2_WRITE_STATUS( 1 );
 	return;
 }
 
 BOOL OS_Read(FIFO f, int *val) {
+	NIOS2_WRITE_STATUS( 0 );
 	if(fifoarray[f].flag==0){ // fifo is empty
+		NIOS2_WRITE_STATUS( 1 );
 		return FALSE;
 	} else{//read
 		*val = fifoarray[f].data;
 		fifoarray[f].flag=0;// mark as read
 		fifoarray[f]=*fifoarray[f].next;//change first node in FIFO by changing pointer
+		NIOS2_WRITE_STATUS( 1 );
 		return TRUE;
 	}
 }
