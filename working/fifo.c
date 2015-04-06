@@ -33,14 +33,12 @@ void OS_Write(FIFO f, int val) {
 	for(i=0; i<FIFOSIZE; i++){
 		if(fifoarray[f][i].tail==1){
 			if((fifoarray[f][i].head==1) && (fifoarray[f][i].data==EMPTY)){ // empty fifo
-				printf("FIFO Empty \n");
 				fifoarray[f][i].tail=0;
 				fifoarray[f][fifoarray[f][i].next].tail=1;
 				k=i;
 				break;
 			}
 			else if((fifoarray[f][i].head==1) && (fifoarray[f][i].data!=EMPTY)){ // fifo full
-				printf("FIFO Full \n");
 				fifoarray[f][i].head=0;
 				fifoarray[f][fifoarray[f][i].next].head=1;
 				fifoarray[f][i].tail=0;
@@ -78,7 +76,6 @@ BOOL OS_Read(FIFO f, int *val) {
 					}
 				return TRUE;
 			}else{
-				printf("Empty FIFO \n");
 				return FALSE;
 			}
 		}
