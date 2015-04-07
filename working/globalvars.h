@@ -31,7 +31,7 @@ extern int fifocounter;
 extern int fifopidarray[MAXFIFO];
 extern int sporadiccounter;
 extern int workingpid;
-extern int stackheap[2][16];
+extern int stack[16];
 extern int oshp;
 extern int once;
 extern int device[];
@@ -40,6 +40,7 @@ extern int devicemax[];
 extern int devicetimer;
 extern int currentdevicetimer;
 extern int startregs[32];
+extern int heap;
 
 //For future Timer
 //extern volatile int *timebase; //interval timer base address

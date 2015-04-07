@@ -171,8 +171,7 @@ MEMORY OS_Malloc( int val ) {
         }
 	}
 
-    //sets next heap pointer to start from
-    processarray[pid].hp = (hp1 + val);
+
     NIOS2_WRITE_STATUS( 1 );
     return (MEMORY)hp1;
 
@@ -217,7 +216,8 @@ BOOL OS_Free( MEMORY m ) {
 	}
 	
 	}
-
+	
+/* No longer in use
 //KMalloc will only be used by the OS, it never has to be freed and it will just give the next memory space
 MEMORY OS_KMalloc( int val ) {
 	NIOS2_WRITE_STATUS( 0 );
@@ -230,4 +230,5 @@ MEMORY OS_KMalloc( int val ) {
 	NIOS2_WRITE_STATUS( 1 );
 return (MEMORY)hp1;
 }
+*/
 

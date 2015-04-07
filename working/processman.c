@@ -14,8 +14,8 @@ PID OS_Create(void (*f)(void), int arg, unsigned int level, unsigned int n) {
 			processarray[i].arg = arg;
 			processarray[i].level = level;
 			processarray[i].n = n;
-            processarray[i].sp = stackheap[0][i];
-            processarray[i].hp = stackheap[1][i];
+            processarray[i].sp = stack[i];
+            processarray[i].hp = heap;
 			processarray[i].state = 1;
 				
 		//	printf("sp: 0x00%x \n", stackheap[0][i]);	
@@ -71,7 +71,7 @@ void OS_Terminate(void) {
     processarray[pid].n = 0;
     processarray[pid].sp = EMPTY;
     processarray[pid].hp = EMPTY;
-	processarray[pid].hp = 0;
+	processarray[pid].hp = heap;
         
     
 }
