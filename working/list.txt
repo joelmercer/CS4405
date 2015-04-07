@@ -6,6 +6,9 @@ Process Management
 		stop processing but do not terminate, wait for next CPU cycle
 	
 Periodic and Device Processes
+idea:
+check the devices and their times, next device time goes into global time holder
+when checking PPP, check it's time. If less that globaltime then run for it's lenght, if > then run for global time
 
 interrupts
 
@@ -17,11 +20,11 @@ NEW, READY, RUNNING, WAITING/BLOCKED states for processes
 
 test FIFO
 
-remove GetPID
+remove GetPID // we might want to keep it, because it's built into other things now
 
 timer
 
 semaphore waiting queue
-	same as init fifo?
+	same as init fifo????
 
 monolithic heap
