@@ -77,13 +77,15 @@ extern process processarray[MAXPROCESS+1];
 
 //For FIFOs
 typedef struct fifonode {
-	struct fifonode* next;
-	struct fifonode* previous;
-	int flag; // read == 0 // unread == 1 
+	int head; // head == 1; not head == 0
+	int tail; //tail == 1; not tail == 0
+	int flag; // read == 0; unread == 1 
 	int data;
+	int next;
+	int previous;
 } node;
 
-extern node fifoarray[MAXFIFO];
+extern node fifoarray[MAXFIFO][FIFOSIZE];
 
 
 //Memory Locations
