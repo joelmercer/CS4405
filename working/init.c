@@ -86,11 +86,11 @@ void OS_Init() {
 	j=0;    
 	for(i=0;i<MAXFIFO;i++) {
 		
-		fifopidarray[i][j] = EMPTY;
+		fifopidarray[i] = EMPTY;
 
 		for(j=0;j<MAXFIFO;j++) {
 			
-			fifopidarray[i][j] = EMPTY;
+			fifopidarray[i] = EMPTY;
 		}
 	}
 

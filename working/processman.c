@@ -51,10 +51,8 @@ void OS_Terminate(void) {
 		}
 		//remove from fifo lists
 		for(i=0;i<MAXFIFO;i++){//rows
-			for(k=0;k<MAXFIFO;k++){//columns
-				if(fifopidarray[i][k]==pid){
-					fifopidarray[i][k]=0;//remove pid
-				}
+			if(fifopidarray[i]==pid){
+				fifopidarray[i]=0;//remove pid
 			}
 		}
 
