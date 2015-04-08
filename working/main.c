@@ -15,7 +15,6 @@ int semcounter;
 int workingpid;
 //int stackheap[2][16];
 int oshp;
-int fifocounter;
 int once;
 volatile int * interval_timer_ptr = (int *) 0x10002000;
 int PPPLen = 0;   //The User needs to define this before starting

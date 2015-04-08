@@ -27,7 +27,6 @@ extern int processcounter;
 extern int sporadic[MAXPROCESS];
 extern int terminate;
 extern int semcounter;
-extern int fifocounter;
 extern int fifopidarray[MAXFIFO];
 extern int sporadiccounter;
 extern int workingpid;
@@ -83,7 +82,6 @@ typedef struct fifonode {
 	int flag; // read == 0; unread == 1 
 	int data;
 	int next;
-	int previous;
 } node;
 
 extern node fifoarray[MAXFIFO][FIFOSIZE];
