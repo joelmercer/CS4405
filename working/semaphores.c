@@ -19,8 +19,10 @@ void OS_InitSem(int s, int n) {
         
             semarray[i].s = s;
             semarray[i].n = n; 
-			for(j=0;j<MAXSEM;j++)
+			
+			for(j=0;j<MAXSEM;j++) {
 				semarray[i].waitpid[j] = EMPTY;
+			}
            
             //Init sempid array
             semarray[i].sempid[n];
@@ -111,6 +113,7 @@ void OS_Signal(int s) {
 						if(semarray[i].waitpid[k] != EMPTY) {
 							int release = semarray[i].waitpid[k];
 							processarray[release].state = 2;
+							//Needs to shift values to the left
 							semarray[i].waitpid[k] = EMPTY;
 						}
 					}

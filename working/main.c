@@ -28,6 +28,7 @@ int devicetimer;
 int currentdevicetimer;
 int startregs[32] = {0};
 int savepid = 0;
+int doesnothing = 0;
 int unsigned stack[16] = {0x005FFC00, 0x005FFA00, 0x005FF800, 0x005FF600, 0x005FF400, 0x005FF200, 0x005FF000, 0x005FEE00, 0x005FEC00, 0x005FEA00, 0x005FE800, 0x005FE600, 0x005FE400, 0x005FE200, 0x005FE100, 0x005FDE00};
 int unsigned heap = 0x005FFE00;
 

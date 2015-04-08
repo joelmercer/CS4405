@@ -107,11 +107,6 @@ void OS_Init() {
 	for(i=0;i<MAXFIFO;i++) {
 		
 		fifopidarray[i] = EMPTY;
-
-		for(j=0;j<MAXFIFO;j++) {
-			
-			fifopidarray[i] = EMPTY;
-		}
 	}
 
 	NIOS2_WRITE_IENABLE( 0x3 );		/* set interrupt mask bits for levels 0 (interval * timer) and level 1 (pushbuttons) */
@@ -120,14 +115,12 @@ void OS_Init() {
 }
 
 void OS_Start() {
-//	NIOS2_WRITE_STATUS( 1 );			// enable Nios II interrupts
 	NIOS2_WRITE_STATUS( 0 );			// disable Nios II interrupts
     int s, p, d;
     
    printf("Restart loop\n");
         
 	while(1) {
-		
 		
 		int i = 0;
     devicetimer = 0;
@@ -160,10 +153,8 @@ void OS_Start() {
                         }
                         
                         OS_StartTimer(0x2);
-			int jasdfasdfas;
-			int asdfasdfads;
-			int asdfadsf;
-			int asdfasdff;
+			doesnothing++;
+			doesnothing--;
                         workingpid = EMPTY;
                         
                         for(d=0;d<devicelen;d++) {
@@ -186,11 +177,9 @@ void OS_Start() {
                                 workingpid = PPP[p];
                         }
                         
-                        OS_StartTimer(0x2);
-			int jasdfasdfas;
-			int asdfasdfads;
-			int asdfadsf;
-			int asdfasdff;
+                        OS_StartTimer(0x1);
+						doesnothing++;
+						doesnothing--;
                         workingpid = EMPTY;
                         
                         for(p=0;p<PPPLen;p++) {
@@ -209,11 +198,9 @@ void OS_Start() {
 			
 			workingpid = processarray[sporadic[s]].pid;
 			printf("OS_Start Call the timer\n");
-			OS_StartTimer(0x2);
-			int jasdfasdfas;
-			int asdfasdfads;
-			int asdfadsf;
-			int asdfasdff;
+			OS_StartTimer(0x1);
+			doesnothing++;
+			doesnothing--;
 				
 			if(processarray[workingpid].state==0){
 			OS_Terminate();
@@ -241,11 +228,8 @@ void OS_Start() {
 			printf("OS_Start Call the timer\n");
 			savepid = 16;
 			OS_StartTimer(0x1);
-			printf("stupid\n");
-			int jasdfasdfas = 0;
-			int asdfasdfads = 0;
-			int asdfadsf = 0;
-			int asdfasdff = 0;
+			doesnothing++;
+			doesnothing--;
 			
 			if(processarray[workingpid].state==0){
 			OS_Terminate();
