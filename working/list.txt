@@ -1,31 +1,12 @@
-Process Management
-		
-	void OS_Yield(void):
-		context switching
-			changing sp
-		stop processing but do not terminate, wait for next CPU cycle
-	
 Periodic and Device Processes
 idea:
 check the devices and their times, next device time goes into global time holder
 when checking PPP, check it's time. If less that globaltime then run for it's lenght, if > then run for global time
 
-interrupts - timer works, that is the only interrupt we need.
-
 context switch interrupt handler should be scheduler (set to 1 not 0) - mostly working
 
 only need pc when restoring process
 
-NEW, READY, RUNNING, WAITING/BLOCKED states for processes - working
-
-test FIFO
-
-remove GetPID // we might want to keep it, because it's built into other things now
-
-timer - working
-
 semaphore waiting queue
 	same as init fifo????
-
-monolithic heap
 
