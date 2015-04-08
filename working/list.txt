@@ -5,17 +5,10 @@ when checking PPP, check it's time. If less that globaltime then run for it's le
 
 context switch interrupt handler should be scheduler (set to 1 not 0) - mostly working
 
-<<<<<<< HEAD
-only need pc when restoring process
-=======
 
->>>>>>> origin/master
 
 semaphore waiting queue
 	same as init fifo????
 
-<<<<<<< HEAD
-=======
-
 os_wait & os_yeild shouldn't be the same
->>>>>>> origin/master
+
