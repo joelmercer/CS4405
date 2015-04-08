@@ -19,6 +19,8 @@ void OS_InitSem(int s, int n) {
         
             semarray[i].s = s;
             semarray[i].n = n; 
+			for(j=0;j<MAXSEM;j++)
+				semarray[i].waitpid[j] = EMPTY;
            
             //Init sempid array
             semarray[i].sempid[n];
@@ -44,14 +46,34 @@ void OS_Wait(int s){
 	NIOS2_WRITE_STATUS( 0 );			// disable Nios II interrupts
     int i=0;
     int j=0;
+	int k=0;
     int currentpid = getpid(); 
     
     //check for s
    while(i<MAXSEM) {
         if(semarray[i].s == s) {
-                while(semarray[i].n <= 0){
-					processarray[workingpid].state = 3;
+                if(semarray[i].n <= 0){
+					
+					for(k=0;k<MAXSEM;k++) {
+						if(semarray[i].waitpid[k] == EMPTY) {
+							semarray[i].waitpid[k] = workingpid;
+							break;
+						}
+					}
+							
                     OS_Yield(); //Context switch while waiting
+					
+					asm (	"ldw	r12,  4(sp)" );
+					unsigned int ra;
+					asm (	"mov	%0, r12":"=r"(ra));
+					ra-=8;
+					asm (	"mov	r12, %0" ::"r"(ra));
+					asm (	"stw	r12,  4(sp)" );
+					//get 24(sp)
+					//sub 8 addresses from it
+					//put it back into 24(sp)
+					OS_StartTimer(0x10);
+					return;
                 }
             semarray[i].n--;
             while(j<semarray[i].n) {
@@ -74,6 +96,7 @@ void OS_Signal(int s) {
 	NIOS2_WRITE_STATUS( 0 );			// disable Nios II interrupts
 	int i=0; 
 	int j=0;
+	int k=0;
 	int currentpid = getpid(); 
     
     //Check to see if this PID is holding the Semaphore
@@ -83,7 +106,14 @@ void OS_Signal(int s) {
             while(j<semarray[i].n) {
                 if(semarray[i].sempid[j] == currentpid){ 
                     semarray[i].sempid[j] = EMPTY;
-					
+					//clear next out of wait queue
+					for(k=0;k<MAXSEM;k++) {
+						if(semarray[i].waitpid[k] != EMPTY) {
+							int release = semarray[i].waitpid[k];
+							processarray[release].state = 2;
+							semarray[i].waitpid[k] = EMPTY;
+						}
+					}
                         break;
                 }
                 j++;

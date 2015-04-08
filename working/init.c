@@ -46,6 +46,8 @@ void OS_Init() {
 		for(i=0;i<MAXSEM;i++) {
 			semarray[i].s = EMPTY;
 			semarray[i].n = EMPTY;
+			for(j=0;j<MAXSEM;j++)
+				semarray[i].waitpid[j] = EMPTY;
 		} 
 		
 	//init FIFOs

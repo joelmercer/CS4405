@@ -82,7 +82,7 @@ void OS_Yield(void) {
 NIOS2_WRITE_STATUS( 0 );
 
 printf("THIS YIELDS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
-	OS_StartTimer(0x9);
+	processarray[workingpid].state = 3;
 NIOS2_WRITE_STATUS( 1 );
     return; 
     

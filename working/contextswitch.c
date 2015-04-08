@@ -248,7 +248,7 @@ asm (	"mov	%0, r27":"=r"(processarray[workingpid].rsp));
 	//Calls the next process to run
 	printf("This should only go here once, pid: %d\n", workingpid);
 	
-    //NIOS2_WRITE_STATUS( 1 );			// enable Nios II interrupts
+   
 	
 	OS_StartTimer(0xFFFFFF);
 	

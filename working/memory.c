@@ -8,57 +8,26 @@ NIOS2_WRITE_STATUS( 0 );
 create memory space for os and 16 processes, with starting sp and ending hp
 512 = 0x00000200
 
+heap =     0x005FFE00
 
-os sp =     0x00800000 or 8388608
-os hp =     0x007FFE00 or 8387584
+os sp =     0x00800000 
 
-sp1 =       0x007FFC00 or 8387584 
-hp1 =       0x007FFA00 or 8387072
-
-sp2 =       0x007FFA00 or 8387072
-hp2 =       0x007FF800 or 8386560 
-
-sp3 =       0x007FF800 or 8386560 
-hp3 =       0x007FF600 or 8386048 
-
-sp4 =       0x007FF600 or 8386048 
-hp4 =       0x007FF400 or 8385536  
-
-sp5 =       0x007FF400 or 8385536  
-hp5 =       0x007FF200 or 8385024 
-
-sp6 =       0x007FF200 or 8385024 
-hp6 =       0x007FF000 or 8384512 
-
-sp7 =       0x007FF000 or 8384512 
-hp7 =       0x007FEE00 or 8384000 
-
-sp8 =       0x007FEE00 or 8384000 
-hp8 =       0x007FEC00 or 8383488 
-
-sp9 =       0x007FEC00 or 8383488 
-hp9 =       0x007FEA00 or 8382976 
-
-sp10 =      0x007FEA00 or 8382976 
-hp10 =      0x007FE800 or 8382464 
-
-sp11 =      0x007FE800 or 8382464 
-hp11 =      0x007FE600 or 8381952 
-
-sp12 =      0x007FE600 or 8381952 
-hp12 =      0x007FE400 or 8381440 
-
-sp13 =      0x007FE400 or 8381440 
-hp13 =      0x007FE200 or 8380928 
-
-sp14 =      0x007FE200 or 8380928 
-hp14 =      0x007FE100 or 8380416 
-
-sp15 =      0x007FE100 or 8380416 
-hp15 =      0x007FDE00 or 8379904 
-
-sp16 =      0x007FDE00 or 8379904 
-hp16 =      0x007FDC00 or 8379392   
+sp1 =       0x005FFC00 
+sp2 =       0x005FFA00  
+sp3 =       0x005FF800  
+sp4 =       0x005FF600  
+sp5 =       0x005FF400  
+sp6 =       0x005FF200   
+sp7 =       0x005FF000  
+sp8 =       0x005FEE00 
+sp9 =       0x005FEC00 
+sp10 =      0x005FEA00  
+sp11 =      0x005FE800  
+sp12 =      0x005FE600 
+sp13 =      0x005FE400 
+sp14 =      0x005FE200  
+sp15 =      0x005FE100 
+sp16 =      0x005FDE00   
 
 */
     
@@ -75,7 +44,7 @@ hp16 =      0x007FDC00 or 8379392
 		clearaddress += 1;
 		
         //stops zeroing memory here, this is more than enough
-        if(clearaddress == 0x007FFE10) {
+        if(clearaddress == 0x00780000) {
             break;
         }
 	}
@@ -88,7 +57,7 @@ return;
 MEMORY OS_Malloc( int val ) {
 	NIOS2_WRITE_STATUS( 0 );
 	int i;
-    int pid = 0;
+    int pid = workingpid;
     int testloc = 0;
     int testloc1 = 0;
     int testloc2 = 0;
@@ -100,7 +69,7 @@ MEMORY OS_Malloc( int val ) {
     //hp2 is the heap pointer to the second flag byte
     volatile unsigned char * hp2 = (unsigned char *) processarray[pid].hp;
     hp2 += 1;
-	
+
     //looks for free memory
     while(1) {
     
@@ -156,7 +125,10 @@ MEMORY OS_Malloc( int val ) {
         
     }
 	
-	//Set all bits as in use
+	//Checks if out of memory before return
+	MEMORY ofm = ((MEMORY)hp1) + val;
+	
+	if(ofm <= heapend) {
 	
 	volatile unsigned char * assignaddress = hp1;
 	
@@ -174,6 +146,11 @@ MEMORY OS_Malloc( int val ) {
 
     NIOS2_WRITE_STATUS( 1 );
     return (MEMORY)hp1;
+	
+	} else {
+	NIOS2_WRITE_STATUS( 1 );
+	return 0;
+	}
 
 }
 
