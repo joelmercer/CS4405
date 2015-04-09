@@ -180,9 +180,32 @@ void test4(){
 }
 
 
-void deviceblink() {
+void devicep() {
 
-	green_led_pattern = 0x1;
+	green_led_pattern = 0xF;
+	
+	for(i=0; i<100000; i++){
+		*(green_led_ptr) = green_led_pattern; //Blink pattern
+	//	printf("blink");
+	}
+
+NIOS2_WRITE_STATUS( 0 );
+	printf("************************************TESTDB\n");
+	NIOS2_WRITE_STATUS( 1 );
+	
+	for(i=0; i<100000; i++){
+
+		*(green_led_ptr) = 0;
+	
+	}
+
+	*(green_led_ptr) = 0; //Stop blinking
+
+}
+
+void ppprocess() {
+
+	green_led_pattern = 0xF0;
 	
 	for(i=0; i<100000; i++){
 		*(green_led_ptr) = green_led_pattern; //Blink pattern

@@ -14,6 +14,7 @@ int processcounter;
 int semcounter;
 int workingpid;
 int oshp;
+int fifocounter;
 int once;
 volatile int * interval_timer_ptr = (int *) 0x10002000;
 int nextp = 0;
@@ -41,13 +42,13 @@ int unsigned heap = 0x005FFE00;
 
 
 //For test program
-void test1(); 
-void test2(); 
-void test3(); 
-void test4(); 
+void test1(void); 
+void test2(void); 
+void test3(void); 
+void test4(void); 
 int extern FIFO1;
-void deviceblink();
-void ppprocess();
+void devicep(void);
+void ppprocess(void);
 
 int main() {
 
@@ -66,8 +67,8 @@ int main() {
     OS_InitSem(0, 1); //Creates a semaphore 0 with value 1
     
     //Adding a process format OS_Create(&Function, ARG, Level, n)
-	OS_Create(&deviceblink, 0, 0, 10);
-	OS_Create(&test2, 1, 1, 1);
+	OS_Create(&devicep, 0, 0, 10);
+	OS_Create(&ppprocess, 1, 1, 1);
 	OS_Create(&test3, 5, 2, 0);
 	OS_Create(&test4, 5, 2, 0);
 	

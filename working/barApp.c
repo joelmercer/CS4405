@@ -5,17 +5,12 @@ int lock=1;
 int count=0;
 int numPatrons=3;
 FIFO bar;
-MEMORY* menu;
+MEMORY* menu[16];
 
 void bartender(){
 	int open=1;
 	
-	menu = OS_Malloc(4*16);
-	
-	if(menu==0){ // OS_Malloc() failed
-		OS_Terminate();
-	}
-	
+	*menu = OS_Malloc(4*16);
 	menu[]={3, 5, 6, 8, 2, 1, 4, 7, 6, 2, 7, 9, 5, 3, 4, 2};
 	
 	OS_InitSem(lock, 1);

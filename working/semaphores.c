@@ -99,8 +99,6 @@ void OS_Signal(int s) {
 	int i=0; 
 	int j=0;
 	int k=0;
-	int n=0;
-	int emp=EMPTY;
 	int currentpid = getpid(); 
     
     //Check to see if this PID is holding the Semaphore
@@ -115,16 +113,8 @@ void OS_Signal(int s) {
 						if(semarray[i].waitpid[k] != EMPTY) {
 							int release = semarray[i].waitpid[k];
 							processarray[release].state = 2;
+							//Needs to shift values to the left
 							semarray[i].waitpid[k] = EMPTY;
-							for(n=0;n<MAXSEM;n++){
-								if(semarray[i].waitpid[n]==EMPTY){
-									emp=n;
-								}
-								if((semarray[i].waitpid[n]!=EMPTY) && (emp!=EMPTY)){
-									semarray[i].waitpid[emp]=semarray[i].waitpid[n];
-									semarray[i].waitpid[n]=EMPTY;
-								}
-							}
 						}
 					}
                         break;
