@@ -13,13 +13,14 @@ void the_exception (void);
 void OS_AddTo_Schedule(int pid, int level, int n);
 int OS_GetPID(void);
 MEMORY OS_KMalloc(int val);
-void OS_Timer();
-
+void OS_StartTimer(int timecounter);
 
 //OS gloabls
 #define EMPTY -1
 #define startmem 0x005FDC00
+#define heapend 0x00780000
 
+extern int nextp;
 extern int savepid;
 extern volatile int * interval_timer_ptr;
 extern int crash;
@@ -27,19 +28,31 @@ extern int processcounter;
 extern int sporadic[MAXPROCESS];
 extern int terminate;
 extern int semcounter;
+extern int fifocounter;
 extern int fifopidarray[MAXFIFO];
 extern int sporadiccounter;
 extern int workingpid;
-extern int stack[16];
+extern int unsigned stack[16];
 extern int oshp;
 extern int once;
 extern int device[];
+extern int unsigned dtimer;
+extern int unsigned nextimer;
 extern int devicelen;
 extern int devicemax[];
-extern int devicetimer;
-extern int currentdevicetimer;
+extern int devicetimer[16];
+extern int nexts;
+extern int slen;
+extern int unsigned timecounter;
+extern int unsigned dtimermin;
+extern int unsigned dtimermax;
+extern int unsigned dtimercount;
+extern int unsigned dtimertemp;
+extern int devicetimes[16];
+extern int unsigned currentdevicetimer;
 extern int startregs[32];
-extern int heap;
+extern int doesnothing;
+extern int unsigned heap;
 
 //For future Timer
 //extern volatile int *timebase; //interval timer base address
@@ -55,6 +68,7 @@ typedef struct semaphores {
     int s;
     int n;
     int sempid[MAXSEM];
+	int waitpid[MAXSEM];
 } sem;
 
 extern sem semarray[MAXSEM];
@@ -67,6 +81,7 @@ typedef struct createprocess {
     int arg;
     unsigned int level;
     unsigned int n;
+	unsigned int n2;
     unsigned int sp;
     unsigned int rsp;
     unsigned int hp;
@@ -82,6 +97,7 @@ typedef struct fifonode {
 	int flag; // read == 0; unread == 1 
 	int data;
 	int next;
+	int previous;
 } node;
 
 extern node fifoarray[MAXFIFO][FIFOSIZE];
