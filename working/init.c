@@ -16,7 +16,6 @@ void OS_Init() {
 	crash = 0;
 	processcounter = 0; 
 	FIFO f = 0;
-	fifocounter=0;
 	workingpid = EMPTY;
 
 	//Schedule setup
@@ -58,17 +57,15 @@ void OS_Init() {
 					fifoarray[i][j].head=1;
 					fifoarray[i][j].tail=1;
 					fifoarray[i][j].next=1;
-					fifoarray[i][j].previous=(FIFOSIZE-1);
 				}
 				else if((j>0) && (j<FIFOSIZE)){//middle
 					fifoarray[i][j].head=0;
 					fifoarray[i][j].tail=0;
-					fifoarray[i][j].previous=(j-1);
-						if(j==(FIFOSIZE-1)){//end
-							fifoarray[i][j].next=0;
-						} else{
-							fifoarray[i][j].next=(j+1);
-						}
+					if(j==(FIFOSIZE-1)){//end
+						fifoarray[i][j].next=0;
+					} else{
+						fifoarray[i][j].next=(j+1);
+					}
 				}
 				fifoarray[i][j].data=EMPTY;
 				fifoarray[i][j].flag=0;

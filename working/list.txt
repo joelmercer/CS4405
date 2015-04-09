@@ -9,3 +9,8 @@ context switch interrupt handler should be scheduler (set to 1 not 0) - mostly w
 semaphore waiting queue
 	same as init fifo????
 
+<<<<<<< HEAD
+=======
+os_wait & os_yeild shouldn't be the same
+
+>>>>>>> origin/master

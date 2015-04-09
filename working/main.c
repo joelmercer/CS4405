@@ -14,7 +14,6 @@ int processcounter;
 int semcounter;
 int workingpid;
 int oshp;
-int fifocounter;
 int once;
 volatile int * interval_timer_ptr = (int *) 0x10002000;
 int nextp = 0;
