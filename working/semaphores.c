@@ -63,7 +63,7 @@ void OS_Wait(int s){
 						}
 					}
 							
-                    OS_Yield(); //Context switch while waiting
+                    processarray[workingpid].state = 3;
 					
 					asm (	"ldw	r12,  4(sp)" );
 					unsigned int ra;

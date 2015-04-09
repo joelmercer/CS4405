@@ -172,7 +172,7 @@ void OS_Load_Program() {
 	
 printf("LOAD PROGRAM: %d\n", workingpid);
 
-OS_StartTimer(0xFFFFFF);
+OS_StartTimer(nextimer);
 
 	asm (	"mov	r27, %0" ::"r"(processarray[workingpid].sp));
 	//printf("The loaded SP: 0x%x\n", processarray[workingpid].regs[27]);
@@ -250,14 +250,16 @@ asm (	"mov	%0, r27":"=r"(processarray[workingpid].rsp));
 	
    
 	
-	OS_StartTimer(0xFFFFFF);
+	OS_StartTimer(nextimer);
 	
 	asm (	"mov	r27, %0" ::"r"(processarray[workingpid].sp));
 	
 	(*(processarray[workingpid].function))();
-	NIOS2_WRITE_STATUS( 0 );
 	printf("TERMINATE************************************************\n");
+	NIOS2_WRITE_STATUS( 0 );
 	processarray[workingpid].state = 0;
+	OS_Load_Scheduler();
+	
 	
 	asm (	"mov	r27, %0" ::"r"(processarray[workingpid].rsp));
 	
@@ -268,7 +270,7 @@ asm (	"mov	%0, r27":"=r"(processarray[workingpid].rsp));
 	
 asm (	"addi	sp,  sp, 128" );
 
-	printf("TERMINATE************************************************\n");
+	
   asm (	"ret" );
 }
 

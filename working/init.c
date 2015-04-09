@@ -23,14 +23,15 @@ void OS_Init() {
 	for(i=0;i<MAXPROCESS;i++) {
 		sporadic[i] = EMPTY;
 	}
-    
+    /*
     //PPP set up
     for(i=0;i<PPPLen;i++) {
         
         PPP[i] = EMPTY;           
         PPPMax[i] = EMPTY; 
     }
-    
+	*/
+    /* Not using I don't think
     //Device set up
 
     for(i=0;i<devicelen;i++) { 
@@ -38,7 +39,7 @@ void OS_Init() {
         device[i] = EMPTY;
         devicemax[i] = EMPTY;
     }
-    
+    */
     
 		
 	//init semaphores
@@ -83,8 +84,9 @@ void OS_Init() {
 		for(i=0;i<MAXPROCESS;i++) {
 			processarray[i].pid = EMPTY;
 			processarray[i].arg = EMPTY;
-			processarray[i].level = 0;
-			processarray[i].n = 0;
+			processarray[i].level = EMPTY;
+			processarray[i].n = EMPTY;
+			processarray[i].n = EMPTY;
             processarray[i].sp = EMPTY;
             processarray[i].hp = EMPTY;
             processarray[i].state = EMPTY;
@@ -93,7 +95,8 @@ void OS_Init() {
 		//Scheduler setup
 		processarray[16].pid = 16;
 			processarray[16].arg = EMPTY;
-			processarray[16].level = 0;
+			processarray[16].level = EMPTY;
+			processarray[16].n = 0;
 			processarray[16].n = 0;
 			processarray[16].sp = EMPTY;
             processarray[16].hp = EMPTY;
@@ -109,21 +112,130 @@ void OS_Init() {
 		fifopidarray[i] = EMPTY;
 	}
 
-	NIOS2_WRITE_IENABLE( 0x3 );		/* set interrupt mask bits for levels 0 (interval * timer) and level 1 (pushbuttons) */
-	
 	return;
 }
 
 void OS_Start() {
 	NIOS2_WRITE_STATUS( 0 );			// disable Nios II interrupts
-    int s, p, d;
-    
+    int i, j, k, s, p, d;
+    /*
+	//look for devices to fill up the timer array
+	j = 0;
+	for(i = 0; i < MAXPROCESS; i++){
+		if(processarray[i].level == 0) {
+			devicertimer[j] = processarray[i].n;
+			if(devicertimer[j] < dtimer) {
+				dtimermin = devicertimer[j];
+			} 
+			if(devicertimer[j] >= dtimer) {
+				dtimermax = devicertimer[j];
+			}
+		}
+		j++;
+	}
+	*/
+ printf("Start of  loop\n");
+
+while(1) {
+	
+	if(timecounter >= 2147483648) {
+		timecounter = 0;
+		for(i = 0; i < MAXPROCESS; i++) {
+		if(processarray[i].level == 0) { 
+			processarray[i].n = processarray[i].n2;
+			
+		}	
+	}
+		
+	}
+		
+	
+	 printf("Restart loop timer: %d\n", timecounter);
+	
+	//Looks for a device process
+	for(i = 0; i < MAXPROCESS; i++) {
+		unsigned int currenttime = processarray[i].n;
+		if(processarray[i].level == 0 && timecounter >= currenttime) { 
+		
+		printf("Device PID: %d\n", processarray[i].pid);
+			processarray[i].n += processarray[i].n2;
+			workingpid = processarray[i].pid;
+			printf("device i: %d workingpid: %d\n", i, workingpid);
+			(*(processarray[workingpid].function))();
+		}	
+	}
+	
+	if(processarray[workingpid].state == 0)
+		OS_Terminate();
+	
+	//Look for next P or S process
+	int currentppp = PPP[nextp];
+	printf("PPP value: %d\n", currentppp);
+	printf("PPP index: %d\n", nextp);
+	
+	if(currentppp != -1 && PPPLen > 0) {
+		for(i = 0; i < MAXPROCESS; i++) {
+			if(processarray[i].n == PPP[nextp]) {
+				nextimer = PPPMax[nextp];
+				workingpid = processarray[i].pid;
+				nextp++;
+				if(nextp >= (PPPLen + slen))
+					nextp=0;
+				timecounter += nextimer;
+				savepid = 16;
+				
+				printf("PPP PID: %d\n", processarray[i].pid);
+				OS_StartTimer(0x1);
+				doesnothing++; //I'm just scared the timer won't go off right away
+				doesnothing--;
+				break;
+			}
+		}
+	} else {
+		printf("SSS value: %d\n", PPP[nextp]);
+		printf("SSS index: %d\n", nextp);
+		for(i=nexts; i < MAXPROCESS; i++) {
+			if(processarray[i].level == 2 && (processarray[i].state == 1 || processarray[i].state == 2)) {
+				nextimer = PPPMax[nextp];
+				workingpid = processarray[i].pid;
+				nexts = i+1;
+				nextp++;
+				if(nextp >= (PPPLen + slen))
+					nextp=0;
+				timecounter += nextimer;
+				printf("S PID here: %d\n", processarray[i].pid);
+				savepid = 16;
+				OS_StartTimer(0x1);
+				doesnothing++; //I'm just scared the timer won't go off right away
+				doesnothing--;
+				break;
+			}
+			if(i >= MAXPROCESS-1) {
+				i=0;
+				nexts = 0;
+			}
+		}
+	}
+	
+	if(processarray[workingpid].state == 0)
+		OS_Terminate();
+	
+	//Aborts if there are no processes left
+	int testprocesses = devicelen + PPPLen + slen;
+	if(testprocesses <= 0) {
+		OS_Abort();
+	}
+}
+	
+	/* OLD WAS WORKING
    printf("Restart loop\n");
         
 	while(1) {
 		
+		
+		//check for device
+		
 		int i = 0;
-    devicetimer = 0;
     
     for(d=0;d<devicelen;d++) {
         if(devicemax[d]!=EMPTY) {
@@ -153,8 +265,8 @@ void OS_Start() {
                         }
                         
                         OS_StartTimer(0x2);
-			doesnothing++;
-			doesnothing--;
+						doesnothing++;
+						doesnothing--;
                         workingpid = EMPTY;
                         
                         for(d=0;d<devicelen;d++) {
@@ -245,11 +357,12 @@ void OS_Start() {
 	} //end of while
     
 	crash:
+*/
 
 	return;//Should only return on error
 }
 
-
+/*I'm not using this anymore
 void OS_AddTo_Schedule(int pid, int level, int n) {
 	int i = 0;
         
@@ -293,7 +406,7 @@ void OS_AddTo_Schedule(int pid, int level, int n) {
 	
 return;    
 }
-
+*/
 void OS_Abort() {
 	
 	//goes to address 0x0
@@ -303,11 +416,11 @@ void OS_Abort() {
 	  
 }
 
-void OS_StartTimer(int timecounter) {
+void OS_StartTimer(int counter) {
 	*(interval_timer_ptr) = 0; 
 	*(interval_timer_ptr + 1) = 0; 
-*(interval_timer_ptr + 0x2) = (timecounter & 0xFFFF);
-*(interval_timer_ptr + 0x3) = (timecounter >> 16) & 0xFFFF;
+*(interval_timer_ptr + 0x2) = (counter & 0xFFFF);
+*(interval_timer_ptr + 0x3) = (counter >> 16) & 0xFFFF;
 *(interval_timer_ptr + 1) = 0x5;	// STOP = 0, START = 1, CONT = 1, ITO = 1 
 NIOS2_WRITE_IENABLE( 0x3 );
 NIOS2_WRITE_STATUS( 1 );
